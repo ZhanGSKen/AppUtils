@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.0"
+    compileSdkVersion 32
+    buildToolsVersion "33.0.0"
 
     defaultConfig {
         applicationId "com.gitee.zhangsken.apputils"
-        minSdkVersion 14
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -16,10 +16,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+		debug {
+            applicationIdSuffix ".debug"
+        }
     }
 }
 
 dependencies {
+	api 'com.android.support:appcompat-v7:27.+'
 	api project(':libapputils')
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    api fileTree(dir: 'libs', include: ['*.jar'])
 }

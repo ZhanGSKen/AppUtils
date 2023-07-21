@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:gravity="end"
+	android:orientation="vertical">
+
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Hello, World!"
+		android:gravity="center"/>
+
+	<Button
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Test libapputils"
+		android:onClick="onTest_libapputils"/>
+
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="end">
+
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Add Info Log"
+			android:onClick="onAddInfoLog"/>
+
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Add Log"
+			android:onClick="onAddLog"/>
+
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Clean Log"
+			android:onClick="onCleanLog"/>
+
+	</LinearLayout>
+
+	<com.gitee.zhangsken.libapputils.LogView
+		android:layout_width="match_parent"
+		android:layout_height="160dp"
+		android:id="@+id/activitymainLogView1"/>
+
+</LinearLayout>
+

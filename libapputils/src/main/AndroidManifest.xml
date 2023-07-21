@@ -3,10 +3,7 @@
     package="com.gitee.zhangsken.libapputils" >
 
     <application>
-        <activity
-            android:name=".LibraryActivity"
-            android:label="@string/lib_name" >
-        </activity>
+		<activity android:name="com.gitee.zhangsken.libapputils.CrashHandler$CrashActiviy"/>
     </application>
 
 </manifest>
