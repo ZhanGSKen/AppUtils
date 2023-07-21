@@ -1,4 +1,4 @@
-package com.gitee.zhangsken.libapputils;
+package com.github.zhangsken.libapputils;
 
 import android.content.*;
 import android.graphics.*;

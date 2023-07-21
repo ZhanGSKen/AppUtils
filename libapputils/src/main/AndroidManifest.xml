@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gitee.zhangsken.libapputils" >
+    package="com.github.zhangsken.libapputils" >
 
     <application>
-		<activity android:name="com.gitee.zhangsken.libapputils.CrashHandler$CrashActiviy"/>
+		<activity android:name="com.github.zhangsken.libapputils.CrashHandler$CrashActiviy"/>
     </application>
 
 </manifest>

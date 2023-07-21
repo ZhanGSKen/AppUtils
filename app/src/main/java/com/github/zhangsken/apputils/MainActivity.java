@@ -1,34 +1,33 @@
-package com.gitee.zhangsken.apputils;
+package com.github.zhangsken.apputils;
 
-import android.app.*;
-import android.os.*;
-import android.view.*;
-import com.gitee.zhangsken.libapputils.*;
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import com.github.zhangsken.libapputils.LogUtils;
+import com.github.zhangsken.libapputils.LogView;
 
-public class MainActivity extends Activity 
-{
+public class MainActivity extends Activity {
 	public static final String TAG = "MainActivity";
 
     LogView mLogView;
-	
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-		
+
 		// 添加应用版本提示
-		if(BuildConfig.DEBUG && getPackageName().equals("com.gitee.zhangsken.apputils.debug")) {
+		if (BuildConfig.DEBUG && getPackageName().equals("com.github.zhangsken.apputils.debug")) {
 			getActionBar().setSubtitle("Debug version");
-		} else if(!BuildConfig.DEBUG && getPackageName().equals("com.gitee.zhangsken.apputils")) {
+		} else if (!BuildConfig.DEBUG && getPackageName().equals("com.github.zhangsken.apputils")) {
 			getActionBar().setSubtitle("Release version");
 		}
-		
+
 		mLogView = findViewById(R.id.activitymainLogView1);
         mLogView.startWatching();
         LogUtils.d(TAG, "LogView Start Watching.");
     }
-	
+
 	public void onAddInfoLog(View view) {
         for (int i = 0; i < 100; i++) {
             LogUtils.i(TAG, "Add Info Log " + Integer.toString(i));

@@ -1,5 +1,5 @@
 # libapputils
-[![](https://jitpack.io/v/com.gitee.zhangsken/libapputils.svg)](https://jitpack.io/#com.gitee.zhangsken/libapputils)
+[![](https://jitpack.io/v/com.github.zhangsken/libapputils.svg)](https://jitpack.io/#com.github.zhangsken/libapputils)
 [![](https://jitci.com/gh/ZhanGSKen/libapputils/svg)](https://jitci.com/gh/ZhanGSKen/libapputils)
 
 #### 介绍
