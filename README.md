@@ -1,9 +1,9 @@
 # libapputils
-[![](https://jitpack.io/v/com.github.zhangsken/libapputils.svg)](https://jitpack.io/#com.github.zhangsken/libapputils)
-[![](https://jitci.com/gh/ZhanGSKen/libapputils/svg)](https://jitci.com/gh/ZhanGSKen/libapputils)
+[![](https://jitpack.io/v/com.github.winbollcc/libapputils.svg)](https://jitpack.io/#com.github.winbollcc/libapputils)
+[![](https://jitci.com/gh/WinBollCC/libapputils/svg)](https://jitci.com/gh/WinBollCC/libapputils)
 
 #### 介绍
-安卓应用基础类库。
+WinBoll.CC 安卓应用基础类库。
 
 #### 软件架构
 软件架构说明
