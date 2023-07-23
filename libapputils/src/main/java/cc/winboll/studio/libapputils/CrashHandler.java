@@ -200,9 +200,9 @@ public final class CrashHandler {
         @Override
         public boolean onCreateOptionsMenu(Menu menu) {
             menu.add(0, MENUITEM_COPY, 0, "Copy").setOnMenuItemClickListener(this)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
             menu.add(0, MENUITEM_RESTART, 0, "Restart").setOnMenuItemClickListener(this)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
             return true;
         }
     }

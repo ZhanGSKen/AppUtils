@@ -15,10 +15,6 @@ public class LogView extends LinearLayout {
 
     public static final String TAG = "LogView";
 
-    final static int MSG_SHOW_LOG = 0;
-
-    volatile boolean misHandling;
-    volatile boolean misAddNewLog;
     ScrollView mScrollView;
     TextView mTextView;
     LogViewHandler mLogViewHandler;
@@ -47,8 +43,8 @@ public class LogView extends LinearLayout {
     // 控件初始化函数
     //
     void initView(Context context) {
-        misHandling = false;
-        misAddNewLog = false;
+        mLogViewHandler = new LogViewHandler(this);
+
         ViewGroup.LayoutParams lpMain = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setLayoutParams(lpMain);
 
@@ -61,8 +57,6 @@ public class LogView extends LinearLayout {
 
         mScrollView.addView(mTextView);
         addView(mScrollView);
-
-        mLogViewHandler = new LogViewHandler(this);
 
         setBackgroundColor(Color.BLACK);
     }
@@ -110,49 +104,6 @@ public class LogView extends LinearLayout {
             //LogUtils.d(TAG, "WatchingThread stop.");
         }
     }
-
-
-    class LogViewHandler extends Handler {
-        LogView mLogView;
-        public LogViewHandler(LogView logView) {
-            mLogView = logView;
-        }
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_SHOW_LOG:{
-                        if (misHandling == false) {
-                            misHandling = true;
-                            showLog();
-                        }
-                        break;
-                    }
-                default:
-                    break;
-            }
-            super.handleMessage(msg);
-        }
-
-        public void showLog() {
-            mLogView.mTextView.setText(LogUtils.loadLog());
-            mLogView.mScrollView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mLogView.mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
-                        // 日志显示结束
-                        misHandling = false;
-                        // 检查是否添加了新日志
-                        if (misAddNewLog) {
-                            // 有新日志添加，先更改新日志标志
-                            misAddNewLog = false;
-                            // 再次发送显示日志的显示
-                            Message message = obtainMessage(MSG_SHOW_LOG);
-                            sendMessage(message);
-                        }
-                    }
-                });
-        }
-    }
-
 
     //
     // 日志文件监听类
@@ -220,16 +171,16 @@ public class LogView extends LinearLayout {
         }
 
         void showLog(String path) {
-            if (misHandling == true) {
+            if (mLogViewHandler.misHandling == true) {
                 // 正在处理日志显示，
                 // 就先设置一个新日志标志位
                 // 以便日志显示完后，再次显示新日志内容
-                misAddNewLog = true;
+                mLogViewHandler.misAddNewLog = true;
             } else {
                 //LogUtils.d(TAG, "LogListener showLog(String path)");
-                Message message = mLogViewHandler.obtainMessage(MSG_SHOW_LOG);
+                Message message = mLogViewHandler.obtainMessage(LogViewHandler.MSG_SHOW_LOG);
                 mLogViewHandler.sendMessage(message);
-                misAddNewLog = false;
+                mLogViewHandler.misAddNewLog = false;
             }
         }
     }

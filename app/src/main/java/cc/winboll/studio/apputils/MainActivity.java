@@ -22,18 +22,17 @@ public class MainActivity extends Activity {
 		mLogView = findViewById(R.id.activitymainLogView1);
         mLogView.startWatching();
         LogUtils.i(TAG, "LogView Start Watching.");
-        
+
         mCheckBoxAppDebugMode = findViewById(R.id.activitymainCheckBox1);
         App app = (App)getApplication();
         mCheckBoxAppDebugMode.setChecked(app.getDebugFlag());
     }
-    
+
     public void onAppDebugModeClick(View view) {
         App app = (App)getApplication();
         app.setDebugFlag(mCheckBoxAppDebugMode.isChecked());
     }
-    
-    
+
     public void onAddDebugLog(View view) {
         for (int i = 0; i < 5; i++) {
             LogUtils.d(TAG, "Add Debug Log " + Integer.toString(i));
@@ -41,7 +40,7 @@ public class MainActivity extends Activity {
     }
 
     public void onAddInfoLog(View view) {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 100; i++) {
             LogUtils.i(TAG, "Add Info Log " + Integer.toString(i));
         }
     }

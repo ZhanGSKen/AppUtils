@@ -9,58 +9,51 @@
 	<LinearLayout
 		android:orientation="vertical"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent">
+		android:layout_height="wrap_content"
+		android:gravity="end">
 
-		<LinearLayout
-			android:orientation="vertical"
+		<CheckBox
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:gravity="end">
+			android:text="Set libapputils Debug Mode Enable"
+			android:onClick="onAppDebugModeClick"
+			android:id="@+id/activitymainCheckBox1"/>
 
-			<CheckBox
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:text="Set libapputils Debug Mode Enable"
-				android:onClick="onAppDebugModeClick"
-				android:id="@+id/activitymainCheckBox1"/>
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Test APP Crash Handler"
+			android:textAllCaps="false"
+			android:onClick="onTestAPPCrashHandler"/>
 
-			<Button
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="Test APP Crash Handler"
-				android:textAllCaps="false"
-				android:onClick="onTestAPPCrashHandler"/>
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Add Debug Log"
+			android:textAllCaps="false"
+			android:onClick="onAddDebugLog"/>
 
-			<Button
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="Add Debug Log"
-				android:textAllCaps="false"
-				android:onClick="onAddDebugLog"/>
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Add Info Log"
+			android:textAllCaps="false"
+			android:onClick="onAddInfoLog"/>
 
-			<Button
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="Add Info Log"
-				android:textAllCaps="false"
-				android:onClick="onAddInfoLog"/>
-
-			<Button
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="Clean Log"
-				android:textAllCaps="false"
-				android:onClick="onCleanLog"/>
-
-		</LinearLayout>
-
-		<cc.winboll.studio.libapputils.LogView
-			android:layout_width="match_parent"
-			android:layout_height="0dp"
-			android:layout_weight="1.0"
-			android:id="@+id/activitymainLogView1"/>
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Clean Log"
+			android:textAllCaps="false"
+			android:onClick="onCleanLog"/>
 
 	</LinearLayout>
+
+	<cc.winboll.studio.libapputils.LogView
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1.0"
+		android:id="@+id/activitymainLogView1"/>
 
 </LinearLayout>
 
