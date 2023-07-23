@@ -7,12 +7,13 @@ def DefaultGroupId = 'com.github.winbollcc.libapputils' // 类库所有者groupI
 def DefaultVersion = '2.0.0' // 版本号
 def DeveloperId='winbollcc' // 开发者账号
 def DeveloperName='WinBollCC' // 开发者名称
-def DeveloperEMail='Studio@WinBoll.CC' // 开发者邮箱地址
+def DeveloperEMail='ZhanGSKen@QQ.COM' // 开发者邮箱地址
 def LicenseName='The Apache Software License, Version 2.0'
 def LicenseUrl='http://www.apache.org/licenses/LICENSE-2.0.txt'
 def WinBollMavneConfigFile='winboll.properties'
 
 Properties properties = new Properties()
+
 afterEvaluate {
     publishing {
         repositories {
@@ -144,6 +145,8 @@ afterEvaluate {
                         url=siteUrl
                     }
                 }
+                
+                
             } // 创建名为 release 的任务结束
             
             // WinBoll Maven Snapshot 仓库传输任务
