@@ -1,4 +1,4 @@
-package com.github.zhangsken.libapputils;
+package cc.winboll.studio.libapputils;
 
 import android.app.Activity;
 import android.app.Application;
@@ -131,6 +131,9 @@ public final class CrashHandler {
 
         private static final String EXTRA_CRASH_INFO = "crashInfo";
 
+        private static final int MENUITEM_COPY = 0;
+        private static final int MENUITEM_RESTART = 1;
+
         private String mLog;
 
         @Override
@@ -183,9 +186,12 @@ public final class CrashHandler {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             switch (item.getItemId()) {
-                case android.R.id.copy: 
+                case MENUITEM_COPY: 
                     ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                     cm.setPrimaryClip(ClipData.newPlainText(getPackageName(), mLog));
+                    break;
+                case MENUITEM_RESTART: 
+                    restart();
                     break;
             }
             return false;
@@ -193,8 +199,10 @@ public final class CrashHandler {
 
         @Override
         public boolean onCreateOptionsMenu(Menu menu) {
-            menu.add(0, android.R.id.copy, 0, android.R.string.copy).setOnMenuItemClickListener(this)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            menu.add(0, MENUITEM_COPY, 0, "Copy").setOnMenuItemClickListener(this)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            menu.add(0, MENUITEM_RESTART, 0, "Restart").setOnMenuItemClickListener(this)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             return true;
         }
     }

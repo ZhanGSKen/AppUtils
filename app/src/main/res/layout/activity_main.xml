@@ -44,7 +44,7 @@
 
 	</LinearLayout>
 
-	<com.github.zhangsken.libapputils.LogView
+	<cc.winboll.studio.libapputils.LogView
 		android:layout_width="match_parent"
 		android:layout_height="160dp"
 		android:id="@+id/activitymainLogView1"/>

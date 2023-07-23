@@ -5,8 +5,8 @@ android {
     buildToolsVersion "33.0.0"
 
     defaultConfig {
-        applicationId "com.github.zhangsken.apputils"
-        minSdkVersion 21
+        applicationId "cc.winboll.studio.apputils"
+        minSdkVersion 14
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -15,9 +15,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-		debug {
-            applicationIdSuffix ".debug"
         }
     }
 }

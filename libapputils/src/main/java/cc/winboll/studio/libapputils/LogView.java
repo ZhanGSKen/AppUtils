@@ -1,11 +1,15 @@
-package com.github.zhangsken.libapputils;
+package cc.winboll.studio.libapputils;
 
-import android.content.*;
-import android.graphics.*;
-import android.os.*;
-import android.util.*;
-import android.view.*;
-import android.widget.*;
+import android.content.Context;
+import android.graphics.Color;
+import android.os.FileObserver;
+import android.os.Handler;
+import android.os.Message;
+import android.util.AttributeSet;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 public class LogView extends LinearLayout {
 
@@ -13,13 +17,11 @@ public class LogView extends LinearLayout {
 
     final static int MSG_SHOW_LOG = 0;
 
-    volatile static boolean isHandling;
-    volatile static boolean isAddNewLog;
-
-
+    volatile boolean misHandling;
+    volatile boolean misAddNewLog;
     ScrollView mScrollView;
     TextView mTextView;
-    LogViewHandler mMyHandler;
+    LogViewHandler mLogViewHandler;
     WatchingThread mWatchingThread = null;
     Context mContext;
 
@@ -45,8 +47,8 @@ public class LogView extends LinearLayout {
     // 控件初始化函数
     //
     void initView(Context context) {
-        isHandling = false;
-        isAddNewLog = false;
+        misHandling = false;
+        misAddNewLog = false;
         ViewGroup.LayoutParams lpMain = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setLayoutParams(lpMain);
 
@@ -60,7 +62,7 @@ public class LogView extends LinearLayout {
         mScrollView.addView(mTextView);
         addView(mScrollView);
 
-        mMyHandler = new LogViewHandler(this);
+        mLogViewHandler = new LogViewHandler(this);
 
         setBackgroundColor(Color.BLACK);
     }
@@ -96,7 +98,7 @@ public class LogView extends LinearLayout {
         @Override
         public void run() {
             //LogUtils.d(TAG, "run");
-            mLogListener = new LogListener(BaseApplication._mszLogFolderPath);
+            mLogListener = new LogListener(ExceptionHandlerApplication._mszLogFolderPath);
             mLogListener.startWatching();
             while (_mIsExist == false) {
                 try {
@@ -110,7 +112,7 @@ public class LogView extends LinearLayout {
     }
 
 
-    static class LogViewHandler extends Handler {
+    class LogViewHandler extends Handler {
         LogView mLogView;
         public LogViewHandler(LogView logView) {
             mLogView = logView;
@@ -118,8 +120,8 @@ public class LogView extends LinearLayout {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_SHOW_LOG:{
-                        if (isHandling == false) {
-                            isHandling = true;
+                        if (misHandling == false) {
+                            misHandling = true;
                             showLog();
                         }
                         break;
@@ -137,11 +139,11 @@ public class LogView extends LinearLayout {
                     public void run() {
                         mLogView.mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
                         // 日志显示结束
-                        isHandling = false;
+                        misHandling = false;
                         // 检查是否添加了新日志
-                        if (isAddNewLog) {
+                        if (misAddNewLog) {
                             // 有新日志添加，先更改新日志标志
-                            isAddNewLog = false;
+                            misAddNewLog = false;
                             // 再次发送显示日志的显示
                             Message message = obtainMessage(MSG_SHOW_LOG);
                             sendMessage(message);
@@ -218,16 +220,16 @@ public class LogView extends LinearLayout {
         }
 
         void showLog(String path) {
-            if (isHandling == true) {
+            if (misHandling == true) {
                 // 正在处理日志显示，
                 // 就先设置一个新日志标志位
                 // 以便日志显示完后，再次显示新日志内容
-                isAddNewLog = true;
+                misAddNewLog = true;
             } else {
                 //LogUtils.d(TAG, "LogListener showLog(String path)");
-                Message message = mMyHandler.obtainMessage(MSG_SHOW_LOG);
-                mMyHandler.sendMessage(message);
-                isAddNewLog = false;
+                Message message = mLogViewHandler.obtainMessage(MSG_SHOW_LOG);
+                mLogViewHandler.sendMessage(message);
+                misAddNewLog = false;
             }
         }
     }

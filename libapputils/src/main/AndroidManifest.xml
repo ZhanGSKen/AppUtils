@@ -3,7 +3,7 @@
     package="com.github.zhangsken.libapputils" >
 
     <application>
-		<activity android:name="com.github.zhangsken.libapputils.CrashHandler$CrashActiviy"/>
+		<activity android:name="cc.winboll.studio.libapputils.CrashHandler$CrashActiviy"/>
     </application>
 
 </manifest>

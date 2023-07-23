@@ -4,7 +4,7 @@
 def siteUrl = 'https://github.com/zhangsken/libapputils' // 项目主页
 def gitUrl = 'https://github.com/zhangsken/libapputils' // 项目的git地址
 def DefaultGroupId = 'com.github.zhangsken' // 类库所有者groupId
-def DefaultVersion = '1.1.0' // 版本号
+def DefaultVersion = '1.2.0' // 版本号
 def DeveloperId='zhangsken' // 开发者账号
 def DeveloperName='zhangsken' // 开发者名称
 def DeveloperEMail='ZhanGSKen@QQ.COM' // 开发者邮箱地址

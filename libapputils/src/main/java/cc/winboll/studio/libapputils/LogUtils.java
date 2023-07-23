@@ -1,8 +1,15 @@
-package com.github.zhangsken.libapputils;
+package cc.winboll.studio.libapputils;
 
-import java.io.*;
-import java.text.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class LogUtils {
 
@@ -14,7 +21,7 @@ public class LogUtils {
     // Log Debug 函数
     //
     public static void d(String szTAG, String szMessage) {
-        if (BaseApplication.getDebugFlag()) {
+        if (ExceptionHandlerApplication.getDebugFlag()) {
             saveLog(szTAG, szMessage);
         }
     }
@@ -31,7 +38,7 @@ public class LogUtils {
     //
     static void saveLog(String szTAG, String szMessage) {
         try {
-            File fLog = new File(BaseApplication._mszLogFilePath);
+            File fLog = new File(ExceptionHandlerApplication._mszLogFilePath);
             //FileWriter fw = new FileWriter(fLog, Charset.defaultCharset(), true);
             //fw.append(mSimpleDateFormat.format(System.currentTimeMillis()) + "[" + szTAG + "]: " + szMessage + "\n");
             //fw.close();
@@ -49,7 +56,7 @@ public class LogUtils {
     // 历史日志加载函数
     //
     public static String loadLog() {
-        File fLog = new File(BaseApplication._mszLogFilePath);
+        File fLog = new File(ExceptionHandlerApplication._mszLogFilePath);
         if (fLog.exists()) {
             StringBuffer sb = new StringBuffer();
             try {
@@ -78,7 +85,7 @@ public class LogUtils {
     // 清理日志函数
     //
     public static void cleanLog() {
-        File fLog = new File(BaseApplication._mszLogFilePath);
+        File fLog = new File(ExceptionHandlerApplication._mszLogFilePath);
         if (fLog.exists()) {
             fLog.delete();
         }

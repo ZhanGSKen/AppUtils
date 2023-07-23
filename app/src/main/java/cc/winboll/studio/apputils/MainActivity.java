@@ -1,10 +1,12 @@
-package com.github.zhangsken.apputils;
+package cc.winboll.studio.apputils;
 
 import android.app.Activity;
+import cc.winboll.studio.apputils.R;
+import cc.winboll.studio.apputils.BuildConfig;
 import android.os.Bundle;
 import android.view.View;
-import com.github.zhangsken.libapputils.LogUtils;
-import com.github.zhangsken.libapputils.LogView;
+import cc.winboll.studio.libapputils.LogUtils;
+import cc.winboll.studio.libapputils.LogView;
 
 public class MainActivity extends Activity {
 	public static final String TAG = "MainActivity";

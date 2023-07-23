@@ -1,14 +1,14 @@
-package com.github.zhangsken.libapputils;
+package cc.winboll.studio.libapputils;
 
-import android.app.*;
-import java.io.*;
+import android.app.Application;
+import java.io.File;
 
-public class BaseApplication extends Application {
+public class ExceptionHandlerApplication extends Application {
 
-    public static final String TAG = "BaseApplication";
-
+    public static final String TAG = "ExceptionHandlerApplication";
+    
     // 调试标志
-    protected static boolean BASEAPPLICATION_DEBUG = BuildConfig.DEBUG;
+    protected static boolean DEBUG = true;
 
     public static String _mszLogFolderPath;
     public static String _mszLogFilePath;
@@ -27,14 +27,14 @@ public class BaseApplication extends Application {
     // 读取调试标志
     //
     public static boolean getDebugFlag() {
-        return BASEAPPLICATION_DEBUG;
+        return DEBUG;
     }
 
     //
     // 设置调试标志
     //
     protected void setDebugFlag(boolean isDebug) {
-        BASEAPPLICATION_DEBUG = isDebug;
+        DEBUG = isDebug;
     }
 
 
