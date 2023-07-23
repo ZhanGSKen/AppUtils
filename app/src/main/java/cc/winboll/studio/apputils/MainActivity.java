@@ -1,14 +1,13 @@
 package cc.winboll.studio.apputils;
 
 import android.app.Activity;
-import cc.winboll.studio.apputils.R;
-import cc.winboll.studio.apputils.BuildConfig;
 import android.os.Bundle;
 import android.view.View;
 import cc.winboll.studio.libapputils.LogUtils;
 import cc.winboll.studio.libapputils.LogView;
 
 public class MainActivity extends Activity {
+
 	public static final String TAG = "MainActivity";
 
     LogView mLogView;
@@ -17,13 +16,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-		// 添加应用版本提示
-		if (BuildConfig.DEBUG && getPackageName().equals("com.github.zhangsken.apputils.debug")) {
-			getActionBar().setSubtitle("Debug version");
-		} else if (!BuildConfig.DEBUG && getPackageName().equals("com.github.zhangsken.apputils")) {
-			getActionBar().setSubtitle("Release version");
-		}
 
 		mLogView = findViewById(R.id.activitymainLogView1);
         mLogView.startWatching();

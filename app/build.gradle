@@ -16,10 +16,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            applicationIdSuffix ".debug"
+        }
     }
 }
 
 dependencies {
-	api project(':libapputils')
-    api fileTree(dir: 'libs', include: ['*.jar'])
+	implementation project(':libapputils')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
