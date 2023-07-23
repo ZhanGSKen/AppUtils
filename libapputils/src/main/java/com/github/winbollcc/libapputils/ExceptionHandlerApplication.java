@@ -12,13 +12,13 @@ public class ExceptionHandlerApplication extends Application {
 
     public static String _mszLogFolderPath;
     public static String _mszLogFilePath;
-    public static String _mszLogFileName = "log.txt";
+    public static String _mszLogFileName = TAG + "_log.txt";
 
     @Override
     public void onCreate() {
-        super.onCreate();
         CrashHandler.init(this);
-        _mszLogFolderPath = getExternalFilesDir(TAG).toString();
+        super.onCreate();
+        _mszLogFolderPath = getCacheDir().getPath();
         _mszLogFilePath = _mszLogFolderPath + File.separator + _mszLogFileName;
 
     }
