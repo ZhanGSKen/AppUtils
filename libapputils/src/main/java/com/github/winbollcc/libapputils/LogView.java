@@ -1,4 +1,4 @@
-package cc.winboll.studio.libapputils;
+package com.github.winbollcc.libapputils;
 
 import android.content.Context;
 import android.graphics.Color;

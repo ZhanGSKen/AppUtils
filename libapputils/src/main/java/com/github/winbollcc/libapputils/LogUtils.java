@@ -1,4 +1,4 @@
-package cc.winboll.studio.libapputils;
+package com.github.winbollcc.libapputils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
