@@ -1,5 +1,28 @@
 apply plugin: 'com.android.application'
 
+/*
+ * 此配置文件只适配两种编译方法
+ * 1：用 [AIDE Pro] 默认编译器，
+ *   来生成应用包(应用包名如: a.b.c)。
+ *   选择分支：[AIDE Pro]->[菜单]->[更多]->[项目]->[构建分支]->[stage release](分支)。
+ * 2：用 [AIDE Pro] 或者 [AndroidIDE] 的 Gradle 编译任务 assembleBetaDebug，
+ *   来生成调试包(应用包名如: a.b.c.beta.debug)
+ *   输出路径可配置数组变量：String[] outputOtherPaths
+ */
+
+//
+// 读取前面配置的keystore.properties
+def keyProps = new Properties()
+def keyPropsFile = rootProject.file('keystore/appkey.keystore')
+if (keyPropsFile.exists()) {
+    keyProps.load(new FileInputStream(keyPropsFile))
+}
+
+//
+// 定义 lint 输出文件
+def lintXmlReportFile = file('lint-results.xml')
+def lintHTMLReportFile = file('lint-results.html')
+
 android {
     compileSdkVersion 32
     buildToolsVersion "33.0.0"
@@ -11,15 +34,37 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    
+    // 配置签名
+    signingConfigs {
+        winboll {
+            keyAlias keyProps['keyAlias']
+            keyPassword keyProps['keyPassword']
+            storeFile keyProps['storeFile'] ? file(keyProps['storeFile']) : null
+            storePassword keyProps['storePassword']
+        }
+    }
+    
     buildTypes {
         release {
+            signingConfig signingConfigs.winboll
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            applicationIdSuffix ".debug"
+            signingConfig signingConfigs.winboll
         }
     }
+}
+
+//
+// 添加 lint 输出文件清理任务
+//
+task lint01CleanOutput() {
+    println "Clean Lint Output : " + lintXmlReportFile.path
+    delete lintXmlReportFile;
+    println "Clean Lint Output : " + lintHTMLReportFile.path
+    delete lintHTMLReportFile;
 }
 
 dependencies {

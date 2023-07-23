@@ -1,0 +1,4 @@
+[submodule "keystore"]
+	path = keystore
+	url = git@github.com:zhangsken/keystore.git
+	branch = master
