@@ -1,17 +1,7 @@
 apply plugin: 'com.android.application'
 
-/*
- * 此配置文件只适配两种编译方法
- * 1：用 [AIDE Pro] 默认编译器，
- *   来生成应用包(应用包名如: a.b.c)。
- *   选择分支：[AIDE Pro]->[菜单]->[更多]->[项目]->[构建分支]->[stage release](分支)。
- * 2：用 [AIDE Pro] 或者 [AndroidIDE] 的 Gradle 编译任务 assembleBetaDebug，
- *   来生成调试包(应用包名如: a.b.c.beta.debug)
- *   输出路径可配置数组变量：String[] outputOtherPaths
- */
-
+// 读取秘钥配置文件
 //
-// 读取前面配置的keystore.properties
 def keyProps = new Properties()
 def keyPropsFile = rootProject.file('keystore/appkey.keystore')
 if (keyPropsFile.exists()) {
