@@ -2,8 +2,8 @@
 
 buildscript {
     repositories {
-        mavenLocal()
-		maven { url 'https://maven.aliyun.com/repository/public/' }
+        maven { url "https://studio.winboll.cc/nexus/repository/maven-public/" }
+        maven { url 'https://maven.aliyun.com/repository/public/' }
         maven { url 'https://maven.aliyun.com/repository/google/' }
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin/' }
         maven { url 'https://dl.bintray.com/ppartisan/maven/' }
@@ -11,8 +11,7 @@ buildscript {
         maven { url "https://jitpack.io" }
         google()
         mavenCentral()
-        jcenter()
-		maven { url "https://studio.winboll.cc/nexus/repository/maven-public/" }
+        mavenLocal()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.2.1'
@@ -24,8 +23,8 @@ buildscript {
 
 allprojects {
     repositories {
-		mavenLocal()
-		maven { url 'https://maven.aliyun.com/repository/public/' } 
+		maven { url "https://studio.winboll.cc/nexus/repository/maven-public/" }
+        maven { url 'https://maven.aliyun.com/repository/public/' } 
         maven { url 'https://maven.aliyun.com/repository/google/' }
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin/' }
         maven { url 'https://dl.bintray.com/ppartisan/maven/' }
@@ -33,7 +32,6 @@ allprojects {
         maven { url "https://jitpack.io" }
         mavenCentral()
         google()
-		jcenter()
-        maven { url "https://studio.winboll.cc/nexus/repository/maven-public/" }
+        mavenLocal()
     }
 }
