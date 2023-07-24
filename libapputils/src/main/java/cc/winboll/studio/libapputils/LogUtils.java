@@ -15,14 +15,14 @@ public class LogUtils {
 
     public static final String TAG = "LogUtils";
 
-    static SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:SS", Locale.getDefault());
+    static SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("[yyyy-MM-dd HH:mm:SS]", Locale.getDefault());
 
     //
     // Log Debug 函数
     //
     public static void d(String szTAG, String szMessage) {
         if (ExceptionHandlerApplication.getDebugFlag()) {
-            saveLog(szTAG, szMessage);
+            saveLogDebug(szTAG, szMessage);
         }
     }
 
@@ -30,13 +30,33 @@ public class LogUtils {
     // Log Info 函数
     //
     public static void i(String szTAG, String szMessage) {
-        saveLog(szTAG, szMessage);
+        saveLogInfo(szMessage);
+    }
+    
+
+    //
+    // 日志文件保存函数
+    //
+    static void saveLogInfo(String szMessage) {
+        try {
+            File fLog = new File(ExceptionHandlerApplication._mszLogFilePath);
+            //FileWriter fw = new FileWriter(fLog, Charset.defaultCharset(), true);
+            //fw.append(mSimpleDateFormat.format(System.currentTimeMillis()) + "[" + szTAG + "]: " + szMessage + "\n");
+            //fw.close();
+            BufferedWriter out = null;
+            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fLog, true), "UTF-8"));
+            out.write(mSimpleDateFormat.format(System.currentTimeMillis()) + " " + szMessage + "\n");
+            out.close();
+
+        } catch (IOException e) {
+            LogUtils.d(TAG, "IOException : " + e.getMessage());
+        }
     }
 
     //
     // 日志文件保存函数
     //
-    static void saveLog(String szTAG, String szMessage) {
+    static void saveLogDebug(String szTAG, String szMessage) {
         try {
             File fLog = new File(ExceptionHandlerApplication._mszLogFilePath);
             //FileWriter fw = new FileWriter(fLog, Charset.defaultCharset(), true);
