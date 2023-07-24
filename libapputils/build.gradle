@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
-apply from: 'jitpack-winboll-maven-publish.gradle'
+apply from: 'localandwinboll-maven-publish.gradle'
 
 // 定义 lint 输出文件
 def lintXmlReportFile = file('lint-results.xml')

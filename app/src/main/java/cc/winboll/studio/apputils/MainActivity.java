@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
-import com.github.winbollcc.libapputils.LogUtils;
-import com.github.winbollcc.libapputils.LogView;
+import cc.winboll.studio.libapputils.LogUtils;
+import cc.winboll.studio.libapputils.LogView;
 
 public class MainActivity extends Activity {
 

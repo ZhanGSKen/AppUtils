@@ -1,6 +1,6 @@
 package cc.winboll.studio.apputils;
 
-import com.github.winbollcc.libapputils.ExceptionHandlerApplication;
+import cc.winboll.studio.libapputils.ExceptionHandlerApplication;
 
 public class App extends ExceptionHandlerApplication {
 
