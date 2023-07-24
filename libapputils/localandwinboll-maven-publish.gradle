@@ -4,7 +4,7 @@
 def siteUrl = 'https://studio.winboll.cc/library/libapputils' // 项目主页
 def gitUrl = 'https://studio.winboll.cc/gitweb/libapputils.git' // 项目的git地址
 def DefaultGroupId = 'cc.winboll.studio.libapputils' // 类库所有者groupId
-def DefaultVersion = '3.1.0' // 版本号
+def DefaultVersion = '3.1.1' // 版本号
 def DeveloperId='zhangsken' // 开发者账号
 def DeveloperName='ZhanGSKen' // 开发者名称
 def DeveloperEMail='ZhanGSKen@QQ.COM' // 开发者邮箱地址

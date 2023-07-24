@@ -3,7 +3,7 @@
     package="cc.winboll.studio.libapputils" >
 
     <application>
-		<activity android:name="com.github.winbollcc.libapputils.CrashHandler$CrashActiviy"/>
+		<activity android:name="cc.winboll.studio.libapputils.CrashHandler$CrashActiviy"/>
     </application>
 
 </manifest>
