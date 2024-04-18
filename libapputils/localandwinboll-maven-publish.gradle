@@ -1,8 +1,8 @@
 // 本机和 WinBoll Maven 仓库传输配置。
 //
 
-def siteUrl = 'https://studio.winboll.cc/library/libapputils' // 项目主页
-def gitUrl = 'https://studio.winboll.cc/gitweb/libapputils.git' // 项目的git地址
+def siteUrl = 'https://winboll.cc/library/libapputils' // 项目主页
+def gitUrl = 'https://winboll.cc/gitweb/libapputils.git' // 项目的git地址
 def DefaultGroupId = 'cc.winboll.studio.libapputils' // 类库所有者groupId
 def DefaultVersion = '3.1.1' // 版本号
 def DeveloperId='zhangsken' // 开发者账号
@@ -25,7 +25,7 @@ afterEvaluate {
                 maven{
                     //仓库的名字和地址
                     name = "WinBollRelease"
-                    url="https://studio.winboll.cc/nexus/repository/maven-releases/"
+                    url="https://winboll.cc/nexus/repository/maven-releases/"
                     // 仓库用户名密码
                     credentials {
                         username = NexusUserName
@@ -36,7 +36,7 @@ afterEvaluate {
                 maven{
                     //仓库的名字和地址
                     name = "WinBollSnapshot"
-                    url="https://studio.winboll.cc/nexus/repository/maven-snapshots/"
+                    url="https://winboll.cc/nexus/repository/maven-snapshots/"
                     // 仓库用户名密码
                     credentials {
                         username = NexusUserName
