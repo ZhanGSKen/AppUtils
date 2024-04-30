@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import cc.winboll.studio.libapputils.LogUtils;
-import cc.winboll.studio.libapputils.LogView2;
+import cc.winboll.studio.libapputils.LogViewThread;
 
 /**
  * @Author ZhanGSKen@QQ.COM
@@ -15,7 +15,7 @@ import cc.winboll.studio.libapputils.LogView2;
 public class LogActivity extends Activity {
 
     public static final String TAG = "LogActivity";
-    LogView2 mLogView;
+    LogViewThread mLogViewThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +23,10 @@ public class LogActivity extends Activity {
         setContentView(R.layout.activity_log);
 
         LinearLayout linearLayout = findViewById(R.id.activitylogLinearLayout1);
-        linearLayout.inflate(this, R.layout.view_log , linearLayout);
-        mLogView = linearLayout.findViewById(R.id.viewlogLogView21);
-        //mLogView.startWatching();
-
+        mLogViewThread = new LogViewThread(this, linearLayout);
+        mLogViewThread.start();
+        LogUtils.i(TAG, "LogView Start Watching.");
+        
         // 添加日志的按钮响应
         findViewById(R.id.activitylogButton1).setOnClickListener(new View.OnClickListener(){
 
@@ -51,7 +51,6 @@ public class LogActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mLogView.stopWatching();
     }
 
 

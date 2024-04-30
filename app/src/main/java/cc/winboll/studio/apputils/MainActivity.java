@@ -9,14 +9,14 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import cc.winboll.studio.libapputils.LogUtils;
-import cc.winboll.studio.libapputils.LogView2;
+import cc.winboll.studio.libapputils.LogViewThread;
 
 public class MainActivity extends Activity {
 
 
 	public static final String TAG = "MainActivity";
 
-    LogView2 mLogView;
+    LogViewThread mLogViewThread;
     CheckBox mCheckBoxAppDebugMode;
 
     private static final int REQUEST_LOGACTIVITY = 0;
@@ -26,10 +26,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       LinearLayout linearLayout = findViewById(R.id.activitymainLinearLayout1);
-        linearLayout.inflate(this, R.layout.view_log , linearLayout);
-        mLogView = linearLayout.findViewById(R.id.viewlogLogView21);
-        //mLogView.startWatching();
+        LinearLayout linearLayout = findViewById(R.id.activitymainLinearLayout1);
+        mLogViewThread = new LogViewThread(this, linearLayout);
+        mLogViewThread.start();
         LogUtils.i(TAG, "LogView Start Watching.");
 
         mCheckBoxAppDebugMode = findViewById(R.id.activitymainCheckBox1);
@@ -88,7 +87,9 @@ public class MainActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (resultCode) {
             case REQUEST_LOGACTIVITY : {
-                    mLogView.startWatching();
+                    LinearLayout linearLayout = findViewById(R.id.activitymainLinearLayout1);
+                    mLogViewThread = new LogViewThread(this, linearLayout);
+                    mLogViewThread.start();
                     LogUtils.i(TAG, "REQUEST_LOGACTIVITY");
                     break;
                 }
@@ -96,5 +97,14 @@ public class MainActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LinearLayout linearLayout = findViewById(R.id.activitymainLinearLayout1);
+        mLogViewThread = new LogViewThread(this, linearLayout);
+        mLogViewThread.start();
+        LogUtils.i(TAG, "onResume()");
+    }
 
+    
 }

@@ -5,37 +5,38 @@ import android.graphics.Color;
 import android.os.FileObserver;
 import android.os.Handler;
 import android.os.Message;
-import android.util.AttributeSet;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import java.util.ArrayList;
+import android.widget.LinearLayout;
 
-public class LogView2 {
+public class LogViewThread extends Thread {
 
-    public static final String TAG = "LogView";
+    public static final String TAG = "LogViewThread";
 
+    public volatile boolean mIsExist = false;
+    LogListener mLogListener;
+
+
+    Context mContext;
     ScrollView mScrollView;
     TextView mTextView;
-    Context mContext;
-    LogViewHandler2 mLogViewHandler;
-    static WatchingThread _mWatchingThread;
-    
+    LogViewHandler mLogViewHandler;
+
     final static int MSG_SHOW_LOG = 0;
-    LogView2 mLogView;
     public volatile boolean mIsHandling;
     public volatile boolean mIsAddNewLog;
 
     //
     // 构造函数
-    //
-    public LogView2(Context context) {
+    // @context ：视图环境上下文
+    // @linearLayoutRoot ：将要加入ScrollView为主的日志视图的根视图
+    public LogViewThread(Context context, LinearLayout linearLayoutRoot) {
         mContext = context;
         mScrollView = new ScrollView(context);
 
         if (mLogViewHandler == null) {
-            mLogViewHandler = new LogViewHandler2(this);
+            mLogViewHandler = new LogViewHandler();
         }
         ViewGroup.LayoutParams lpMain = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mScrollView.setLayoutParams(lpMain);
@@ -47,69 +48,31 @@ public class LogView2 {
         mTextView.setTextIsSelectable(true);
 
         mScrollView.addView(mTextView);
-        addView(mScrollView);
 
-        setBackgroundColor(Color.BLACK);
 
-        if (_mWatchingThread == null) {
-            _mWatchingThread = new WatchingThread();
-            _mWatchingThread.start();
+        mScrollView.setBackgroundColor(Color.BLACK);
+        // 清理根视图
+        linearLayoutRoot.removeAllViews();
+        // 加入日志视图
+        linearLayoutRoot.addView(mScrollView);
+    }
+
+
+    @Override
+    public void run() {
+        //LogUtils.d(TAG, "run");
+        mLogListener = new LogListener(ExceptionHandlerApplication._mszLogFolderPath);
+        mLogListener.startWatching();
+        while (mIsExist == false) {
+            try {
+                Thread.sleep(1000);
+                //LogUtils.d(TAG, "WatchingThread sleep (1000)");
+            } catch (InterruptedException e) {}
         }
-    }
-    
-    public ScrollView getMainScrollView() {
-        
+        mLogListener.stopWatching();
+        //LogUtils.d(TAG, "WatchingThread stop.");
     }
 
-    //
-    // 控件初始化函数
-    //
-    void initView(Context context) {
-
-    }
-
-    //
-    // 开始日志文件监控
-    //
-    public void startWatching() {
-        if (_mWatchingThread != null
-            && _mWatchingThread.mIsExist == true) {
-            _mWatchingThread = new WatchingThread();
-            _mWatchingThread.start();
-        }
-    }
-
-    //
-    // 结束日志文件监控
-    //
-    public void stopWatching() {
-        if (_mWatchingThread != null) {
-            _mWatchingThread.mIsExist = true;
-            _mWatchingThread = null;
-        }
-    }
-
-
-
-    class WatchingThread extends Thread {
-        public volatile boolean mIsExist = false;
-        LogListener mLogListener;
-
-        @Override
-        public void run() {
-            //LogUtils.d(TAG, "run");
-            mLogListener = new LogListener(ExceptionHandlerApplication._mszLogFolderPath);
-            mLogListener.startWatching();
-            while (mIsExist == false) {
-                try {
-                    Thread.sleep(1000);
-                    //LogUtils.d(TAG, "WatchingThread sleep (1000)");
-                } catch (InterruptedException e) {}
-            }
-            mLogListener.stopWatching();
-            //LogUtils.d(TAG, "WatchingThread stop.");
-        }
-    }
 
     //
     // 日志文件监听类
@@ -184,23 +147,22 @@ public class LogView2 {
                 mLogViewHandler.mIsAddNewLog = true;
             } else {
                 //LogUtils.d(TAG, "LogListener showLog(String path)");
-                Message message = mLogViewHandler.obtainMessage(LogViewHandler2.MSG_SHOW_LOG);
+                Message message = mLogViewHandler.obtainMessage(LogViewHandler.MSG_SHOW_LOG);
                 mLogViewHandler.sendMessage(message);
                 mLogViewHandler.mIsAddNewLog = false;
             }
         }
     }
-    
-    class LogViewHandler2 extends Handler {
+
+    class LogViewHandler extends Handler {
 
         final static int MSG_SHOW_LOG = 0;
         public volatile boolean mIsHandling;
         public volatile boolean mIsAddNewLog;
 
-        public LogViewHandler2(LogView2 logView) {
+        public LogViewHandler() {
             mIsHandling = false;
             mIsAddNewLog = false;
-            mLogView = logView;
         }
 
         public void handleMessage(Message msg) {
@@ -238,6 +200,5 @@ public class LogView2 {
                 });
         }
     }
-    
-    
+
 }
