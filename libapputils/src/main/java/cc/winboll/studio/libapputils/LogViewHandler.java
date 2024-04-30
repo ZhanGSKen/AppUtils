@@ -13,20 +13,20 @@ public class LogViewHandler extends Handler {
 
     final static int MSG_SHOW_LOG = 0;
     LogView mLogView;
-    public volatile boolean misHandling;
-    public volatile boolean misAddNewLog;
+    public volatile boolean mIsHandling;
+    public volatile boolean mIsAddNewLog;
 
     public LogViewHandler(LogView logView) {
-        misHandling = false;
-        misAddNewLog = false;
+        mIsHandling = false;
+        mIsAddNewLog = false;
         mLogView = logView;
     }
 
     public void handleMessage(Message msg) {
         switch (msg.what) {
             case MSG_SHOW_LOG:{
-                    if (misHandling == false) {
-                        misHandling = true;
+                    if (mIsHandling == false) {
+                        mIsHandling = true;
                         showLog();
                     }
                     break;
@@ -44,11 +44,11 @@ public class LogViewHandler extends Handler {
                 public void run() {
                     mLogView.mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
                     // 日志显示结束
-                    misHandling = false;
+                    mIsHandling = false;
                     // 检查是否添加了新日志
-                    if (misAddNewLog) {
+                    if (mIsAddNewLog) {
                         // 有新日志添加，先更改新日志标志
-                        misAddNewLog = false;
+                        mIsAddNewLog = false;
                         // 再次发送显示日志的显示
                         Message message = obtainMessage(MSG_SHOW_LOG);
                         sendMessage(message);

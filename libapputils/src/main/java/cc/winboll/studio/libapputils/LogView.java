@@ -80,13 +80,13 @@ public class LogView extends LinearLayout {
     //
     public void stopWatching() {
         if (mWatchingThread != null) {
-            mWatchingThread._mIsExist = true;
+            mWatchingThread.mIsExist = true;
             mWatchingThread = null;
         }
     }
 
     class WatchingThread extends Thread {
-        public volatile boolean _mIsExist = false;
+        public volatile boolean mIsExist = false;
         LogListener mLogListener;
 
         @Override
@@ -94,7 +94,7 @@ public class LogView extends LinearLayout {
             //LogUtils.d(TAG, "run");
             mLogListener = new LogListener(ExceptionHandlerApplication._mszLogFolderPath);
             mLogListener.startWatching();
-            while (_mIsExist == false) {
+            while (mIsExist == false) {
                 try {
                     Thread.sleep(1000);
                     //LogUtils.d(TAG, "WatchingThread sleep (1000)");
@@ -171,16 +171,16 @@ public class LogView extends LinearLayout {
         }
 
         void showLog(String path) {
-            if (mLogViewHandler.misHandling == true) {
+            if (mLogViewHandler.mIsHandling == true) {
                 // 正在处理日志显示，
                 // 就先设置一个新日志标志位
                 // 以便日志显示完后，再次显示新日志内容
-                mLogViewHandler.misAddNewLog = true;
+                mLogViewHandler.mIsAddNewLog = true;
             } else {
                 //LogUtils.d(TAG, "LogListener showLog(String path)");
                 Message message = mLogViewHandler.obtainMessage(LogViewHandler.MSG_SHOW_LOG);
                 mLogViewHandler.sendMessage(message);
-                mLogViewHandler.misAddNewLog = false;
+                mLogViewHandler.mIsAddNewLog = false;
             }
         }
     }
