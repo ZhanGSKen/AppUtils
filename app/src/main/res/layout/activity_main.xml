@@ -49,11 +49,14 @@
 
 	</LinearLayout>
 
-	<cc.winboll.studio.libapputils.LogView
+	<LinearLayout
+		android:orientation="horizontal"
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
 		android:layout_weight="1.0"
-		android:id="@+id/activitymainLogView1"/>
+		android:id="@+id/activitymainLinearLayout1">
+        
+	</LinearLayout>
 
 </LinearLayout>
 
