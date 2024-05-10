@@ -18,7 +18,7 @@ public class ExceptionHandlerApplication extends Application {
     public void onCreate() {
         CrashHandler.init(this);
         super.onCreate();
-        _mszLogFolderPath = getCacheDir().getPath();
+        _mszLogFolderPath = getExternalCacheDir().getPath();
         _mszLogFilePath = _mszLogFolderPath + File.separator + _mszLogFileName;
 
     }
