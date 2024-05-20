@@ -6,9 +6,9 @@ import android.os.FileObserver;
 import android.os.Handler;
 import android.os.Message;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.LinearLayout;
 
 public class LogViewThread extends Thread {
 
@@ -48,13 +48,13 @@ public class LogViewThread extends Thread {
         mTextView.setTextIsSelectable(true);
 
         mScrollView.addView(mTextView);
-
-
         mScrollView.setBackgroundColor(Color.BLACK);
+
         // 清理根视图
         linearLayoutRoot.removeAllViews();
         // 加入日志视图
         linearLayoutRoot.addView(mScrollView);
+        linearLayoutRoot.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
     }
 
 

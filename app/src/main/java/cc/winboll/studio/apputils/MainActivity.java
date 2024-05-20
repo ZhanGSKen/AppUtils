@@ -17,6 +17,7 @@ public class MainActivity extends Activity {
 	public static final String TAG = "MainActivity";
 
     LogViewThread mLogViewThread;
+	SSHEditText mSSHEditText;
     CheckBox mCheckBoxAppDebugMode;
 
     private static final int REQUEST_LOGACTIVITY = 0;
@@ -30,6 +31,8 @@ public class MainActivity extends Activity {
         mLogViewThread = new LogViewThread(this, linearLayout);
         mLogViewThread.start();
         LogUtils.i(TAG, "LogView Start Watching.");
+
+		mSSHEditText = findViewById(R.id.activitymainEditText1);
 
         mCheckBoxAppDebugMode = findViewById(R.id.activitymainCheckBox1);
         App app = (App)getApplication();
@@ -106,5 +109,6 @@ public class MainActivity extends Activity {
         LogUtils.i(TAG, "onResume()");
     }
 
-    
+
+
 }
