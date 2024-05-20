@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="#FF000000">
+
+	<RelativeLayout
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="36dp"
+			android:text="Clean Log"
+			android:textSize="14dp"
+			android:id="@+id/headerlogviewthreadButton1"
+			android:layout_centerVertical="true"/>
+
+		<CheckBox
+			android:layout_width="wrap_content"
+			android:layout_height="36dp"
+			android:layout_toLeftOf="@+id/headerlogviewthreadButton2"
+			android:layout_centerVertical="true"
+			android:text="Selectable"
+			android:background="#FFFFFFFF"
+			android:paddingRight="10dp"
+			android:textSize="16dp"
+			android:id="@+id/viewlogviewthreadCheckBox1"/>
+
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="36dp"
+			android:text="Copy Log"
+			android:layout_alignParentRight="true"
+			android:textSize="14dp"
+			android:id="@+id/headerlogviewthreadButton2"
+			android:layout_centerVertical="true"/>
+
+	</RelativeLayout>
+
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1.0">
+
+		<ScrollView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:id="@+id/headerlogviewthreadScrollView1"
+			android:background="#FF000000">
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:text="Text"
+				android:id="@+id/headerlogviewthreadTextView1"
+				android:textColor="#FF00FF00"
+				android:textIsSelectable="true"/>
+
+		</ScrollView>
+
+	</LinearLayout>
+
+</LinearLayout>
+

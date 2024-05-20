@@ -1,11 +1,14 @@
 package cc.winboll.studio.libapputils;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.FileObserver;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -26,6 +29,8 @@ public class LogViewThread extends Thread {
     final static int MSG_SHOW_LOG = 0;
     public volatile boolean mIsHandling;
     public volatile boolean mIsAddNewLog;
+    LinearLayout mLinearLayoutRoot;
+    CheckBox mSelectableCheckBox;
 
     //
     // 构造函数
@@ -33,28 +38,64 @@ public class LogViewThread extends Thread {
     // @linearLayoutRoot ：将要加入ScrollView为主的日志视图的根视图
     public LogViewThread(Context context, LinearLayout linearLayoutRoot) {
         mContext = context;
+        mLinearLayoutRoot = linearLayoutRoot;
         mScrollView = new ScrollView(context);
 
         if (mLogViewHandler == null) {
             mLogViewHandler = new LogViewHandler();
         }
-        ViewGroup.LayoutParams lpMain = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        mScrollView.setLayoutParams(lpMain);
 
+        // 初始化工具栏
+        View vLogViewThread = View.inflate(mContext, cc.winboll.studio.libapputils.R.layout.view_logviewthread, null);
+
+        // 初始化日志
+        //ViewGroup.LayoutParams lpMain = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
+        mScrollView = vLogViewThread.findViewById(cc.winboll.studio.libapputils.R.id.headerlogviewthreadScrollView1);
+        //mScrollView.setLayoutParams(lpMain);
         //mScrollView.setBackgroundColor(Color.RED);
-        mTextView = new TextView(context);
-        mTextView.setTextColor(Color.GREEN);
+        mTextView = vLogViewThread.findViewById(cc.winboll.studio.libapputils.R.id.headerlogviewthreadTextView1);
+        //mTextView.setTextColor(Color.GREEN);
         //mTextView.setBackgroundColor(Color.GRAY);
-        mTextView.setTextIsSelectable(true);
+        //mTextView.setTextIsSelectable(true);
+        //mScrollView.addView(mTextView);
+        //mScrollView.setBackgroundColor(Color.BLACK);
+        (vLogViewThread.findViewById(cc.winboll.studio.libapputils.R.id.headerlogviewthreadButton1)).setOnClickListener(new View.OnClickListener(){
 
-        mScrollView.addView(mTextView);
-        mScrollView.setBackgroundColor(Color.BLACK);
+                @Override
+                public void onClick(View v) {
+                    LogUtils.cleanLog();
+                    LogUtils.d(TAG, "Log is cleaned.");
+                }
+            });
+        (vLogViewThread.findViewById(cc.winboll.studio.libapputils.R.id.headerlogviewthreadButton2)).setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View v) {
+
+                    ClipboardManager cm = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                    cm.setPrimaryClip(ClipData.newPlainText(mContext.getPackageName(), LogUtils.loadLog()));
+                    LogUtils.d(TAG, "Log is copied.");
+                }
+            });
+        mSelectableCheckBox = vLogViewThread.findViewById(cc.winboll.studio.libapputils.R.id.viewlogviewthreadCheckBox1);
+        mSelectableCheckBox.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View v) {
+                    if (mSelectableCheckBox.isChecked()) {
+                        mLinearLayoutRoot.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
+                    } else {
+                        mLinearLayoutRoot.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+                    }
+                }
+            });
 
         // 清理根视图
-        linearLayoutRoot.removeAllViews();
-        // 加入日志视图
-        linearLayoutRoot.addView(mScrollView);
-        linearLayoutRoot.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+        mLinearLayoutRoot.removeAllViews();
+        // 加入新日志视图
+        mLinearLayoutRoot.addView(vLogViewThread);
+        // 设置滚动时不聚焦日志
+        mLinearLayoutRoot.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
     }
 
 
