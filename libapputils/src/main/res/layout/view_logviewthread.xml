@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
 	android:layout_width="match_parent"
@@ -10,7 +10,9 @@
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:orientation="horizontal"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		android:id="@+id/viewlogviewthreadRelativeLayout1"
+		android:layout_alignParentTop="true">
 
 		<Button
 			android:layout_width="wrap_content"
@@ -22,7 +24,7 @@
 
 		<CheckBox
 			android:layout_width="wrap_content"
-			android:layout_height="36dp"
+			android:layout_height="24dp"
 			android:layout_toLeftOf="@+id/headerlogviewthreadButton2"
 			android:layout_centerVertical="true"
 			android:text="Selectable"
@@ -42,11 +44,13 @@
 
 	</RelativeLayout>
 
-	<LinearLayout
+	<RelativeLayout
 		android:orientation="vertical"
 		android:layout_width="match_parent"
-		android:layout_height="0dp"
-		android:layout_weight="1.0">
+		android:layout_height="wrap_content"
+		android:layout_weight="1.0"
+		android:layout_below="@id/viewlogviewthreadRelativeLayout1"
+		android:layout_alignParentBottom="true">
 
 		<ScrollView
 			android:layout_width="match_parent"
@@ -64,7 +68,7 @@
 
 		</ScrollView>
 
-	</LinearLayout>
+	</RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>
 

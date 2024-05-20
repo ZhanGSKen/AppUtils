@@ -49,9 +49,9 @@ public class LogViewThread extends Thread {
         View vLogViewThread = View.inflate(mContext, cc.winboll.studio.libapputils.R.layout.view_logviewthread, null);
 
         // 初始化日志
-        //ViewGroup.LayoutParams lpMain = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
+        //ViewGroup.LayoutParams lpMax = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mScrollView = vLogViewThread.findViewById(cc.winboll.studio.libapputils.R.id.headerlogviewthreadScrollView1);
-        //mScrollView.setLayoutParams(lpMain);
+        //mScrollView.setLayoutParams(lpMax);
         //mScrollView.setBackgroundColor(Color.RED);
         mTextView = vLogViewThread.findViewById(cc.winboll.studio.libapputils.R.id.headerlogviewthreadTextView1);
         //mTextView.setTextColor(Color.GREEN);
