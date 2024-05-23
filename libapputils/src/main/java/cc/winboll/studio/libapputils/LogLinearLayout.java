@@ -5,7 +5,6 @@ package cc.winboll.studio.libapputils;
  * @Date 2024/05/23 22:34:03
  * @Describe 日志视图类LinearLayout布局
  */
-import android.annotation.Nullable;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -38,12 +37,12 @@ public class LogLinearLayout extends RelativeLayout {
         initView(context);
     }
 
-    public LogLinearLayout(Context context, @Nullable AttributeSet attrs) {
+    public LogLinearLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView(context);
     }
 
-    public LogLinearLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public LogLinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context);
     }
