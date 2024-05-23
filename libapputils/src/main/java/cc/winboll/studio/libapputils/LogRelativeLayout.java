@@ -20,7 +20,7 @@ import android.widget.TextView;
 import cc.winboll.studio.libapputils.LogUtils;
 import cc.winboll.studio.libapputils.LogViewHandler;
 
-public class LogLinearLayout extends RelativeLayout {
+public class LogRelativeLayout extends RelativeLayout {
 
     public static final String TAG = "LogLinearLayout";
 
@@ -32,28 +32,28 @@ public class LogLinearLayout extends RelativeLayout {
 
     LogLinearLayoutHandler mLogLinearLayoutHandler;
 
-    public LogLinearLayout(Context context) {
+    public LogRelativeLayout(Context context) {
         super(context);
         initView(context);
     }
 
-    public LogLinearLayout(Context context, AttributeSet attrs) {
+    public LogRelativeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView(context);
     }
 
-    public LogLinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public LogRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context);
     }
 
-    public LogLinearLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public LogRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initView(context);
     }
 
     public void start() {
-        mLogViewThread = new LogViewThread(LogLinearLayout.this);
+        mLogViewThread = new LogViewThread(LogRelativeLayout.this);
         mLogViewThread.start();
     }
 

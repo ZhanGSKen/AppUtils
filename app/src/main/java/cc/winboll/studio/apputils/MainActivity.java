@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
-import cc.winboll.studio.libapputils.LogLinearLayout;
+import cc.winboll.studio.libapputils.LogRelativeLayout;
 import cc.winboll.studio.libapputils.LogUtils;
 import cc.winboll.studio.libapputils.LogViewThread;
 
@@ -19,7 +19,7 @@ public class MainActivity extends Activity {
     LogViewThread mLogViewThread;
 	SSHEditText mSSHEditText;
     CheckBox mCheckBoxAppDebugMode;
-    LogLinearLayout mLogLinearLayout;
+    LogRelativeLayout mLogRelativeLayout;
 
     private static final int REQUEST_LOGACTIVITY = 0;
 
@@ -28,8 +28,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mLogLinearLayout = findViewById(R.id.logLinearLayout);
-        mLogLinearLayout.start();
+        mLogRelativeLayout = findViewById(R.id.logRelativeLayout);
+        mLogRelativeLayout.start();
         LogUtils.i(TAG, "LogView Start Watching.");
 
 		mSSHEditText = findViewById(R.id.activitymainEditText1);
@@ -103,7 +103,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        mLogLinearLayout.start();
+        mLogRelativeLayout.start();
     }
 
 }

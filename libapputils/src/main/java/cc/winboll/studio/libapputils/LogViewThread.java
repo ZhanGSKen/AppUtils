@@ -8,13 +8,13 @@ public class LogViewThread extends Thread {
 
     volatile boolean isExist = false;
     LogListener mLogListener;
-    LogLinearLayout mLogLinearLayout;
+    LogRelativeLayout mLogRelativeLayout;
 
     //
     // 构造函数
     // @logLinearLayout : 日志显示输出布局类
-    public LogViewThread(LogLinearLayout logLinearLayout) {
-        mLogLinearLayout = logLinearLayout;
+    public LogViewThread(LogRelativeLayout logRelativeLayout) {
+        mLogRelativeLayout = logRelativeLayout;
     }
 
     public void setIsExist(boolean isExist) {
@@ -58,12 +58,12 @@ public class LogViewThread extends Thread {
             int e = event & FileObserver.ALL_EVENTS;
             switch (e) {
                 case FileObserver.CLOSE_WRITE:
-                    mLogLinearLayout.updateLogView();
+                    mLogRelativeLayout.updateLogView();
                     break;
                     //Log.d(TAG, "文件操作___" + e + "__8文件写入或编辑后关闭");
                 case FileObserver.DELETE:
                     //Log.d(TAG, "文件操作___" + e + "__512有删除文件");//把文件移出去DELETE
-                    mLogLinearLayout.updateLogView();
+                    mLogRelativeLayout.updateLogView();
                     break;
             }
         }

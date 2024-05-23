@@ -3,10 +3,8 @@ package cc.winboll.studio.apputils;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
-import cc.winboll.studio.libapputils.LogLinearLayout;
+import cc.winboll.studio.libapputils.LogRelativeLayout;
 import cc.winboll.studio.libapputils.LogUtils;
-import cc.winboll.studio.libapputils.LogViewThread;
 
 /**
  * @Author ZhanGSKen@QQ.COM
@@ -16,15 +14,15 @@ import cc.winboll.studio.libapputils.LogViewThread;
 public class LogActivity extends Activity {
 
     public static final String TAG = "LogActivity";
-    LogLinearLayout mLogLinearLayout;
+    LogRelativeLayout mLogRelativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log);
 
-        mLogLinearLayout = findViewById(R.id.logLinearLayout);
-        mLogLinearLayout.start();
+        mLogRelativeLayout = findViewById(R.id.logRelativeLayout);
+        mLogRelativeLayout.start();
         LogUtils.i(TAG, "LogView Start Watching.");
         
         // 添加日志的按钮响应

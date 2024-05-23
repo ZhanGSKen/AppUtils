@@ -26,12 +26,12 @@
 
 	</LinearLayout>
 
-	<cc.winboll.studio.libapputils.LogLinearLayout
+	<cc.winboll.studio.libapputils.LogRelativeLayout
 		android:orientation="horizontal"
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
 		android:layout_weight="1.0"
-		android:id="@+id/logLinearLayout"/>
+		android:id="@+id/logRelativeLayout"/>
 
 </LinearLayout>
 
