@@ -55,14 +55,12 @@
 		android:layout_height="100dp"
 		android:id="@+id/activitymainEditText1"/>
 
-	<LinearLayout
+	<cc.winboll.studio.libapputils.LogLinearLayout
 		android:orientation="horizontal"
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
 		android:layout_weight="1.0"
-		android:id="@+id/activitymainLinearLayout1">
-
-	</LinearLayout>
+		android:id="@+id/logLinearLayout"/>
 
 </LinearLayout>
 
