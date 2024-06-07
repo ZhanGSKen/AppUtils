@@ -61,6 +61,13 @@ public class MainActivity extends Activity {
     }
 
     public void onTestAPPCrashHandler(View view) {
+        try{
+            for (int i = Integer.MIN_VALUE; i < Integer.MAX_VALUE; i++) {
+                getString(i);
+            }
+        } catch (Exception e){
+            LogUtils.d(TAG, e, Thread.currentThread().getStackTrace());
+        }
         for (int i = Integer.MIN_VALUE; i < Integer.MAX_VALUE; i++) {
             getString(i);
         }

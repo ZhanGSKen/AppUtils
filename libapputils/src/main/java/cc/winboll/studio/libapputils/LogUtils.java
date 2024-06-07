@@ -1,7 +1,5 @@
 package cc.winboll.studio.libapputils;
 
-import android.content.Context;
-import android.widget.LinearLayout;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -25,6 +23,46 @@ public class LogUtils {
     public static void d(String szTAG, String szMessage) {
         if (ExceptionHandlerApplication.getDebugFlag()) {
             saveLogDebug(szTAG, szMessage);
+        }
+    }
+
+    public static void d(String szTAG, String szMessage, StackTraceElement[] listStackTrace) {
+        if (ExceptionHandlerApplication.getDebugFlag()) {
+            StringBuilder sbMessage = new StringBuilder(szMessage);
+            sbMessage.append(" \nat ");
+            sbMessage.append(listStackTrace[2].getMethodName());
+            sbMessage.append(" (");
+            sbMessage.append(listStackTrace[2].getFileName());
+            sbMessage.append(":");
+            sbMessage.append(listStackTrace[2].getLineNumber());
+            sbMessage.append(")");
+            saveLogDebug(szTAG, sbMessage.toString());
+        }
+    }
+
+    public static void d(String szTAG, Exception e, StackTraceElement[] listStackTrace) {
+        if (ExceptionHandlerApplication.getDebugFlag()) {
+            StringBuilder sbMessage = new StringBuilder(e.getClass().toGenericString());
+            sbMessage.append(" : ");
+            sbMessage.append(e.getMessage());
+            sbMessage.append(" \nat ");
+            sbMessage.append(listStackTrace[2].getMethodName());
+            sbMessage.append(" (");
+            sbMessage.append(listStackTrace[2].getFileName());
+            sbMessage.append(":");
+            sbMessage.append(listStackTrace[2].getLineNumber());
+            sbMessage.append(")");
+            //StackTraceElement[] listStackTrace = e.getStackTrace();
+            /*for (StackTraceElement stackTrace : listStackTrace) {
+             sbMessage.append(" \nat ");
+             sbMessage.append(stackTrace.getMethodName());
+             sbMessage.append(" (");
+             sbMessage.append(stackTrace.getFileName());
+             sbMessage.append(":");
+             sbMessage.append(stackTrace.getLineNumber());
+             sbMessage.append(")");
+             }*/
+            saveLogDebug(szTAG, sbMessage.toString());
         }
     }
 
