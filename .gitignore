@@ -2,5 +2,6 @@ build
 /.androidide
 /.gradle
 /winboll.properties
+/local.properties
 lint-results.xml
 lint-results.html
