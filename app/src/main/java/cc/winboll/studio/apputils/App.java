@@ -8,12 +8,4 @@ public class App extends BaseApplication {
     public void onCreate() {
         super.onCreate();
     }
-    
-    public static boolean isDebug(){
-        return BuildConfig.DEBUG;
-    }
-    
-    public static void setIsDebug(boolean isDebug){
-        
-    }
 }

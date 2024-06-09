@@ -12,20 +12,20 @@ public class BaseApplication extends Application {
     public static final String TAG = "BaseApplication";
 
     // 应用调试标志
-    protected static boolean isDebug = true;
+    protected volatile static boolean _mIsDebug = true;
 
     //
     // 读取调试标志
     //
     public static void setIsDebug(boolean isDebug) {
-        BaseApplication.isDebug = isDebug;
+        _mIsDebug = isDebug;
     }
 
     //
     // 设置调试标志
     //
     public static boolean isDebug() {
-        return isDebug;
+        return _mIsDebug;
     }
 
     @Override
