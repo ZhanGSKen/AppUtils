@@ -9,14 +9,12 @@ import android.view.View;
 import android.widget.CheckBox;
 import cc.winboll.studio.libapputils.LogUtils;
 import cc.winboll.studio.libapputils.LogView;
-import cc.winboll.studio.libapputils.LogViewThread;
 
 public class MainActivity extends Activity {
 
 
 	public static final String TAG = "MainActivity";
 
-    LogViewThread mLogViewThread;
 	SSHEditText mSSHEditText;
     CheckBox mCheckBoxAppDebugMode;
     LogView mLogView;
@@ -28,10 +26,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       /* mLogView = findViewById(R.id.logview);
+        mLogView = findViewById(R.id.logview);
         mLogView.start();
         LogUtils.i(TAG, "LogView Start Watching.");
-*/
+
 		mSSHEditText = findViewById(R.id.activitymainEditText1);
 
         mCheckBoxAppDebugMode = findViewById(R.id.activitymainCheckBox1);
@@ -60,11 +58,11 @@ public class MainActivity extends Activity {
     }
 
     public void onTestAPPCrashHandler(View view) {
-        try{
+        try {
             for (int i = Integer.MIN_VALUE; i < Integer.MAX_VALUE; i++) {
                 getString(i);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             LogUtils.d(TAG, e, Thread.currentThread().getStackTrace());
         }
         for (int i = Integer.MIN_VALUE; i < Integer.MAX_VALUE; i++) {

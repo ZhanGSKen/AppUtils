@@ -1,8 +1,8 @@
 package cc.winboll.studio.apputils;
 
-import android.app.Application;
+import cc.winboll.studio.libapputils.BaseApplication;
 
-public class App extends Application {
+public class App extends BaseApplication {
 
     @Override
     public void onCreate() {

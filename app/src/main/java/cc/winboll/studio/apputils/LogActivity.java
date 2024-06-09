@@ -21,10 +21,10 @@ public class LogActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log);
 
-        /*mLogView = findViewById(R.id.logview);
+        mLogView = findViewById(R.id.logview);
         mLogView.start();
         LogUtils.i(TAG, "LogView Start Watching.");
-        */
+
         // 添加日志的按钮响应
         findViewById(R.id.activitylogButton1).setOnClickListener(new View.OnClickListener(){
 
