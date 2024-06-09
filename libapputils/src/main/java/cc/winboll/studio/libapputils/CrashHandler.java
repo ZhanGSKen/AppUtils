@@ -1,5 +1,10 @@
 package cc.winboll.studio.libapputils;
 
+/**
+ * @Author ZhanGSKen@QQ.COM
+ * @Date 2024/06/09 10:26:57
+ * @Describe 异常崩溃处理程序类
+ */
 import android.app.Activity;
 import android.app.Application;
 import android.content.ActivityNotFoundException;

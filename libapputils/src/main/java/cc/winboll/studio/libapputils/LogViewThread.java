@@ -1,20 +1,30 @@
 package cc.winboll.studio.libapputils;
 
+/**
+ * @Author ZhanGSKen@QQ.COM
+ * @Date 2024/06/09 10:26:57
+ * @Describe 日志视图线程类
+ */
 import android.os.FileObserver;
+import java.lang.ref.WeakReference;
 
 public class LogViewThread extends Thread {
 
     public static final String TAG = "LogViewThread";
 
+    // 线程退出标志
     volatile boolean isExist = false;
+    // 应用日志文件监听实例
     LogListener mLogListener;
-    LogRelativeLayout mLogRelativeLayout;
+    // 日志视图弱引用
+    WeakReference<LogView> mwrLogView;
 
     //
     // 构造函数
-    // @logLinearLayout : 日志显示输出布局类
-    public LogViewThread(LogRelativeLayout logRelativeLayout) {
-        mLogRelativeLayout = logRelativeLayout;
+    // @logView : 日志显示输出视图类
+    public LogViewThread(LogView logView) {
+        mwrLogView = new WeakReference<LogView>(logView);
+
     }
 
     public void setIsExist(boolean isExist) {
@@ -27,17 +37,15 @@ public class LogViewThread extends Thread {
 
     @Override
     public void run() {
-        //LogUtils.d(TAG, "run");
-        mLogListener = new LogListener(ExceptionHandlerApplication._mszLogFolderPath);
+        String szLogDir = LogUtils.getLogDir().getPath();
+        mLogListener = new LogListener(szLogDir);
         mLogListener.startWatching();
         while (isExist() == false) {
             try {
                 Thread.sleep(1000);
-                //LogUtils.d(TAG, "WatchingThread sleep (1000)");
             } catch (InterruptedException e) {}
         }
         mLogListener.stopWatching();
-        //LogUtils.d(TAG, "WatchingThread stop.");
     }
 
 
@@ -45,31 +53,27 @@ public class LogViewThread extends Thread {
     // 日志文件监听类
     //
     class LogListener extends FileObserver {
-        public String mLogPath;
-
         public LogListener(String path) {
             super(path);
-            mLogPath = path;
-            //LogUtils.d(TAG, "LogListener(String path)");
         }
 
         @Override
         public void onEvent(int event, String path) {
             int e = event & FileObserver.ALL_EVENTS;
             switch (e) {
-                case FileObserver.CLOSE_WRITE:
-                    mLogRelativeLayout.updateLogView();
-                    break;
-                    //Log.d(TAG, "文件操作___" + e + "__8文件写入或编辑后关闭");
-                case FileObserver.DELETE:
-                    //Log.d(TAG, "文件操作___" + e + "__512有删除文件");//把文件移出去DELETE
-                    mLogRelativeLayout.updateLogView();
-                    break;
+                case FileObserver.CLOSE_WRITE:{
+                        if (mwrLogView.get() != null) {
+                            mwrLogView.get().updateLogView();
+                        }
+                        break;
+                    }
+                case FileObserver.DELETE:{
+                        if (mwrLogView.get() != null) {
+                            mwrLogView.get().updateLogView();
+                        }
+                        break;
+                    }
             }
         }
     }
-
-
-
-
 }

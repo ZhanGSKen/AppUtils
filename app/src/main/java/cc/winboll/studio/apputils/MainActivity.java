@@ -7,8 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
-import cc.winboll.studio.libapputils.LogRelativeLayout;
 import cc.winboll.studio.libapputils.LogUtils;
+import cc.winboll.studio.libapputils.LogView;
 import cc.winboll.studio.libapputils.LogViewThread;
 
 public class MainActivity extends Activity {
@@ -19,7 +19,7 @@ public class MainActivity extends Activity {
     LogViewThread mLogViewThread;
 	SSHEditText mSSHEditText;
     CheckBox mCheckBoxAppDebugMode;
-    LogRelativeLayout mLogRelativeLayout;
+    LogView mLogView;
 
     private static final int REQUEST_LOGACTIVITY = 0;
 
@@ -28,20 +28,19 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mLogRelativeLayout = findViewById(R.id.logRelativeLayout);
-        mLogRelativeLayout.start();
+       /* mLogView = findViewById(R.id.logview);
+        mLogView.start();
         LogUtils.i(TAG, "LogView Start Watching.");
-
+*/
 		mSSHEditText = findViewById(R.id.activitymainEditText1);
 
         mCheckBoxAppDebugMode = findViewById(R.id.activitymainCheckBox1);
         App app = (App)getApplication();
-        mCheckBoxAppDebugMode.setChecked(app.getDebugFlag());
+        mCheckBoxAppDebugMode.setChecked(app.isDebug());
     }
 
     public void onAppDebugModeClick(View view) {
-        App app = (App)getApplication();
-        app.setDebugFlag(mCheckBoxAppDebugMode.isChecked());
+        App.setIsDebug(mCheckBoxAppDebugMode.isChecked());
     }
 
     public void onAddDebugLog(View view) {
@@ -110,7 +109,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        mLogRelativeLayout.start();
+        mLogView.start();
     }
 
 }

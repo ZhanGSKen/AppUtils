@@ -1,5 +1,11 @@
 package cc.winboll.studio.libapputils;
 
+/**
+ * @Author ZhanGSKen@QQ.COM
+ * @Date 2024/06/09 10:26:57
+ * @Describe 应用日志类
+ */
+import android.content.Context;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,77 +21,95 @@ public class LogUtils {
 
     public static final String TAG = "LogUtils";
 
-    static SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("[yyyy-MM-dd HH:mm:SS]", Locale.getDefault());
+    // 日志显示时间格式
+    static SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("[yyyyMMdd_HHmmSS]", Locale.getDefault());
+    // 应用日志文件夹
+    static File _mfLogDir;
+    // 应用日志文件
+    static File _mfLogFile;;
 
     //
-    // Log Debug 函数
+    // 初始化函数
+    //
+    public static void init(Context context) {
+        // 初始化日志读写文件路径
+        _mfLogDir = new File(context.getExternalCacheDir(), TAG);
+        if (!_mfLogDir.exists()) {
+            _mfLogDir.mkdirs();
+        }
+        _mfLogFile = new File(_mfLogDir, "log.txt");
+    }
+
+    //
+    // 获取应用日志文件夹
+    //
+    public static File getLogDir() {
+        return _mfLogDir;
+    }
+
+    //
+    // 调试日志写入函数
     //
     public static void d(String szTAG, String szMessage) {
-        if (ExceptionHandlerApplication.getDebugFlag()) {
+        if (BaseApplication.isDebug()) {
             saveLogDebug(szTAG, szMessage);
         }
     }
 
+    //
+    // 调试日志写入函数
+    // 包含线程调试堆栈信息
+    //
     public static void d(String szTAG, String szMessage, StackTraceElement[] listStackTrace) {
-        if (ExceptionHandlerApplication.getDebugFlag()) {
+        if (BaseApplication.isDebug()) {
             StringBuilder sbMessage = new StringBuilder(szMessage);
-            sbMessage.append(" \nat ");
+            sbMessage.append(" \nAt ");
             sbMessage.append(listStackTrace[2].getMethodName());
             sbMessage.append(" (");
             sbMessage.append(listStackTrace[2].getFileName());
             sbMessage.append(":");
             sbMessage.append(listStackTrace[2].getLineNumber());
             sbMessage.append(")");
-            saveLogDebug(szTAG, sbMessage.toString());
-        }
-    }
-
-    public static void d(String szTAG, Exception e, StackTraceElement[] listStackTrace) {
-        if (ExceptionHandlerApplication.getDebugFlag()) {
-            StringBuilder sbMessage = new StringBuilder(e.getClass().toGenericString());
-            sbMessage.append(" : ");
-            sbMessage.append(e.getMessage());
-            sbMessage.append(" \nat ");
-            sbMessage.append(listStackTrace[2].getMethodName());
-            sbMessage.append(" (");
-            sbMessage.append(listStackTrace[2].getFileName());
-            sbMessage.append(":");
-            sbMessage.append(listStackTrace[2].getLineNumber());
-            sbMessage.append(")");
-            //StackTraceElement[] listStackTrace = e.getStackTrace();
-            /*for (StackTraceElement stackTrace : listStackTrace) {
-             sbMessage.append(" \nat ");
-             sbMessage.append(stackTrace.getMethodName());
-             sbMessage.append(" (");
-             sbMessage.append(stackTrace.getFileName());
-             sbMessage.append(":");
-             sbMessage.append(stackTrace.getLineNumber());
-             sbMessage.append(")");
-             }*/
             saveLogDebug(szTAG, sbMessage.toString());
         }
     }
 
     //
-    // Log Info 函数
+    // 调试日志写入函数
+    // 包含异常信息和线程调试堆栈信息
+    //
+    public static void d(String szTAG, Exception e, StackTraceElement[] listStackTrace) {
+        if (BaseApplication.isDebug()) {
+            StringBuilder sbMessage = new StringBuilder(e.getClass().toGenericString());
+            sbMessage.append(" : ");
+            sbMessage.append(e.getMessage());
+            sbMessage.append(" \nAt ");
+            sbMessage.append(listStackTrace[2].getMethodName());
+            sbMessage.append(" (");
+            sbMessage.append(listStackTrace[2].getFileName());
+            sbMessage.append(":");
+            sbMessage.append(listStackTrace[2].getLineNumber());
+            sbMessage.append(")");
+            saveLogDebug(szTAG, sbMessage.toString());
+        }
+    }
+
+    //
+    // 应用信息日志写入函数
     //
     public static void i(String szTAG, String szMessage) {
         saveLogInfo(szMessage);
     }
-
 
     //
     // 日志文件保存函数
     //
     static void saveLogInfo(String szMessage) {
         try {
-            File fLog = new File(ExceptionHandlerApplication._mszLogFilePath);
-            //FileWriter fw = new FileWriter(fLog, Charset.defaultCharset(), true);
-            //fw.append(mSimpleDateFormat.format(System.currentTimeMillis()) + "[" + szTAG + "]: " + szMessage + "\n");
-            //fw.close();
+
             BufferedWriter out = null;
-            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fLog, true), "UTF-8"));
-            out.write(mSimpleDateFormat.format(System.currentTimeMillis()) + " " + szMessage + "\n");
+            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(_mfLogFile, true), "UTF-8"));
+            out.write(mSimpleDateFormat.format(System.currentTimeMillis()) + ": " + szMessage + "\n");
             out.close();
 
         } catch (IOException e) {
@@ -98,15 +122,10 @@ public class LogUtils {
     //
     static void saveLogDebug(String szTAG, String szMessage) {
         try {
-            File fLog = new File(ExceptionHandlerApplication._mszLogFilePath);
-            //FileWriter fw = new FileWriter(fLog, Charset.defaultCharset(), true);
-            //fw.append(mSimpleDateFormat.format(System.currentTimeMillis()) + "[" + szTAG + "]: " + szMessage + "\n");
-            //fw.close();
             BufferedWriter out = null;
-            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fLog, true), "UTF-8"));
-            out.write(mSimpleDateFormat.format(System.currentTimeMillis()) + " [" + szTAG + "] : " + szMessage + "\n");
+            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(_mfLogFile, true), "UTF-8"));
+            out.write(mSimpleDateFormat.format(System.currentTimeMillis()) + "[" + szTAG + "]: " + szMessage + "\n");
             out.close();
-
         } catch (IOException e) {
             LogUtils.d(TAG, "IOException : " + e.getMessage());
         }
@@ -116,23 +135,16 @@ public class LogUtils {
     // 历史日志加载函数
     //
     public static String loadLog() {
-        File fLog = new File(ExceptionHandlerApplication._mszLogFilePath);
-        if (fLog.exists()) {
+        if (_mfLogFile.exists()) {
             StringBuffer sb = new StringBuffer();
             try {
-                //FileInputStream fileInputStream = new FileInputStream(fLog);
-                //int size = fileInputStream.available();
-                //for (int i = 0; i < size; i++) {
-                //    sb.append((char) fileInputStream.read());
-                //}
                 BufferedReader in = null;
-                in = new BufferedReader(new InputStreamReader(new FileInputStream(fLog), "UTF-8"));
+                in = new BufferedReader(new InputStreamReader(new FileInputStream(_mfLogFile), "UTF-8"));
                 String line = "";
                 while ((line = in.readLine()) != null) {
                     sb.append(line);
                     sb.append("\n");
                 }
-
             } catch (IOException e) {
                 LogUtils.d(TAG, "IOException : " + e.getMessage());
             } 
@@ -145,10 +157,8 @@ public class LogUtils {
     // 清理日志函数
     //
     public static void cleanLog() {
-        File fLog = new File(ExceptionHandlerApplication._mszLogFilePath);
-        if (fLog.exists()) {
-            fLog.delete();
+        if (_mfLogFile.exists()) {
+            _mfLogFile.delete();
         }
     }
-
 }

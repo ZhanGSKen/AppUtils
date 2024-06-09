@@ -11,8 +11,8 @@
 		android:orientation="horizontal"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:id="@+id/viewlogviewthreadRelativeLayout1"
-		android:layout_alignParentTop="true">
+		android:layout_alignParentTop="true"
+		android:id="@+id/viewlogRelativeLayoutToolbar">
 
 		<Button
 			android:layout_width="wrap_content"
@@ -20,18 +20,18 @@
 			android:text="Clean Log"
 			android:textSize="14dp"
 			android:layout_centerVertical="true"
-			android:id="@+id/viewloglinearlayoutButton1"/>
+			android:id="@+id/viewlogButtonClean"/>
 
 		<CheckBox
 			android:layout_width="wrap_content"
 			android:layout_height="24dp"
-			android:layout_toLeftOf="@+id/viewloglinearlayoutButton2"
+			android:layout_toLeftOf="@+id/viewlogButtonCopy"
 			android:layout_centerVertical="true"
 			android:text="Selectable"
 			android:background="#FFFFFFFF"
 			android:paddingRight="10dp"
 			android:textSize="16dp"
-			android:id="@+id/viewloglinearlayoutCheckBox1"/>
+			android:id="@+id/viewlogCheckBoxSelectable"/>
 
 		<Button
 			android:layout_width="wrap_content"
@@ -40,7 +40,7 @@
 			android:layout_alignParentRight="true"
 			android:textSize="14dp"
 			android:layout_centerVertical="true"
-			android:id="@+id/viewloglinearlayoutButton2"/>
+			android:id="@+id/viewlogButtonCopy"/>
 
 	</RelativeLayout>
 
@@ -50,25 +50,25 @@
 		android:layout_height="wrap_content"
 		android:layout_weight="1.0"
 		android:layout_alignParentBottom="true"
-        android:layout_below="@+id/viewlogviewthreadRelativeLayout1">
+		android:layout_below="@+id/viewlogRelativeLayoutToolbar">
 
 		<ScrollView
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:id="@+id/viewloglinearlayoutScrollView1"
-			android:background="#FF000000">
+			android:background="#FF000000"
+			android:id="@+id/viewlogScrollViewLog">
 
 			<TextView
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:text="Text"
-				android:id="@+id/viewloglinearlayoutTextView1"
 				android:textColor="#FF00FF00"
-				android:textIsSelectable="true"/>
+				android:textIsSelectable="true"
+				android:id="@+id/viewlogTextViewLog"/>
 
 		</ScrollView>
 
 	</RelativeLayout>
-    
+
 </RelativeLayout>
 
