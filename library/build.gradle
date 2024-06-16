@@ -76,6 +76,16 @@ android {
     }
 }
 
+//
+// 添加 lint 输出文件清理任务
+//
+task lint01CleanOutput() {
+    println "Clean Lint Output : " + lintXmlReportFile.path
+    delete lintXmlReportFile;
+    println "Clean Lint Output : " + lintHTMLReportFile.path
+    delete lintHTMLReportFile;
+}
+
 dependencies {
     
 }

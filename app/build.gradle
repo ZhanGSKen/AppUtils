@@ -112,6 +112,6 @@ task lint01CleanOutput() {
 }
 
 dependencies {
-	implementation project(':libapputils')
+	implementation project(':library')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
