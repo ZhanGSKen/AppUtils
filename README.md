@@ -3,7 +3,7 @@
 [![](https://jitci.com/gh/WinBollCC/libapputils/svg)](https://jitci.com/gh/WinBollCC/libapputils)
 
 #### 介绍
-WinBoll.CC 安卓应用基础类库。
+WinBoll 安卓应用基础类库。
 
 #### 软件架构
 软件架构说明
