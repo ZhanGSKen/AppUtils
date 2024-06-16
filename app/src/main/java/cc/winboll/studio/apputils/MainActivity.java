@@ -35,6 +35,8 @@ public class MainActivity extends Activity {
         mCheckBoxAppDebugMode = findViewById(R.id.activitymainCheckBox1);
         App app = (App)getApplication();
         mCheckBoxAppDebugMode.setChecked(app.isDebug());
+        
+        mSSHEditText.setText("Hello");
     }
 
     public void onAppDebugModeClick(View view) {

@@ -3,15 +3,15 @@ apply plugin: 'maven-publish'
 apply from: 'localandwinboll-maven-publish.gradle'
 
 // 定义 lint 输出文件
-def lintXmlReportFile = file('lint-results.xml')
-def lintHTMLReportFile = file('lint-results.html')
+def lintXmlReportFile = rootProject.file('lint-results.xml')
+def lintHTMLReportFile = rootProject.file('lint-results.html')
 
 android {
     compileSdk 32
     buildToolsVersion '33.0.0'
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 29
+        minSdkVersion 23
+        targetSdkVersion 30
     }
 
     buildTypes {
@@ -40,7 +40,7 @@ android {
         // true--所有warning当做error
         //warningsAsErrors true
         // 关闭指定问题检查
-        disable 'ExpiredTargetSdkVersion','HardcodedText','UnknownNullness','ButtonStyle','GradleDependency','UnusedResources'
+        //disable 'ExpiredTargetSdkVersion','HardcodedText','UnknownNullness','ButtonStyle','GradleDependency','UnusedResources'
         // 打开指定问题检查
         //enable 'RtlHardcoded','RtlCompat', 'RtlEnabled'
         // 仅检查指定问题
@@ -79,13 +79,3 @@ android {
 dependencies {
     
 }
-
-
-// 添加 lint 输出文件清理任务
-task lint01CleanOutput() {
-    println "Clean Lint Output : " + lintXmlReportFile.path
-    delete lintXmlReportFile;
-    println "Clean Lint Output : " + lintHTMLReportFile.path
-    delete lintHTMLReportFile;
-}
-
