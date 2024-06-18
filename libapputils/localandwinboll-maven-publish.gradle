@@ -4,7 +4,7 @@
 def siteUrl = 'https://winboll.cc/AppUtils' // 项目主页
 def gitUrl = 'https://winboll.cc/gitweb/AppUtils.git' // 项目的git地址
 def DefaultGroupId = 'cc.winboll.studio' // 类库所有者groupId
-def DefaultVersion = '6.0.1' // 版本号
+def DefaultVersion = '6.0.2' // 版本号
 def DeveloperId='zhangsken' // 开发者账号
 def DeveloperName='ZhanGSKen' // 开发者名称
 def DeveloperEMail='ZhanGSKen@QQ.COM' // 开发者邮箱地址

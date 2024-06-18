@@ -8,7 +8,7 @@ def lintHTMLReportFile = rootProject.file('lint-results.html')
 
 android {
     compileSdkVersion 32
-    buildToolsVersion "33.0.0"
+    buildToolsVersion "33.0.3"
     
     defaultConfig {
         minSdkVersion 24
