@@ -15,11 +15,11 @@ def lintHTMLReportFile = rootProject.file('lint-results.html')
 
 android {
     compileSdkVersion 32
-    buildToolsVersion "33.0.0"
+    buildToolsVersion "33.0.3"
 
     defaultConfig {
         applicationId "cc.winboll.studio.apputils"
-        minSdkVersion 23
+        minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
