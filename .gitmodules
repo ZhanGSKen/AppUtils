@@ -1,4 +1,4 @@
 [submodule "keystore"]
 	path = keystore
-	url = ssh://jian@winboll.cc/0Archives/GitReposJian/keystore.git
+	url = ssh://jian@winboll.cc/rdisk/jian/repository/keystore.git
 	branch = master
