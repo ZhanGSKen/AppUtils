@@ -1,20 +1,11 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
-        maven { url "https://winboll.cc/nexus/repository/maven-public/" }
-        maven { url 'https://maven.aliyun.com/repository/public/' }
-        maven { url 'https://maven.aliyun.com/repository/google/' }
-        maven { url 'https://maven.aliyun.com/repository/gradle-plugin/' }
-        maven { url 'https://dl.bintray.com/ppartisan/maven/' }
-        maven { url "https://clojars.org/repo/" }
-        maven { url "https://jitpack.io" }
         google()
         mavenCentral()
-        mavenLocal()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.2.1'
-
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -33,4 +24,28 @@ allprojects {
         google()
         mavenLocal()
     }
+    ext {
+        //
+        // 定义 lint 输出文件
+        lintXmlReportPath = "build/reports/lint-results.xml"
+        lintHTMLReportPath = "build/reports/lint-results.html"
+        // 定义全局变量，常用于版本管理
+        // 变量在子模块的build.gradle中直接以： $NAME 的形式调用
+        RootProjectDir = "${project.rootProject.projectDir}".replace("\\", "/")
+    }
+    
+    afterEvaluate {
+        task cleanLintFile() {
+            dependsOn tasks.findAll { task -> task.name.startsWith('lint') }
+            doFirst {
+                // 这里是将在Lint任务开始前执行的代码
+                println "Lint task will run after this setup."
+            }
+	    }
+    }
 }
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+

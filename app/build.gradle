@@ -16,12 +16,8 @@ android {
 
     buildTypes {
         release {
-            signingConfig signingConfigs.winboll
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        debug {
-            signingConfig signingConfigs.winboll
         }
     }
     
