@@ -45,9 +45,7 @@ android {
     //
     android.applicationVariants.all { variant ->
         if((variant.flavorName == "beta"&&variant.buildType.name == "debug")
-            || (variant.flavorName == "stage"&&variant.buildType.name == "release")) {
-            
-            
+        || (variant.flavorName == "stage"&&variant.buildType.name == "release")) {
             def outputPath="${project.projectDir.absolutePath}/build/outputs/apk/${variant.buildType.name}"
             def outputFileName="${rootProject.name}_${versionName}.apk"
             
@@ -128,7 +126,19 @@ android {
                                     }
                                     println "Output APK (Tags): "+ outTagDir.getAbsolutePath() + "/${szCommonTagAPKName}"
                                 }
-                                
+                                // 读取编译标志位配置文件
+                                def buildProps = new Properties()
+                                def buildPropsFile = rootProject.file('SetBuildFlagGitTag.properties')
+                                // 如果编译标志位配置文件不存在，就设置断言
+                                assert (buildPropsFile.exists())
+                                buildProps.load(new FileInputStream(buildPropsFile))
+                                assert (buildProps['stageCount'] != null || buildProps['buildCount'] != null)
+                                // 发布计数增加
+                                buildProps['stageCount']++
+                                //构建计数重置
+                                buildProps['buildCount'] = 0
+                                // 保存数据
+	                            buildProps.save(new FileOutputStream(buildPropsFile))
                             }
                         } //  if(variant.buildType.name == "release"){
                     
@@ -150,6 +160,17 @@ android {
                                 }
                                 println "Output APK (WinBollStudio): " + outBuildBckDir.getAbsolutePath() + "/${outputFileName}"
                             }
+                            // 读取编译标志位配置文件
+                            def buildProps = new Properties()
+                            def buildPropsFile = rootProject.file('SetBuildFlagGitTag.properties')
+                            // 如果编译标志位配置文件不存在，就设置断言
+                            assert (buildPropsFile.exists())
+                            buildProps.load(new FileInputStream(buildPropsFile))
+                            assert (buildProps['buildCount'] != null)
+                            //构建计数增加
+                            buildProps['buildCount']++
+                            // 保存数据
+                            buildProps.save(new FileOutputStream(buildPropsFile))
                         }
                         
                         // 如果公共目录存在就拷贝到公共目录并重命名为app.apk

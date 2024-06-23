@@ -2,12 +2,19 @@ apply plugin: 'com.android.application'
 apply from: '../winboll_app_build.gradle'
 apply from: '../winboll_lint_build.gradle'
 
-def genVersionName(def versionCode){
-    // 版本号编写规则 "${versionCode}.${versionUI}.${gitCommitCount}.${buildCount}"
-    def versionUI = 0
-    def gitCommitCount = 0
-    def buildCount = 0
-    return "${versionCode}.${versionUI}.${gitCommitCount}.${buildCount}"
+def genVersionName(def versionName){
+    // 读取编译标志位配置文件
+    def buildProps = new Properties()
+    def buildPropsFile = rootProject.file('SetBuildFlagGitTag.properties')
+    if (buildPropsFile.exists()) {
+        buildProps.load(new FileInputStream(buildPropsFile))
+        def stageCount = buildProps['stageCount']
+        def buildCount = buildProps['buildCount']
+        assert (stageCount != null || buildCount != null)
+        // 返回编译版本号
+        return "${versionName}.${stageCount}.${buildCount}"
+    }
+    return "${versionName}"
 }
 
 android {
@@ -19,9 +26,9 @@ android {
         minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
-        versionName "1.0.0.0"
+        versionName "1.0"
         if(true) {
-            versionName = genVersionName("${versionCode}")
+            versionName = genVersionName("${versionName}")
         }
     }
 
