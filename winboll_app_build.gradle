@@ -61,7 +61,7 @@ android {
                 if(variant.flavorName == "stage"&&variant.buildType.name == "release"){
                     // 给源码做标签
                     def result = exec {
-                        commandLine 'bash', '--', "${bashMakeGitTagPath}", "${RootProjectDir}", "${versionName}"
+                        commandLine 'bash', '--', "${bashSetBuildFlagGitTag}", "${RootProjectDir}", "${versionCode}"
                         //standardOutput = true
                         // 根据需要，可以添加错误输出
                         //standardError = true
