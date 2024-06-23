@@ -32,7 +32,7 @@ android {
             dimension "WinBollApp"
             applicationIdSuffix ".beta"
             LocalDateTime localDateTimeNow = LocalDateTime.now(ZoneId.of("Asia/Shanghai"));
-            versionNameSuffix "-beta_" + localDateTimeNow.format('yyMMdd_hhmmss')
+            versionNameSuffix "-beta" + localDateTimeNow.format('hhmmss')
         }
         stage {
             dimension "WinBollApp"
@@ -138,7 +138,11 @@ android {
                                 //构建计数重置
                                 buildProps['buildCount'] = 0
                                 // 保存数据
-	                            buildProps.save(new FileOutputStream(buildPropsFile))
+                                FileOutputStream fos = new FileOutputStream(buildPropsFile)
+                                buildProps.setProperty("stageCount", buildProps['stageCount']);
+                                buildProps.setProperty("buildCount", buildProps['buildCount']);
+                                buildProps.store(fos, "These properties created by winboll_app_build.gradle.");
+                                fos.close();
                             }
                         } //  if(variant.buildType.name == "release"){
                     
@@ -170,7 +174,10 @@ android {
                             //构建计数增加
                             buildProps['buildCount']++
                             // 保存数据
-                            buildProps.save(new FileOutputStream(buildPropsFile))
+                            FileOutputStream fos = new FileOutputStream(buildPropsFile)
+                            buildProps.setProperty("buildCount", buildProps['buildCount']);
+                            buildProps.store(fos, "These properties created by winboll_app_build.gradle.");
+                            fos.close();
                         }
                         
                         // 如果公共目录存在就拷贝到公共目录并重命名为app.apk
