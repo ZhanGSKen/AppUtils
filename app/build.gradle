@@ -2,6 +2,14 @@ apply plugin: 'com.android.application'
 apply from: '../winboll_app_build.gradle'
 apply from: '../winboll_lint_build.gradle'
 
+def genVersionName(def versionCode){
+    // 版本号编写规则 "${versionCode}.${versionUI}.${gitCommitCount}.${buildCount}"
+    def versionUI = 0
+    def gitCommitCount = 0
+    def buildCount = 0
+    return "${versionCode}.${versionUI}.${gitCommitCount}.${buildCount}"
+}
+
 android {
     compileSdkVersion 32
     buildToolsVersion "33.0.3"
@@ -11,7 +19,10 @@ android {
         minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0.0"
+        if(true) {
+            versionName = genVersionName("${versionCode}")
+        }
     }
 
     buildTypes {

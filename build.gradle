@@ -29,9 +29,11 @@ allprojects {
         // 定义 lint 输出文件
         lintXmlReportPath = "build/reports/lint-results.xml"
         lintHTMLReportPath = "build/reports/lint-results.html"
+        bashMakeGitTagPath = "../make_git_tag.sh"
         // 定义全局变量，常用于版本管理
         // 变量在子模块的build.gradle中直接以： $NAME 的形式调用
         RootProjectDir = "${project.rootProject.projectDir}".replace("\\", "/")
+        
     }
     
     afterEvaluate {
