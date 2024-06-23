@@ -1,0 +1,25 @@
+allprojects {
+        android {
+            // 读取秘钥配置文件
+            //
+            def keyProps = new Properties()
+            def keyPropsFile = rootProject.file('keystore/appkey.keystore')
+            if (keyPropsFile.exists()) {
+                keyProps.load(new FileInputStream(keyPropsFile))
+            }
+            // 配置签名
+        signingConfigs {
+            winboll {
+                keyAlias keyProps['keyAlias']
+                keyPassword keyProps['keyPassword']
+                storeFile keyProps['storeFile'] ? file(keyProps['storeFile']) : null
+                storePassword keyProps['storePassword']
+            }
+	    }
+    }
+    ext {
+        // 定义全局变量，常用于版本管理
+        // 变量在子模块的build.gradle中直接以： $NAME 的形式调用
+        RootProjectDir = "${project.rootProject.projectDir}".replace("\\", "/")
+    }
+}
