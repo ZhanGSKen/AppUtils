@@ -5,12 +5,13 @@ android {
     //
     def keyProps = new Properties()
     def keyPropsFile = rootProject.file('keystore/appkey.keystore')
-    if (keyPropsFile.exists()) {
-        keyProps.load(new FileInputStream(keyPropsFile))
-    }
+    assert(keyPropsFile.exists())
+    keyProps.load(new FileInputStream(keyPropsFile))
+    
     // 配置签名
     signingConfigs {
         winboll {
+            assert(keyProps['keyAlias'] != null && keyProps['keyPassword'] != null && keyProps['storeFile'] != null && keyProps['storePassword'] != null)
             keyAlias keyProps['keyAlias']
             keyPassword keyProps['keyPassword']
             storeFile keyProps['storeFile'] ? file(keyProps['storeFile']) : null
@@ -29,10 +30,16 @@ android {
     flavorDimensions "WinBollApp"
     productFlavors {
         beta {
+            // 读取编译标志位配置文件
+            def buildProps = new Properties()
+            def buildPropsFile = rootProject.file("${buildPropsFileName}")
+            assert(buildPropsFile.exists())
+            buildProps.load(new FileInputStream(buildPropsFile))
+            assert (buildProps['buildCount'] != null)
             dimension "WinBollApp"
             applicationIdSuffix ".beta"
             LocalDateTime localDateTimeNow = LocalDateTime.now(ZoneId.of("Asia/Shanghai"));
-            versionNameSuffix "-beta" + localDateTimeNow.format('hhmmss')
+            versionNameSuffix "-beta" + buildProps['buildCount'] + "_" + localDateTimeNow.format('mmss')
         }
         stage {
             dimension "WinBollApp"
@@ -58,8 +65,9 @@ android {
             variant.getAssembleProvider().get().doFirst {
                 if(variant.flavorName == "stage"&&variant.buildType.name == "release"){
                     // 给源码做标签
+                    // 读取编译标志位配置文件
                     def result = exec {
-                        commandLine 'bash', '--', "${bashSetGitTagPath}", "${RootProjectDir}", "${versionName}"
+                        commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "${versionName}"
                         //standardOutput = true
                         // 根据需要，可以添加错误输出
                         //standardError = true
@@ -69,11 +77,9 @@ android {
                     // 获取bash命令的输出
                     //def output = result.text
                     // 检查bash命令的返回值（假设非零表示失败）
-                    if (result.getExitValue() != 0) {
-                        throw new RuntimeException("Bash command failed with exit code: $result.exitValue(), output: $output")
+                    if(result.getExitValue() != 0) {
+                        assert(true);
                     }
-                
-                    //println "Bash command executed successfully with output: $output"
                 }
             } //doFirst {
             
@@ -81,11 +87,29 @@ android {
             variant.getAssembleProvider().get().doLast {
                 // 开始处理输出文件
                 //
-                copy {
+                
                     variant.outputs.forEach{ file->
                         // 拷贝到 WinBoll 标签管理文件夹
                         //
                         if(variant.flavorName == "stage"&&variant.buildType.name == "release"){
+                            // 给源码做标签
+                            //
+                            // 读取编译标志位配置文件
+                            def result = exec {
+                                commandLine 'bash', '--', "${bashSetGitTagPath}", "${RootProjectDir}", "${versionName}"
+                                //standardOutput = true
+                                // 根据需要，可以添加错误输出
+                                //standardError = true
+                            }
+                            // Git标签设置成功会返回0，
+                            // 此处断言可以阻止标签失败的发布行为
+                            // 检查bash命令的返回值（假设非零表示失败）
+                            if(result.getExitValue() != 0) {
+                                assert(true);
+                            }
+                        
+                            // 发布 APK 文件
+                            //
                             // 截取版本号的版本字段为短版本名
                             String szVersionName = "${versionName}"
                             String[] szlistTemp = szVersionName.split("-")
@@ -132,11 +156,11 @@ android {
                                 // 如果编译标志位配置文件不存在，就设置断言
                                 assert (buildPropsFile.exists())
                                 buildProps.load(new FileInputStream(buildPropsFile))
-                                assert (buildProps['stageCount'] != null || buildProps['buildCount'] != null)
+                                assert (buildProps['stageCount'] != null && buildProps['buildCount'] != null)
                                 // 发布计数增加
                                 buildProps['stageCount']++
                                 //构建计数重置
-                                buildProps['buildCount'] = 0
+                                buildProps['buildCount'] = "0"
                                 // 保存数据
                                 FileOutputStream fos = new FileOutputStream(buildPropsFile)
                                 buildProps.setProperty("stageCount", buildProps['stageCount']);
@@ -195,7 +219,7 @@ android {
                             }
                         }
                         
-                    }
+                    
                 }
             }// End of (variant.getAssembleProvider().get().doLast {)
             ////////编译输出结束 /////

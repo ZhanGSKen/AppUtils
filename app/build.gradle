@@ -6,15 +6,11 @@ def genVersionName(def versionName){
     // 读取编译标志位配置文件
     def buildProps = new Properties()
     def buildPropsFile = rootProject.file("${buildPropsFileName}")
-    if (buildPropsFile.exists()) {
-        buildProps.load(new FileInputStream(buildPropsFile))
-        def stageCount = buildProps['stageCount']
-        def buildCount = buildProps['buildCount']
-        assert (stageCount != null || buildCount != null)
-        // 返回编译版本号
-        return "${versionName}.${stageCount}.${buildCount}"
-    }
-    return "${versionName}"
+    assert(buildPropsFile.exists())
+    buildProps.load(new FileInputStream(buildPropsFile))
+    assert (buildProps['stageCount'] != null)
+    // 返回编译版本号
+    return "${versionName}." + buildProps['stageCount']
 }
 
 android {

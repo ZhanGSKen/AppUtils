@@ -9,20 +9,15 @@ fi
 cd ${1}
 git config --global --add safe.directory "${1}"
 echo "Current dir : "`pwd`
-
-## 读取properties文件，更新属性
-properties_path="buildf_flag.properties"
-## 使用grep查找"^<key>="，然后使用awk提取值
 versionName=${2}
-stageCount=$(grep "^stageCount=" ${properties_path} | awk -F '=' '{print $2}')
 
 ## 设新的Stage标签
-tag="v"${versionName}"."${stageCount:0}"
+tag="v"${versionName}
 
 ## 如果Git已经提交了所有代码就执行标签操作
 if [[ -n $(git diff --stat)  ]]
 then
-  echo 'Git status is dirty, tag action cancel.'
+  echo 'Source is no commit git completely, tag action cancel.'
   exit 1
 else
   echo "Git status is clean."
@@ -30,7 +25,6 @@ else
       echo "Tag ${tag} exist."
       exit 2
   fi
-  echo "Stage Tag is : ${tag}"
   git tag ${tag}
-  echo "Git Is Tag by ${tag}"
+  echo "${0}: Git tag is saved: (${tag})"
 fi
