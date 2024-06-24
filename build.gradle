@@ -25,14 +25,15 @@ allprojects {
         mavenLocal()
     }
     ext {
-        //
+        // 定义全局变量，常用于版本管理
+        // 变量在子模块的build.gradle中直接以： $NAME 的形式调用
+        // 定义版本管理文件
+        RootProjectDir = "${project.rootProject.projectDir}".replace("\\", "/")
+        bashSetGitTagFileName = "set_git_tag.sh"
+        buildPropsFileName = "build_flag.properties"
         // 定义 lint 输出文件
         lintXmlReportPath = "build/reports/lint-results.xml"
         lintHTMLReportPath = "build/reports/lint-results.html"
-        bashSetBuildFlagGitTag = "../SetBuildFlagGitTag.sh"
-        // 定义全局变量，常用于版本管理
-        // 变量在子模块的build.gradle中直接以： $NAME 的形式调用
-        RootProjectDir = "${project.rootProject.projectDir}".replace("\\", "/")
         
     }
     

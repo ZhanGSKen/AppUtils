@@ -59,7 +59,7 @@ android {
                 if(variant.flavorName == "stage"&&variant.buildType.name == "release"){
                     // 给源码做标签
                     def result = exec {
-                        commandLine 'bash', '--', "${bashSetBuildFlagGitTag}", "${RootProjectDir}", "${versionCode}"
+                        commandLine 'bash', '--', "${bashSetGitTagPath}", "${RootProjectDir}", "${versionName}"
                         //standardOutput = true
                         // 根据需要，可以添加错误输出
                         //standardError = true
@@ -128,7 +128,7 @@ android {
                                 }
                                 // 读取编译标志位配置文件
                                 def buildProps = new Properties()
-                                def buildPropsFile = rootProject.file('SetBuildFlagGitTag.properties')
+                                def buildPropsFile = rootProject.file("${buildPropsFileName}")
                                 // 如果编译标志位配置文件不存在，就设置断言
                                 assert (buildPropsFile.exists())
                                 buildProps.load(new FileInputStream(buildPropsFile))
@@ -166,7 +166,7 @@ android {
                             }
                             // 读取编译标志位配置文件
                             def buildProps = new Properties()
-                            def buildPropsFile = rootProject.file('SetBuildFlagGitTag.properties')
+                            def buildPropsFile = rootProject.file("${buildPropsFileName}")
                             // 如果编译标志位配置文件不存在，就设置断言
                             assert (buildPropsFile.exists())
                             buildProps.load(new FileInputStream(buildPropsFile))
