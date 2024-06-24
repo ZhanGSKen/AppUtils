@@ -78,7 +78,7 @@ android {
                     // 获取bash命令的输出
                     //def output = result.text
                     // 检查bash命令的返回值（假设非零表示失败）
-                    if(result.getExitValue() != 0) {
+                    if(result.getExitValue() == 0) {
                         assert(true);
                     }
                 }
