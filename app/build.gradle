@@ -22,7 +22,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
-        versionName "6.0"
+        versionName "6.1"
         if(true) {
             versionName = genVersionName("${versionName}")
         }
