@@ -56,6 +56,8 @@ public class LogView extends RelativeLayout {
     public void start() {
         mLogViewThread = new LogViewThread(LogView.this);
         mLogViewThread.start();
+        // 显示日志
+        showAndScrollLogView();
     }
 
     void initView(Context context) {
