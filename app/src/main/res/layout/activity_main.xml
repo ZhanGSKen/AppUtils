@@ -49,11 +49,11 @@
 
 	</LinearLayout>
 
-	<cc.winboll.studio.apputils.SSHEditText
-		android:layout_width="match_parent"
+	<EditText
+		android:layout_width="wrap_content"
 		android:ems="10"
-		android:layout_height="100dp"
-		android:id="@+id/activitymainEditText1"/>
+        android:hint="测试LogView不聚焦日志的Selectable选项"
+		android:layout_height="wrap_content"/>
 
 	<cc.winboll.studio.libapputils.LogView
 		android:orientation="horizontal"

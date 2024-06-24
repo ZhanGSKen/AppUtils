@@ -15,7 +15,6 @@ public class MainActivity extends Activity {
 
 	public static final String TAG = "MainActivity";
 
-	SSHEditText mSSHEditText;
     CheckBox mCheckBoxAppDebugMode;
     LogView mLogView;
 
@@ -30,13 +29,9 @@ public class MainActivity extends Activity {
         mLogView.start();
         //LogUtils.i(TAG, "LogView Start Watching.");
 
-		mSSHEditText = findViewById(R.id.activitymainEditText1);
-
         mCheckBoxAppDebugMode = findViewById(R.id.activitymainCheckBox1);
         App app = (App)getApplication();
         mCheckBoxAppDebugMode.setChecked(app.isDebug());
-        
-        mSSHEditText.setText("Hello");
     }
 
     public void onAppDebugModeClick(View view) {
@@ -96,9 +91,6 @@ public class MainActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (resultCode) {
             case REQUEST_LOGACTIVITY : {
-                    /*LinearLayout linearLayout = findViewById(R.id.logLinearLayout);
-                     mLogViewThread = new LogViewThread(this, linearLayout);
-                     mLogViewThread.start();*/
                     LogUtils.i(TAG, "REQUEST_LOGACTIVITY");
                     break;
                 }
