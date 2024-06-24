@@ -99,6 +99,8 @@ public class LogView extends RelativeLayout {
             });
         // 设置滚动时不聚焦日志
         setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+        // 显示日志
+        showAndScrollLogView();
     }
 
     public void updateLogView() {
@@ -113,6 +115,26 @@ public class LogView extends RelativeLayout {
             mLogViewHandler.sendMessage(message);
             mLogViewHandler.setIsAddNewLog(false);
         }
+    }
+
+    void showAndScrollLogView() {
+        mTextView.setText(LogUtils.loadLog());
+        mScrollView.post(new Runnable() {
+                @Override
+                public void run() {
+                    mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                    // 日志显示结束
+                    mLogViewHandler.setIsHandling(false);
+                    // 检查是否添加了新日志
+                    if (mLogViewHandler.isAddNewLog()) {
+                        // 有新日志添加，先更改新日志标志
+                        mLogViewHandler.setIsAddNewLog(false);
+                        // 再次发送显示日志的显示
+                        Message message = mLogViewHandler.obtainMessage(LogViewHandler.MSG_LOGVIEW_UPDATE);
+                        mLogViewHandler.sendMessage(message);
+                    }
+                }
+            });
     }
 
     class LogViewHandler extends Handler {
@@ -155,27 +177,6 @@ public class LogView extends RelativeLayout {
                     break;
             }
             super.handleMessage(msg);
-        }
-
-        void showAndScrollLogView() {
-            mTextView.setText(LogUtils.loadLog());
-            mScrollView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
-                        // 日志显示结束
-                        setIsHandling(false);
-                        // 检查是否添加了新日志
-                        if (isAddNewLog()) {
-                            // 有新日志添加，先更改新日志标志
-                            setIsAddNewLog(false);
-                            // 再次发送显示日志的显示
-                            Message message = obtainMessage(MSG_LOGVIEW_UPDATE);
-                            sendMessage(message);
-                        }
-                    }
-                });
-
         }
     }
 }

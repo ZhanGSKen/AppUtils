@@ -28,7 +28,7 @@ public class MainActivity extends Activity {
 
         mLogView = findViewById(R.id.logview);
         mLogView.start();
-        LogUtils.i(TAG, "LogView Start Watching.");
+        //LogUtils.i(TAG, "LogView Start Watching.");
 
 		mSSHEditText = findViewById(R.id.activitymainEditText1);
 
