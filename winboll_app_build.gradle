@@ -67,8 +67,8 @@ android {
                     // 给源码做标签
                     // 读取编译标志位配置文件
                     def result = exec {
-                        commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "6.0.4"
-                        //commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "${versionName}"
+                        //commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "6.0.4"
+                        commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "${versionName}"
                         //standardOutput = true
                         // 根据需要，可以添加错误输出
                         //standardError = true
@@ -78,9 +78,7 @@ android {
                     // 获取bash命令的输出
                     //def output = result.text
                     // 检查bash命令的返回值（假设非零表示失败）
-                    if(result.getExitValue() != 0) {
-                        assert(true);
-                    }
+                    assert(result.getExitValue() != 0)
                 }
             } //doFirst {
             
@@ -97,7 +95,8 @@ android {
                             //
                             // 读取编译标志位配置文件
                             def result = exec {
-                                commandLine 'bash', '--', "${bashSetGitTagPath}", "${RootProjectDir}", "${versionName}"
+                                commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "6.0.4"
+                                //commandLine 'bash', '--', "${bashSetGitTagPath}", "${RootProjectDir}", "${versionName}"
                                 //standardOutput = true
                                 // 根据需要，可以添加错误输出
                                 //standardError = true
@@ -105,9 +104,7 @@ android {
                             // Git标签设置成功会返回0，
                             // 此处断言可以阻止标签失败的发布行为
                             // 检查bash命令的返回值（假设非零表示失败）
-                            if(result.getExitValue() != 0) {
-                                assert(true);
-                            }
+                            assert(result.getExitValue() != 0)
                         
                             // 发布 APK 文件
                             //
