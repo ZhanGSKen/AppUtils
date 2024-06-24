@@ -95,7 +95,8 @@ android {
                             //
                             // 读取编译标志位配置文件
                             def result = exec {
-                                commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "6.0.4"
+                                //commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "6.0.4"
+                                commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "9.9.9"
                                 //commandLine 'bash', '--', "${bashSetGitTagPath}", "${RootProjectDir}", "${versionName}"
                                 //standardOutput = true
                                 // 根据需要，可以添加错误输出
