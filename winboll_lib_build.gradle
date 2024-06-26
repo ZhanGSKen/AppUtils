@@ -12,8 +12,8 @@ def getDefaultVersion(){
     return buildProps['libDefaultVersion']
 }
 
-def siteUrl = 'https://winboll.cc/AppUtils' // 项目主页
-def gitUrl = 'https://winboll.cc/gitweb/AppUtils.git' // 项目的git地址
+def siteUrl = 'https://winboll.cc/${rootProject.name}' // 项目主页
+def gitUrl = 'https://winboll.cc/gitweb/${rootProject.name}.git' // 项目的git地址
 def DefaultGroupId = 'cc.winboll.studio' // 类库所有者groupId
 def DefaultVersion = getDefaultVersion() // 版本号
 def DeveloperId='zhangsken' // 开发者账号
