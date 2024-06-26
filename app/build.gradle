@@ -22,7 +22,10 @@ android {
         minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
-        versionName "6.1"
+        // versionName 更新后需要手动设置 
+        // build_flag.properties 文件的 stageCount=0
+        // Gradle编译环境下合起来的 versionName 就是 "${versionName}.0"
+        versionName "6.2" 
         if(true) {
             versionName = genVersionName("${versionName}")
         }
