@@ -101,8 +101,6 @@ public class LogView extends RelativeLayout {
             });
         // 设置滚动时不聚焦日志
         setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
-        // 显示日志
-        showAndScrollLogView();
     }
 
     public void updateLogView() {
