@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import cc.winboll.studio.apputils.activities.BeanActivity;
+import cc.winboll.studio.apputils.activities.LogActivity;
 import cc.winboll.studio.libapputils.LogUtils;
 import cc.winboll.studio.libapputils.LogView;
 
@@ -79,6 +81,12 @@ public class MainActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.item_logactivity : {
                     Intent intent = new Intent(this, LogActivity.class);
+                    //startActivity(intent);
+                    //mLogView.stopWatching();
+                    startActivityForResult(intent, REQUEST_LOGACTIVITY);
+                }
+            case R.id.item_beanactivity : {
+                    Intent intent = new Intent(this, BeanActivity.class);
                     //startActivity(intent);
                     //mLogView.stopWatching();
                     startActivityForResult(intent, REQUEST_LOGACTIVITY);

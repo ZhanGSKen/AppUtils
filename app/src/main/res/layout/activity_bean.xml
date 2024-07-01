@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<Switch
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/activitybeanSwitch1"
+		android:text="Is Enable Service"
+		android:onClick="onSetIsEnableService"/>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+
+		<EditText
+			android:layout_width="wrap_content"
+			android:ems="10"
+			android:layout_height="wrap_content"
+			android:layout_toLeftOf="@+id/activitybeanButton2"
+			android:id="@+id/activitybeanEditText1"/>
+
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="-"
+			android:id="@+id/activitybeanButton2"
+			android:layout_toLeftOf="@id/activitybeanButton1"
+			android:onClick="onDeleteUser"/>
+
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="+"
+			android:id="@+id/activitybeanButton1"
+			android:layout_alignParentRight="true"
+			android:onClick="onAddUser"/>
+
+	</RelativeLayout>
+
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1.0">
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:text="Text"
+			android:id="@+id/activitybeanTextView1"/>
+
+	</ScrollView>
+
+</LinearLayout>
+

@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import cc.winboll.studio.libapputils.LogUtils;
+import cc.winboll.studio.libapputils.R;
 
 public class LogView extends RelativeLayout {
 

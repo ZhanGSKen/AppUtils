@@ -1,8 +1,9 @@
-package cc.winboll.studio.apputils;
+package cc.winboll.studio.apputils.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import cc.winboll.studio.apputils.R;
 import cc.winboll.studio.libapputils.LogUtils;
 import cc.winboll.studio.libapputils.LogView;
 
