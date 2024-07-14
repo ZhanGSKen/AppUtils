@@ -7,8 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
-import cc.winboll.studio.apputils.activities.AboutFragmentActivity;
-import cc.winboll.studio.apputils.activities.AboutSupportFragmentActivity;
+import cc.winboll.studio.apputils.activities.AboutActivity;
 import cc.winboll.studio.apputils.activities.BeanActivity;
 import cc.winboll.studio.apputils.activities.LogActivity;
 import cc.winboll.studio.libapputils.LogUtils;
@@ -94,15 +93,8 @@ public class MainActivity extends Activity {
                     startActivityForResult(intent, REQUEST_LOGACTIVITY);
                     break;
                 }
-            case R.id.item_aboutsupport : {
-                    Intent intent = new Intent(this, AboutSupportFragmentActivity.class);
-                    //startActivity(intent);
-                    //mLogView.stopWatching();
-                    startActivityForResult(intent, REQUEST_LOGACTIVITY);
-                    break;
-                }
             case R.id.item_about : {
-                    Intent intent = new Intent(this, AboutFragmentActivity.class);
+                    Intent intent = new Intent(this, AboutActivity.class);
                     //startActivity(intent);
                     //mLogView.stopWatching();
                     startActivityForResult(intent, REQUEST_LOGACTIVITY);

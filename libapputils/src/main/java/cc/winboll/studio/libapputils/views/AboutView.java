@@ -1,22 +1,21 @@
-package cc.winboll.studio.libapputils.fragments;
+package cc.winboll.studio.libapputils.views;
 
 /**
  * @Author ZhanGSKen@QQ.COM
- * @Date 2024/07/13 17:02:57
- * @Describe AboutFragment
+ * @Date 2024/07/15 01:28:27
+ * @Describe AboutView
  */
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Message;
-import android.view.LayoutInflater;
+import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import cc.winboll.studio.libapputils.AppVersionUtils;
-import cc.winboll.studio.libapputils.BaseSupportFragment;
 import cc.winboll.studio.libapputils.LogUtils;
 import cc.winboll.studio.libapputils.R;
 import cc.winboll.studio.libapputils.dialogs.YesNoAlertDialog;
@@ -30,9 +29,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class AboutSupportFragment extends BaseSupportFragment {
+public class AboutView extends LinearLayout {
 
-    public static final String TAG = "AboutFragment";
+    public static final String TAG = "AboutView";
 
     public static final int MSG_APPUPDATE_CHECKED = 0;
 
@@ -45,12 +44,21 @@ public class AboutSupportFragment extends BaseSupportFragment {
     String mszHomePage = "";
     String mszGitWeb = "";
     int mnAppIcon = 0;
-
-    public AboutSupportFragment(Context context, String szAppName, String szAppDescription, int nAppIcon) {
+    
+    public AboutView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        initView(context, attrs);
+    }
+    
+    void initView(Context context, AttributeSet attrs) {
         mContext = context;
-        mszAppName = szAppName;
-        mszAppDescription = szAppDescription;
-        mnAppIcon = nAppIcon;
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.AboutView);
+        mszAppName = typedArray.getString(R.styleable.AboutView_projectname);
+        mszAppDescription = typedArray.getString(R.styleable.AboutView_projectdescription);
+        mnAppIcon = typedArray.getResourceId(R.styleable.AboutView_projecticon, R.drawable.ic_launcher);
+        // 返回一个绑定资源结束的信号给资源
+        typedArray.recycle();
+        
         try {
             mszAppVersionName = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
@@ -59,18 +67,14 @@ public class AboutSupportFragment extends BaseSupportFragment {
         mszCurrentAppPackageName = mszAppName + "_" + mszAppVersionName + ".apk";
         mszHomePage = "https://winboll.cc/studio/details.php?app=" + mszAppName;
         mszGitWeb = "https://winboll.cc/gitweb/" + mszAppName + ".git";
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View viewMain = inflater.inflate(R.layout.fragment_about, container, false);
+        addView(createAboutPage());
         // 初始化标题栏
         //setSubtitle(getContext().getString(R.string.text_about));
-        LinearLayout llMain = viewMain.findViewById(R.id.fragmentaboutLinearLayout1);
-        llMain.addView(createAboutPage());
-        return viewMain;
+        //LinearLayout llMain = findViewById(R.id.viewaboutLinearLayout1);
+        //llMain.addView(createAboutPage());
     }
-
+    
     android.os.Handler mHandler = new android.os.Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -83,7 +87,7 @@ public class AboutSupportFragment extends BaseSupportFragment {
                             String szMsg = "Current app is :\n[ " + mszCurrentAppPackageName
                                 + " ]\nThe newest app is :\n[ " + mszNewestAppPackageName
                                 + " ]\nIs download the newest app?";
-                            YesNoAlertDialog.show(getActivity(), "Application Update Prompt", szMsg, mIsDownlaodUpdateListener);
+                            YesNoAlertDialog.show(mContext, "Application Update Prompt", szMsg, mIsDownlaodUpdateListener);
                         }
                         break;
                     }
@@ -113,7 +117,7 @@ public class AboutSupportFragment extends BaseSupportFragment {
             .setDescription(szAppInfo)
             //.isRTL(false)
             //.setCustomFont(String) // or Typeface
-            .setImage((mnAppIcon == 0) ?R.drawable.ic_launcher: mnAppIcon)
+            .setImage(mnAppIcon)
             //.addItem(versionElement)
             //.addItem(adsElement)
             //.addGroup("Connect with us")
@@ -135,7 +139,7 @@ public class AboutSupportFragment extends BaseSupportFragment {
         @Override
         public void onClick(View view) {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mszGitWeb));
-            startActivity(browserIntent);
+            mContext.startActivity(browserIntent);
         }
     };
 
@@ -192,7 +196,7 @@ public class AboutSupportFragment extends BaseSupportFragment {
         public void onYes() {
             String szUrl = "https://winboll.cc/studio/download.php?appname=" + mszAppName + "&apkname=" + mszNewestAppPackageName;
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(szUrl));
-            startActivity(browserIntent);
+            mContext.startActivity(browserIntent);
         }
 
         @Override

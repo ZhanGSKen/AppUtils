@@ -34,7 +34,7 @@
             android:theme="@style/AppSupportTheme"
             android:name="cc.winboll.studio.apputils.activities.AboutSupportFragmentActivity"/>
 
-        <activity android:name="cc.winboll.studio.apputils.activities.AboutFragmentActivity"/>
+        <activity android:name="cc.winboll.studio.apputils.activities.AboutActivity"/>
 
     </application>
 
