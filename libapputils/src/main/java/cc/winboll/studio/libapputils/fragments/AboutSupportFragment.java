@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import androidx.fragment.app.Fragment;
+import cc.winboll.studio.libapputils.AppVersionUtils;
 import cc.winboll.studio.libapputils.LogUtils;
 import cc.winboll.studio.libapputils.R;
 import cc.winboll.studio.libapputils.dialogs.YesNoAlertDialog;
@@ -76,7 +77,9 @@ public class AboutSupportFragment extends Fragment {
             super.handleMessage(msg);
             switch (msg.what) {
                 case MSG_APPUPDATE_CHECKED : {
-                        if (!mszNewestAppPackageName.equals(mszCurrentAppPackageName)) {
+                        if (!AppVersionUtils.isHasNewVersion(mszCurrentAppPackageName, mszNewestAppPackageName)) {
+                            ToastUtils.delayedShow("Current app is the neweest.", 5000);
+                        } else {
                             String szMsg = "Current app is :\n[ " + mszCurrentAppPackageName
                                 + " ]\nThe newest app is :\n[ " + mszNewestAppPackageName
                                 + " ]\nIs download the newest app?";
