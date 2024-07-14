@@ -14,7 +14,13 @@ WinBoll 安卓应用基础类库。
 
 #### 使用说明
 
-1.  xxxx
+1.  Maven 类库引用声明，本应用引用几个第三方类库，添加本类库需要附加引用一下类库。
+    api 'cc.winboll.studio:libapputils:7.0.5'
+    api 'com.github.getActivity:ToastUtils:10.5'
+    api 'org.jsoup:jsoup:1.13.1'
+    api 'com.squareup.okhttp3:okhttp:4.4.1'
+    api 'io.github.medyo:android-about-page:2.0.0'
+    
 2.  xxxx
 3.  xxxx
 
