@@ -7,5 +7,11 @@
     <item
         android:id="@+id/item_beanactivity"
         android:title="Bean Activity"/>
+    <item
+        android:id="@+id/item_aboutsupport"
+        android:title="AboutSupportFragment"/>
+    <item
+        android:id="@+id/item_about"
+        android:title="AboutFragment"/>
     
 </menu>

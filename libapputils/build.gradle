@@ -26,6 +26,7 @@ android {
 }
 
 dependencies {
+    api 'io.github.medyo:android-about-page:2.0.0'
     api 'androidx.appcompat:appcompat:1.0.0'
     api 'androidx.fragment:fragment:1.0.0'
     api 'com.google.android.material:material:1.0.0'

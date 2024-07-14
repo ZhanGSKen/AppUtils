@@ -1,4 +1,4 @@
-package cc.winboll.studio.libapputils;
+package cc.winboll.studio.libapputils.handlers;
 
 /**
  * @Author ZhanGSKen@QQ.COM

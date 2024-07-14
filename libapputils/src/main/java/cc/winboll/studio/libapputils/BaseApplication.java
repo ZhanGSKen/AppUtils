@@ -6,6 +6,8 @@ package cc.winboll.studio.libapputils;
  * @Describe 应用基础类
  */
 import android.app.Application;
+import cc.winboll.studio.libapputils.LogUtils;
+import cc.winboll.studio.libapputils.handlers.CrashHandler;
 
 public class BaseApplication extends Application {
 

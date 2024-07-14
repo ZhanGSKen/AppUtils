@@ -1,3 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="AppTheme" parent="@android:style/Theme.DeviceDefault.Light">
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="AppSupportTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="AppThemeNoActionBar" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="AppSupportThemeNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+    </style>
 </resources>

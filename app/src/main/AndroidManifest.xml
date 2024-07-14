@@ -4,10 +4,11 @@
     package="cc.winboll.studio.apputils">
 
     <application
-        android:name=".App"
+        android:name=".GlobalApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:theme="@style/AppTheme"
         android:supportsRtl="true">
 
         <activity
@@ -28,6 +29,12 @@
         <activity android:name=".activities.LogActivity"/>
 
         <activity android:name=".activities.BeanActivity"/>
+
+        <activity
+            android:theme="@style/AppSupportTheme"
+            android:name="cc.winboll.studio.apputils.activities.AboutSupportFragmentActivity"/>
+
+        <activity android:name="cc.winboll.studio.apputils.activities.AboutFragmentActivity"/>
 
     </application>
 

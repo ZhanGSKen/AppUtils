@@ -1,4 +1,4 @@
-package cc.winboll.studio.libapputils;
+package cc.winboll.studio.libapputils.views;
 
 /**
  * @Author ZhanGSKen@QQ.COM
@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import cc.winboll.studio.libapputils.LogUtils;
-import cc.winboll.studio.libapputils.R;
+import cc.winboll.studio.libapputils.threads.LogViewThread;
 
 public class LogView extends RelativeLayout {
 

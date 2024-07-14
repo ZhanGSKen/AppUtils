@@ -1,4 +1,4 @@
-package cc.winboll.studio.libapputils;
+package cc.winboll.studio.libapputils.threads;
 
 /**
  * @Author ZhanGSKen@QQ.COM
@@ -6,6 +6,8 @@ package cc.winboll.studio.libapputils;
  * @Describe 日志视图线程类
  */
 import android.os.FileObserver;
+import cc.winboll.studio.libapputils.LogUtils;
+import cc.winboll.studio.libapputils.views.LogView;
 import java.lang.ref.WeakReference;
 
 public class LogViewThread extends Thread {

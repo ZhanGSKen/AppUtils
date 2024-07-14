@@ -7,13 +7,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import cc.winboll.studio.apputils.activities.AboutFragmentActivity;
+import cc.winboll.studio.apputils.activities.AboutSupportFragmentActivity;
 import cc.winboll.studio.apputils.activities.BeanActivity;
 import cc.winboll.studio.apputils.activities.LogActivity;
 import cc.winboll.studio.libapputils.LogUtils;
-import cc.winboll.studio.libapputils.LogView;
+import cc.winboll.studio.libapputils.views.LogView;
 
 public class MainActivity extends Activity {
-
 
 	public static final String TAG = "MainActivity";
 
@@ -32,12 +33,12 @@ public class MainActivity extends Activity {
         //LogUtils.i(TAG, "LogView Start Watching.");
 
         mCheckBoxAppDebugMode = findViewById(R.id.activitymainCheckBox1);
-        App app = (App)getApplication();
+        GlobalApplication app = (GlobalApplication)getApplication();
         mCheckBoxAppDebugMode.setChecked(app.isDebug());
     }
 
     public void onAppDebugModeClick(View view) {
-        App.setIsDebug(mCheckBoxAppDebugMode.isChecked());
+        GlobalApplication.setIsDebug(mCheckBoxAppDebugMode.isChecked());
     }
 
     public void onAddDebugLog(View view) {
@@ -84,12 +85,28 @@ public class MainActivity extends Activity {
                     //startActivity(intent);
                     //mLogView.stopWatching();
                     startActivityForResult(intent, REQUEST_LOGACTIVITY);
+                    break;
                 }
             case R.id.item_beanactivity : {
                     Intent intent = new Intent(this, BeanActivity.class);
                     //startActivity(intent);
                     //mLogView.stopWatching();
                     startActivityForResult(intent, REQUEST_LOGACTIVITY);
+                    break;
+                }
+            case R.id.item_aboutsupport : {
+                    Intent intent = new Intent(this, AboutSupportFragmentActivity.class);
+                    //startActivity(intent);
+                    //mLogView.stopWatching();
+                    startActivityForResult(intent, REQUEST_LOGACTIVITY);
+                    break;
+                }
+            case R.id.item_about : {
+                    Intent intent = new Intent(this, AboutFragmentActivity.class);
+                    //startActivity(intent);
+                    //mLogView.stopWatching();
+                    startActivityForResult(intent, REQUEST_LOGACTIVITY);
+                    break;
                 }
         }
         return super.onMenuItemSelected(featureId, item);
