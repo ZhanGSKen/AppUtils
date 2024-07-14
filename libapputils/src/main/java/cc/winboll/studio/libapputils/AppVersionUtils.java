@@ -13,6 +13,15 @@ public class AppVersionUtils {
     
     public static final String TAG = "AppVersionUtils";
     
+    //
+    // 检查新版本是否成立
+    // szCurrentCode : 当前版本应用包名
+    // szNextCode : 新版本应用包名
+    // 返回 ：情况1：当前版本是发布版
+    //       返回 true (新版本 > 当前版本)
+    //       情况1：当前版本是Beta版
+    //       true 新版本 == 当前版本
+    //
     public static boolean isHasNewVersion(String szCurrentName, String szNextName) {
         //boolean isVersionNewer = false;
         //if(szCurrentName.equals(szNextName)) {
@@ -37,16 +46,27 @@ public class AppVersionUtils {
             //return checkNewVersion(getCodeInPackageName(szCurrentName), getCodeInPackageName(szNextName));
         //}
         //return isVersionNewer;
-        if(szCurrentName.matches(".*_\\d+\\.\\d+\\.\\d+-beta.*\\.apk")) {
-            LogUtils.d(TAG, "Current Name is Beta");
-            if(getReleasePackageName(szCurrentName).equals(szNextName)) {
-                LogUtils.d(TAG, "App beta version is released. Release name : " + szNextName);
-                return true;
+        if(checkNewVersion(getCodeInPackageName(szCurrentName), getCodeInPackageName(szNextName))) {
+            return true;
+        } else {
+            if(szCurrentName.matches(".*_\\d+\\.\\d+\\.\\d+-beta.*\\.apk")) {
+                LogUtils.d(TAG, "Current Name is Beta");
+                if(getReleasePackageName(szCurrentName).equals(szNextName)) {
+                    LogUtils.d(TAG, "App beta version is released. Release name : " + szNextName);
+                    return true;
+                }
             }
         }
-        return checkNewVersion(getCodeInPackageName(szCurrentName), getCodeInPackageName(szNextName));
+
+        return false;
     }
     
+    //
+    // 检查新版本是否成立
+    // szCurrentCode : 当前版本
+    // szNextCode : 新版本
+    // 返回 ：true 新版本 > 当前版本
+    //
     public static Boolean checkNewVersion (String szCurrentCode, String szNextCode){
         boolean isNew = false;
         String[] appVersion1 = szCurrentCode.split("\\.");
@@ -63,6 +83,11 @@ public class AppVersionUtils {
         return isNew;
     }
     
+    //
+    // 截取应用包名称版本号信息
+    // 如 ：AppUtils_7.0.4-beta1_0120.apk 版本号为 7.0.4
+    // 如 ：AppUtils_7.0.4.apk 版本号为 7.0.4
+    //
     public static String getCodeInPackageName(String apkName) {
         //String apkName = "AppUtils_7.0.0.apk";
         Pattern pattern = Pattern.compile("\\d+\\.\\d+\\.\\d+");
@@ -75,8 +100,13 @@ public class AppVersionUtils {
         return "";
     }
     
+    //
+    // 根据Beta版名称生成发布版应用包名称
+    // 如 AppUtils_7.0.4-beta1_0120.apk
+    // 发布版名称就为AppUtils_7.0.4.apk
+    //
     public static String getReleasePackageName(String szBetaPackageName) {
-        //String apkName = "AppUtils_7.0.0.apk";
+        //String szBetaPackageName = "AppUtils_7.0.4-beta1_0120.apk";
         Pattern pattern = Pattern.compile(".*\\d+\\.\\d+\\.\\d+");
         Matcher matcher = pattern.matcher(szBetaPackageName);
         if (matcher.find()) {
