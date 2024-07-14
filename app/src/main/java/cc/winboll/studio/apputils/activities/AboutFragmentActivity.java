@@ -23,8 +23,8 @@ public class AboutFragmentActivity extends Activity {
         setContentView(R.layout.activity_aboutfragment);
 
         if (mAboutFragment == null) {
-            //mAboutFragment = new AboutFragment(this, "", "", R.drawable.ic_launcher);
-            mAboutFragment = new AboutFragment(this, "AppUtils", "Desc456", R.drawable.ic_launcher_background);
+            mAboutFragment = new AboutFragment(this, "AppUtils", "WinBoll 安卓应用基础类库。", R.drawable.ic_launcher);
+            //mAboutFragment = new AboutFragment(this, "AppUtils", "WinBoll 安卓应用基础类库。", R.drawable.ic_launcher_background);
             FragmentTransaction tx = getFragmentManager().beginTransaction();
             tx.add(R.id.activityaboutfragmentFrameLayout1, mAboutFragment);
             tx.show(mAboutFragment);

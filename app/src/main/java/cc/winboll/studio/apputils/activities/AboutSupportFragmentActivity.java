@@ -23,8 +23,8 @@ public class AboutSupportFragmentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_aboutsupportfragment);
 
         if (mAboutSupportFragment == null) {
-            //mAboutSupportFragment = new AboutSupportFragment(this, "", "", R.drawable.ic_launcher);
-            mAboutSupportFragment = new AboutSupportFragment(this, "AppUtils", "Desc123", R.drawable.ic_launcher_background);
+            mAboutSupportFragment = new AboutSupportFragment(this, "AppUtils", "WinBoll 安卓应用基础类库。", R.drawable.ic_launcher);
+            //mAboutSupportFragment = new AboutSupportFragment(this, "AppUtils", "WinBoll 安卓应用基础类库。", R.drawable.ic_launcher_background);
             FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
             tx.add(R.id.activityaboutsupportfragmentFrameLayout1, mAboutSupportFragment);
             tx.show(mAboutSupportFragment);

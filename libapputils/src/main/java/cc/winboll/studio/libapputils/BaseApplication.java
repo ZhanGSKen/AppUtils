@@ -6,8 +6,11 @@ package cc.winboll.studio.libapputils;
  * @Describe 应用基础类
  */
 import android.app.Application;
+import android.view.Gravity;
 import cc.winboll.studio.libapputils.LogUtils;
 import cc.winboll.studio.libapputils.handlers.CrashHandler;
+import com.hjq.toast.ToastUtils;
+import com.hjq.toast.style.WhiteToastStyle;
 
 public class BaseApplication extends Application {
 
@@ -33,7 +36,15 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        // 应用环境初始化
+        //
         CrashHandler.init(this);
         LogUtils.init(this);
+        // 初始化 Toast 框架
+        ToastUtils.init(this);
+        // 设置 Toast 布局样式
+        //ToastUtils.setView(cc.winboll.studio.libaes.R.layout.view_toast);
+        ToastUtils.setStyle(new WhiteToastStyle());
+        ToastUtils.setGravity(Gravity.BOTTOM, 0, 200);
     }
 }
