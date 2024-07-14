@@ -15,8 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import androidx.fragment.app.Fragment;
 import cc.winboll.studio.libapputils.AppVersionUtils;
+import cc.winboll.studio.libapputils.BaseSupportFragment;
 import cc.winboll.studio.libapputils.LogUtils;
 import cc.winboll.studio.libapputils.R;
 import cc.winboll.studio.libapputils.dialogs.YesNoAlertDialog;
@@ -30,7 +30,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class AboutSupportFragment extends Fragment {
+public class AboutSupportFragment extends BaseSupportFragment {
 
     public static final String TAG = "AboutFragment";
 

@@ -5,7 +5,6 @@ package cc.winboll.studio.libapputils.fragments;
  * @Date 2024/07/13 20:14:35
  * @Describe AboutFragment
  */
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import cc.winboll.studio.libapputils.AppVersionUtils;
+import cc.winboll.studio.libapputils.BaseFragment;
 import cc.winboll.studio.libapputils.LogUtils;
 import cc.winboll.studio.libapputils.R;
 import cc.winboll.studio.libapputils.dialogs.YesNoAlertDialog;
@@ -30,7 +30,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class AboutFragment extends Fragment {
+public class AboutFragment extends BaseFragment {
 
     public static final String TAG = "AboutFragment";
 
