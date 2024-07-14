@@ -37,11 +37,18 @@ public class AppVersionUtils {
             //return checkNewVersion(getCodeInPackageName(szCurrentName), getCodeInPackageName(szNextName));
         //}
         //return isVersionNewer;
+        if(szCurrentName.matches(".*_\\d+\\.\\d+\\.\\d+-beta.*\\.apk")) {
+            LogUtils.d(TAG, "Current Name is Beta");
+            if(getReleasePackageName(szCurrentName).equals(szNextName)) {
+                LogUtils.d(TAG, "App beta version is released. Release name : " + szNextName);
+                return true;
+            }
+        }
         return checkNewVersion(getCodeInPackageName(szCurrentName), getCodeInPackageName(szNextName));
     }
     
     public static Boolean checkNewVersion (String szCurrentCode, String szNextCode){
-        boolean flag = true;
+        boolean isNew = false;
         String[] appVersion1 = szCurrentCode.split("\\.");
         String[] appVersion2 = szNextCode.split("\\.");
         //根据位数最短的判断
@@ -49,15 +56,11 @@ public class AppVersionUtils {
         //根据位数循环判断各个版本
         for(int i = 0; i < lim; i++){
             if(Integer.parseInt(appVersion2[i]) > Integer.parseInt(appVersion1[i])){
-                flag = true;
-                break;
-            }
-            if(Integer.parseInt(appVersion2[i]) < Integer.parseInt(appVersion1[i])){
-                flag = false;
-                break;
+                isNew = true;
+                return isNew;
             }
         }
-        return flag;
+        return isNew;
     }
     
     public static String getCodeInPackageName(String apkName) {
@@ -67,6 +70,18 @@ public class AppVersionUtils {
         if (matcher.find()) {
             String version = matcher.group();
             return version;
+            //System.out.println("Version number: " + version); // 输出：7.0.0
+        }
+        return "";
+    }
+    
+    public static String getReleasePackageName(String szBetaPackageName) {
+        //String apkName = "AppUtils_7.0.0.apk";
+        Pattern pattern = Pattern.compile(".*\\d+\\.\\d+\\.\\d+");
+        Matcher matcher = pattern.matcher(szBetaPackageName);
+        if (matcher.find()) {
+            String szReleasePackageName = matcher.group();
+            return szReleasePackageName + ".apk";
             //System.out.println("Version number: " + version); // 输出：7.0.0
         }
         return "";
