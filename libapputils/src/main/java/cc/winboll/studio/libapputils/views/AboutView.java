@@ -55,9 +55,9 @@ public class AboutView extends LinearLayout {
         mContext = context;
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.AboutView);
         mszAppName = typedArray.getString(R.styleable.AboutView_appname);
-        mszAppProjectName = typedArray.getString(R.styleable.AboutView_projectname);
-        mszAppDescription = typedArray.getString(R.styleable.AboutView_projectdescription);
-        mnAppIcon = typedArray.getResourceId(R.styleable.AboutView_projecticon, R.drawable.ic_launcher);
+        mszAppProjectName = typedArray.getString(R.styleable.AboutView_appprojectname);
+        mszAppDescription = typedArray.getString(R.styleable.AboutView_appdescription);
+        mnAppIcon = typedArray.getResourceId(R.styleable.AboutView_appicon, R.drawable.ic_launcher);
         // 返回一个绑定资源结束的信号给资源
         typedArray.recycle();
 

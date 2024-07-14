@@ -8,9 +8,9 @@
 
 	<cc.winboll.studio.libapputils.views.AboutView
         app:appname="AppUtils"
-        app:projectname="AppUtils"
-        app:projectdescription="WinBoll 安卓应用基础类库。"
-        app:projecticon="@drawable/ic_launcher"
+        app:appprojectname="AppUtils"
+        app:appdescription="WinBoll 安卓应用基础类库。"
+        app:appicon="@drawable/ic_launcher"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:id="@+id/activityaboutAboutView1"/>
