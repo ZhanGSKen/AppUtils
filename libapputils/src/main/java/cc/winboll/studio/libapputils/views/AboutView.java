@@ -37,6 +37,7 @@ public class AboutView extends LinearLayout {
 
     Context mContext;
     String mszAppName = "";
+    String mszAppProjectName = "";
     String mszAppVersionName = "";
     String mszCurrentAppPackageName = "";
     volatile String mszNewestAppPackageName = "";
@@ -44,29 +45,30 @@ public class AboutView extends LinearLayout {
     String mszHomePage = "";
     String mszGitWeb = "";
     int mnAppIcon = 0;
-    
+
     public AboutView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView(context, attrs);
     }
-    
+
     void initView(Context context, AttributeSet attrs) {
         mContext = context;
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.AboutView);
-        mszAppName = typedArray.getString(R.styleable.AboutView_projectname);
+        mszAppName = typedArray.getString(R.styleable.AboutView_appname);
+        mszAppProjectName = typedArray.getString(R.styleable.AboutView_projectname);
         mszAppDescription = typedArray.getString(R.styleable.AboutView_projectdescription);
         mnAppIcon = typedArray.getResourceId(R.styleable.AboutView_projecticon, R.drawable.ic_launcher);
         // 返回一个绑定资源结束的信号给资源
         typedArray.recycle();
-        
+
         try {
             mszAppVersionName = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
             LogUtils.d(TAG, e, Thread.currentThread().getStackTrace());
         }
-        mszCurrentAppPackageName = mszAppName + "_" + mszAppVersionName + ".apk";
-        mszHomePage = "https://winboll.cc/studio/details.php?app=" + mszAppName;
-        mszGitWeb = "https://winboll.cc/gitweb/" + mszAppName + ".git";
+        mszCurrentAppPackageName = mszAppProjectName + "_" + mszAppVersionName + ".apk";
+        mszHomePage = "https://winboll.cc/studio/details.php?app=" + mszAppProjectName;
+        mszGitWeb = "https://winboll.cc/gitweb/" + mszAppProjectName + ".git";
 
         addView(createAboutPage());
         // 初始化标题栏
@@ -74,7 +76,7 @@ public class AboutView extends LinearLayout {
         //LinearLayout llMain = findViewById(R.id.viewaboutLinearLayout1);
         //llMain.addView(createAboutPage());
     }
-    
+
     android.os.Handler mHandler = new android.os.Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -150,7 +152,7 @@ public class AboutView extends LinearLayout {
             new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        String szUrl = "https://winboll.cc/studio/details.php?app=" + mszAppName;
+                        String szUrl = "https://winboll.cc/studio/details.php?app=" + mszAppProjectName;
                         OkHttpClient client = new OkHttpClient();
                         Request request = new Request.Builder()
                             .url(szUrl)
@@ -194,7 +196,7 @@ public class AboutView extends LinearLayout {
     YesNoAlertDialog.OnDialogResultListener mIsDownlaodUpdateListener = new YesNoAlertDialog.OnDialogResultListener() {
         @Override
         public void onYes() {
-            String szUrl = "https://winboll.cc/studio/download.php?appname=" + mszAppName + "&apkname=" + mszNewestAppPackageName;
+            String szUrl = "https://winboll.cc/studio/download.php?appname=" + mszAppProjectName + "&apkname=" + mszNewestAppPackageName;
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(szUrl));
             mContext.startActivity(browserIntent);
         }

@@ -7,6 +7,7 @@
 	android:layout_height="match_parent">
 
 	<cc.winboll.studio.libapputils.views.AboutView
+        app:appname="AppUtils"
         app:projectname="AppUtils"
         app:projectdescription="WinBoll 安卓应用基础类库。"
         app:projecticon="@drawable/ic_launcher"

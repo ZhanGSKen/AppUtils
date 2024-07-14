@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="AboutView">
+        <attr name="appname" format="string" />
         <attr name="projectname" format="string" />
         <attr name="projectdescription" format="string" />
         <attr name="projecticon" format="reference" />
