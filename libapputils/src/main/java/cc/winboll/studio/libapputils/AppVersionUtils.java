@@ -10,9 +10,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AppVersionUtils {
-    
+
     public static final String TAG = "AppVersionUtils";
-    
+
     //
     // 检查新版本是否成立
     // szCurrentCode : 当前版本应用包名
@@ -23,66 +23,79 @@ public class AppVersionUtils {
     //       true 新版本 == 当前版本
     //
     public static boolean isHasNewVersion(String szCurrentName, String szNextName) {
+        //szCurrentName = "AES_6.2.0-beta0_3234.apk";
+        //szNextName = "AES_6.1.0.apk";
+        //szCurrentName = "AES_6.2.0-beta0_3234.apk";
+        //szNextName = "AES_6.2.0.apk";
+        //szCurrentName = "AES_6.2.0-beta0_3234.apk";
+        //szNextName = "AES_6.2.2.apk";
+        //LogUtils.d(TAG, "szCurrentName : " + szCurrentName);
+        //LogUtils.d(TAG, "szNextName : " + szNextName);
+        
         //boolean isVersionNewer = false;
         //if(szCurrentName.equals(szNextName)) {
         //    isVersionNewer = false;
         //} else {
-            //ToastUtils.show("szCurrent : " + szCurrent + "\nszNext : " + szNext);
-            //int nApk = szNextName.lastIndexOf(".apk");
-            //ToastUtils.show("nApk : " + Integer.toString(nApk));
-            //String szNextNoApkName = szNextName.substring(0, nApk);
-            //ToastUtils.show("szNextNoApkName : " + szNextNoApkName);
-            //String szCurrentNoApkName = szCurrentName.substring(0, szNextNoApkName.length());
-            //ToastUtils.show("szCurrentNoApkName : " + szCurrentNoApkName);
-            //String str1 = "3.4.50";
-            //String str2 = "3.3.60";
-            //String str1 = getCodeInPackageName(szCurrentName);
-            //String str2 = getCodeInPackageName(szNextName);
-            //String str1 = getCodeInPackageName(szNextName);
-            //String str2 = getCodeInPackageName(szCurrentName);
-            //Boolean isVersionNewer2 = checkNewVersion(str1,str2);
-            //ToastUtils.show("isVersionNewer2 : " + Boolean.toString(isVersionNewer2));
-            //ToastUtils.show(checkNewVersion(getCodeInPackageName(szCurrentName), getCodeInPackageName(szNextName)));
-            //return checkNewVersion(getCodeInPackageName(szCurrentName), getCodeInPackageName(szNextName));
+        //ToastUtils.show("szCurrent : " + szCurrent + "\nszNext : " + szNext);
+        //int nApk = szNextName.lastIndexOf(".apk");
+        //ToastUtils.show("nApk : " + Integer.toString(nApk));
+        //String szNextNoApkName = szNextName.substring(0, nApk);
+        //ToastUtils.show("szNextNoApkName : " + szNextNoApkName);
+        //String szCurrentNoApkName = szCurrentName.substring(0, szNextNoApkName.length());
+        //ToastUtils.show("szCurrentNoApkName : " + szCurrentNoApkName);
+        //String str1 = "3.4.50";
+        //String str2 = "3.3.60";
+        //String str1 = getCodeInPackageName(szCurrentName);
+        //String str2 = getCodeInPackageName(szNextName);
+        //String str1 = getCodeInPackageName(szNextName);
+        //String str2 = getCodeInPackageName(szCurrentName);
+        //Boolean isVersionNewer2 = checkNewVersion(str1,str2);
+        //ToastUtils.show("isVersionNewer2 : " + Boolean.toString(isVersionNewer2));
+        //ToastUtils.show(checkNewVersion(getCodeInPackageName(szCurrentName), getCodeInPackageName(szNextName)));
+        //return checkNewVersion(getCodeInPackageName(szCurrentName), getCodeInPackageName(szNextName));
         //}
         //return isVersionNewer;
-        if(checkNewVersion(getCodeInPackageName(szCurrentName), getCodeInPackageName(szNextName))) {
+        if (checkNewVersion(getCodeInPackageName(szCurrentName), getCodeInPackageName(szNextName))) {
+            // 比 AES_6.2.0.apk 版本大，如 AES_6.2.1.apk。
+            // 比 AES_6.2.0-beta0_3234.apk 大，如 AES_6.2.1.apk。
+            //LogUtils.d(TAG, "App newer stage version is released. Release name : " + szNextName);
             return true;
-        } else {
-            if(szCurrentName.matches(".*_\\d+\\.\\d+\\.\\d+-beta.*\\.apk")) {
-                LogUtils.d(TAG, "Current Name is Beta");
-                if(getReleasePackageName(szCurrentName).equals(szNextName)) {
-                    LogUtils.d(TAG, "App beta version is released. Release name : " + szNextName);
-                    return true;
-                }
+        } 
+        if (szCurrentName.matches(".*_\\d+\\.\\d+\\.\\d+-beta.*\\.apk")) {
+            //LogUtils.d(TAG, "Current Name is Beta");
+            String szCurrentReleasePackageName = getReleasePackageName(szCurrentName);
+            //LogUtils.d(TAG, "szCurrentReleasePackageName : " + szCurrentReleasePackageName);
+            if (szCurrentReleasePackageName.equals(szNextName)) {
+                // 与 AES_6.2.0-beta0_3234.apk 版本相同，如 AES_6.2.0.apk。
+                //LogUtils.d(TAG, "App stage version is released. Release name : " + szNextName);
+                return true;
             }
         }
-
         return false;
     }
-    
+
     //
     // 检查新版本是否成立
     // szCurrentCode : 当前版本
     // szNextCode : 新版本
     // 返回 ：true 新版本 > 当前版本
     //
-    public static Boolean checkNewVersion (String szCurrentCode, String szNextCode){
+    public static Boolean checkNewVersion(String szCurrentCode, String szNextCode) {
         boolean isNew = false;
         String[] appVersion1 = szCurrentCode.split("\\.");
         String[] appVersion2 = szNextCode.split("\\.");
         //根据位数最短的判断
         int lim = appVersion1.length > appVersion2.length ? appVersion2.length : appVersion1.length;
         //根据位数循环判断各个版本
-        for(int i = 0; i < lim; i++){
-            if(Integer.parseInt(appVersion2[i]) > Integer.parseInt(appVersion1[i])){
+        for (int i = 0; i < lim; i++) {
+            if (Integer.parseInt(appVersion2[i]) > Integer.parseInt(appVersion1[i])) {
                 isNew = true;
                 return isNew;
             }
         }
         return isNew;
     }
-    
+
     //
     // 截取应用包名称版本号信息
     // 如 ：AppUtils_7.0.4-beta1_0120.apk 版本号为 7.0.4
@@ -99,7 +112,7 @@ public class AppVersionUtils {
         }
         return "";
     }
-    
+
     //
     // 根据Beta版名称生成发布版应用包名称
     // 如 AppUtils_7.0.4-beta1_0120.apk
@@ -116,5 +129,5 @@ public class AppVersionUtils {
         }
         return "";
     }
-    
+
 }
