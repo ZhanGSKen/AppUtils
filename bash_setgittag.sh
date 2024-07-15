@@ -26,6 +26,6 @@ else
       exit 2
   fi
   
-  git tag -a ${tag} -F update_description.txt
+  git tag -a ${tag} -F app_update_description.txt
   echo -e "${0}: Git tag is saved: (${tag} : ${message})"
 fi
