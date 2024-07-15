@@ -6,6 +6,7 @@ if [ -z "$1" ]; then
     exit 2
 fi
 
+echo "Bug Fix." > app_update_description.txt
 git add .
 git commit -m "${1} Release"
 git push origin && git push origin --tags
