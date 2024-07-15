@@ -50,7 +50,7 @@ public abstract class BaseBean<T extends BaseBean> {
 
             T beanTemp = clazz.newInstance();
             String szBeanSimpleName = beanTemp.getName();
-            String szListJson = FileUtils.readFile(szFilePath);
+            String szListJson = FileUtils.readStringFromFile(szFilePath);
             StringReader stringReader = new StringReader(szListJson);
             JsonReader jsonReader = new JsonReader(stringReader);
             jsonReader.beginArray();
@@ -201,7 +201,7 @@ public abstract class BaseBean<T extends BaseBean> {
             try {
                 File fTemp = new File(szFilePath);
                 if (fTemp.exists()) {
-                    T beanTemp = clazz.newInstance();String szJson = FileUtils.readFile(szFilePath);
+                    T beanTemp = clazz.newInstance();String szJson = FileUtils.readStringFromFile(szFilePath);
                     return beanTemp.parseStringToBean(szJson, clazz);
                 }
             } catch (InstantiationException e) {
@@ -223,7 +223,7 @@ public abstract class BaseBean<T extends BaseBean> {
     public static <T extends BaseBean> boolean saveBeanToFile(String szFilePath, T bean) {
         try {
             String szJson = bean.toString();
-            FileUtils.writeFile(szFilePath, szJson);
+            FileUtils.writeStringToFile(szFilePath, szJson);
             return true;
         } catch (IOException e) {
             LogUtils.d(TAG, e.getMessage(), Thread.currentThread().getStackTrace());
@@ -245,7 +245,7 @@ public abstract class BaseBean<T extends BaseBean> {
         try {
             File fTemp = new File(szFilePath);
             if (fTemp.exists()) {
-                String szListJson = FileUtils.readFile(szFilePath);
+                String szListJson = FileUtils.readStringFromFile(szFilePath);
                 return parseStringToBeanList(szListJson, beanList, clazz);
             }
         } catch (IOException e) {
@@ -269,7 +269,7 @@ public abstract class BaseBean<T extends BaseBean> {
     public static <T extends BaseBean> boolean saveBeanListToFile(String szFilePath, ArrayList<T> beanList) {
         try {
             String szJson = toStringByBeanList(beanList);
-            FileUtils.writeFile(szFilePath, szJson);
+            FileUtils.writeStringToFile(szFilePath, szJson);
             //LogUtils.d(TAG, "FileUtil.writeFile beanList.size() is " + Integer.toString(beanList.size()));
             return true;
         } catch (IOException e) {

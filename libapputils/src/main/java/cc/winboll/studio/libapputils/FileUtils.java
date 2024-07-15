@@ -25,9 +25,9 @@ public class FileUtils {
 
     public static final String TAG = "FileUtil";
 
-    public static void shareJSONFile(Context context, String szConfigFile) {
+    public static void shareJSONFile(Context context, String szShareFilePath) {
         Uri uri;
-        File file = new File(szConfigFile);
+        File file = new File(szShareFilePath);
         uri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileprovider", file);
         /*if (Build.VERSION.SDK_INT >= 24) {//android 7.0以上
          uri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileprovider", file);
@@ -51,19 +51,19 @@ public class FileUtils {
     //
     // 把字符串写入文件，指定 UTF-8 编码
     //
-    public static void writeFile(String filePath, String content) throws IOException {
-        File file = new File(filePath);
+    public static void writeStringToFile(String szFilePath, String szContent) throws IOException {
+        File file = new File(szFilePath);
         FileOutputStream outputStream = new FileOutputStream(file);
         OutputStreamWriter writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
-        writer.write(content);
+        writer.write(szContent);
         writer.close();
     }
 
     //
     // 读取文件到字符串，指定 UTF-8 编码
     //
-    public static String readFile(String filePath) throws IOException {
-        File file = new File(filePath);
+    public static String readStringFromFile(String szFilePath) throws IOException {
+        File file = new File(szFilePath);
         FileInputStream inputStream = new FileInputStream(file);
         InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
         StringBuilder content = new StringBuilder();
@@ -75,6 +75,9 @@ public class FileUtils {
         return content.toString();
     }
 
+    //
+    // 将应用内置assets文件夹内容拷贝至指定目录
+    //
     public static void copyAssetsToSD(Context context, String szSrcAssets, String szDstSD) {
         LogUtils.d(TAG, "copyAssetsToSD [" + szSrcAssets + "] to [" + szDstSD + "]");
         AssetManager assetManager = context.getAssets();
