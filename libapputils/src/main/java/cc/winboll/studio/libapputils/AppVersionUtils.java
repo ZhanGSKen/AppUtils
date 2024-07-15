@@ -24,11 +24,15 @@ public class AppVersionUtils {
     //
     public static boolean isHasNewVersion(String szCurrentName, String szNextName) {
         //szCurrentName = "AES_6.2.0-beta0_3234.apk";
-        //szNextName = "AES_6.1.0.apk";
+        //szNextName = "AES_6.1.12.apk";
         //szCurrentName = "AES_6.2.0-beta0_3234.apk";
         //szNextName = "AES_6.2.0.apk";
         //szCurrentName = "AES_6.2.0-beta0_3234.apk";
         //szNextName = "AES_6.2.2.apk";
+        //szCurrentName = "AES_6.2.0-beta0_3234.apk";
+        //szNextName = "AES_6.2.0.apk";
+        //szCurrentName = "AES_6.1.0.apk";
+        //szNextName = "AES_6.2.0.apk";
         //LogUtils.d(TAG, "szCurrentName : " + szCurrentName);
         //LogUtils.d(TAG, "szNextName : " + szNextName);
         
@@ -62,7 +66,6 @@ public class AppVersionUtils {
             return true;
         } 
         if (szCurrentName.matches(".*_\\d+\\.\\d+\\.\\d+-beta.*\\.apk")) {
-            //LogUtils.d(TAG, "Current Name is Beta");
             String szCurrentReleasePackageName = getReleasePackageName(szCurrentName);
             //LogUtils.d(TAG, "szCurrentReleasePackageName : " + szCurrentReleasePackageName);
             if (szCurrentReleasePackageName.equals(szNextName)) {
@@ -71,6 +74,7 @@ public class AppVersionUtils {
                 return true;
             }
         }
+        //LogUtils.d(TAG, "App version is the newest. ");
         return false;
     }
 
@@ -82,14 +86,19 @@ public class AppVersionUtils {
     //
     public static Boolean checkNewVersion(String szCurrentCode, String szNextCode) {
         boolean isNew = false;
-        String[] appVersion1 = szCurrentCode.split("\\.");
-        String[] appVersion2 = szNextCode.split("\\.");
+        String[] appVersionCurrent = szCurrentCode.split("\\.");
+        String[] appVersionNext = szNextCode.split("\\.");
         //根据位数最短的判断
-        int lim = appVersion1.length > appVersion2.length ? appVersion2.length : appVersion1.length;
+        int lim = appVersionCurrent.length > appVersionNext.length ? appVersionNext.length : appVersionCurrent.length;
         //根据位数循环判断各个版本
         for (int i = 0; i < lim; i++) {
-            if (Integer.parseInt(appVersion2[i]) > Integer.parseInt(appVersion1[i])) {
+            if (Integer.parseInt(appVersionNext[i]) > Integer.parseInt(appVersionCurrent[i])) {
                 isNew = true;
+                return isNew;
+            } else if(Integer.parseInt(appVersionNext[i]) == Integer.parseInt(appVersionCurrent[i])) {
+                continue ;
+            } else {
+                isNew = false;
                 return isNew;
             }
         }
