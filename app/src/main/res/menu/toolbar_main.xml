@@ -8,7 +8,9 @@
         android:id="@+id/item_beanactivity"
         android:title="Bean Activity"/>
     <item
+        android:id="@+id/item_testrsakeyutils"
+        android:title="TestRSAKeyUtils"/>
+    <item
         android:id="@+id/item_about"
         android:title="About"/>
-    
 </menu>

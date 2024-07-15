@@ -36,6 +36,8 @@
 
         <activity android:name="cc.winboll.studio.apputils.activities.AboutActivity"/>
 
+        <activity android:name="cc.winboll.studio.apputils.activities.TestRSAKeyUtilsActivity"/>
+
     </application>
 
 </manifest>

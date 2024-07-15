@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import cc.winboll.studio.apputils.activities.AboutActivity;
 import cc.winboll.studio.apputils.activities.BeanActivity;
 import cc.winboll.studio.apputils.activities.LogActivity;
+import cc.winboll.studio.apputils.activities.TestRSAKeyUtilsActivity;
 import cc.winboll.studio.libapputils.LogUtils;
 import cc.winboll.studio.libapputils.views.LogView;
 
@@ -88,6 +89,13 @@ public class MainActivity extends Activity {
                 }
             case R.id.item_beanactivity : {
                     Intent intent = new Intent(this, BeanActivity.class);
+                    //startActivity(intent);
+                    //mLogView.stopWatching();
+                    startActivityForResult(intent, REQUEST_LOGACTIVITY);
+                    break;
+                }
+            case R.id.item_testrsakeyutils: {
+                    Intent intent = new Intent(this, TestRSAKeyUtilsActivity.class);
                     //startActivity(intent);
                     //mLogView.stopWatching();
                     startActivityForResult(intent, REQUEST_LOGACTIVITY);
