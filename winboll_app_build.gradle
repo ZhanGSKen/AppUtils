@@ -168,6 +168,23 @@ android {
                                 // 保存数据
                                 buildProps.store(fos, "These properties created by winboll_app_build.gradle.");
                                 fos.close();
+                                
+                                // 给源码做标签
+                                // 读取编译标志位配置文件
+                                def resultCommitRelease = exec {
+                                    //commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "6.0.4"
+                                    //commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "9.9.9"
+                                    commandLine 'bash', '--', "${bashCommitReleasePath}", "${RootProjectDir}", "${versionName}"
+                                    //standardOutput = true
+                                    // 根据需要，可以添加错误输出
+                                    //standardError = true
+                                }
+                                // make_git_tag.sh Git标签设置成功会返回0，
+                                // 此处断言可以阻止标签失败的发布行为
+                                // 获取bash命令的输出
+                                //def output = result.text
+                                // 检查bash命令的返回值（假设非零表示失败）
+			                    assert(resultCommitRelease.getExitValue() == 0)
                             }
                         } //  if(variant.buildType.name == "release"){
                     

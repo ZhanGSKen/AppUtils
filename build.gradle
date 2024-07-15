@@ -31,6 +31,7 @@ allprojects {
         RootProjectDir = "${project.rootProject.projectDir}".replace("\\", "/")
         bashCheckGitPath = "${RootProjectDir}/bash_checkgit.sh"
         bashSetGitTagPath = "${RootProjectDir}/bash_setgittag.sh"
+        bashCommitReleasePath = "${RootProjectDir}/bash_commit_release.sh"
         buildPropsFileName = "build_flag.properties"
         // 定义 lint 输出文件
         lintXmlReportPath = "build/reports/lint-results.xml"
