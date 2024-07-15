@@ -100,11 +100,11 @@ public class AboutView extends LinearLayout {
     protected View createAboutPage() {
         // 定义 GitWeb 按钮
         //
-        Element elementGitWeb = new Element("GitWeb", R.drawable.ic_launcher);
+        Element elementGitWeb = new Element(mContext.getString(R.string.text_gitwebsource), R.drawable.ic_launcher);
         elementGitWeb.setOnClickListener(mGitWebOnClickListener);
         // 定义检查更新按钮
         //
-        Element elementAppUpdate = new Element("APP Update", R.drawable.ic_launcher);
+        Element elementAppUpdate = new Element(mContext.getString(R.string.text_appupdate), R.drawable.ic_launcher);
         elementAppUpdate.setOnClickListener(mAppUpdateOnClickListener);
 
         String szAppInfo = "";
