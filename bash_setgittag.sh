@@ -25,6 +25,9 @@ else
       echo "Tag ${tag} exist."
       exit 2
   fi
-  git tag ${tag}
-  echo "${0}: Git tag is saved: (${tag})"
+
+  ## Read update_description.txt line 1 as message.
+  message=$(head -n 1 update_description.txt)
+  git tag -a ${tag} -m "${message}"
+  echo "${0}: Git tag is saved: (${tag} : ${message})"
 fi
