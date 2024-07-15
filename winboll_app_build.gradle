@@ -89,40 +89,42 @@ android {
                 //
                 
                     variant.outputs.forEach{ file->
-                        // 拷贝到 WinBoll 备份管理文件夹
-                        //
-                        File outBuildBckDir = new File(fWinBollStudioDir, "/${rootProject.name}/${variant.buildType.name}")
-                        // 创建目标路径目录
-                        if(!outBuildBckDir.exists()) {
-                            outBuildBckDir.mkdirs();
-                            println "Output Folder Created.(WinBollStudio) : " + outBuildBckDir.getAbsolutePath()
-                        }
-                        if(outBuildBckDir.exists()) {
-                            copy{
-                                from file.outputFile
-                                into outBuildBckDir
-                                rename {
-                                    String fileName -> "${outputFileName}"
-                                }
-                                println "Output APK (WinBollStudio): " + outBuildBckDir.getAbsolutePath() + "/${outputFileName}"
+                        // 如果正在调试，就拷贝到 WinBoll 备份管理文件夹
+                        // 
+                        if(variant.flavorName == "beta"&&variant.buildType.name == "debug"){
+                            File outBuildBckDir = new File(fWinBollStudioDir, "/${rootProject.name}/${variant.buildType.name}")
+                            // 创建目标路径目录
+                            if(!outBuildBckDir.exists()) {
+                                outBuildBckDir.mkdirs();
+                                println "Output Folder Created.(WinBollStudio) : " + outBuildBckDir.getAbsolutePath()
                             }
-                            // 读取编译标志位配置文件
-                            def buildProps = new Properties()
-                            def buildPropsFile = rootProject.file("${buildPropsFileName}")
-                            // 如果编译标志位配置文件不存在，就设置断言
-                            assert (buildPropsFile.exists())
-                            buildProps.load(new FileInputStream(buildPropsFile))
-                            assert (buildProps['buildCount'] != null)
-                            //构建计数增加
-                            int buildCount = Integer.parseInt(buildProps['buildCount']) + 1;
-                            // 保存数据
-                            FileOutputStream fos = new FileOutputStream(buildPropsFile)
-                            buildProps.setProperty("buildCount", Integer.toString(buildCount));
-                            buildProps.store(fos, "These properties created by winboll_app_build.gradle.");
-                            fos.close();
+                            if(outBuildBckDir.exists()) {
+                                copy{
+                                    from file.outputFile
+                                    into outBuildBckDir
+                                    rename {
+                                        String fileName -> "${outputFileName}"
+                                    }
+                                    println "Output APK (WinBollStudio): " + outBuildBckDir.getAbsolutePath() + "/${outputFileName}"
+                                }
+                                // 读取编译标志位配置文件
+                                def buildProps = new Properties()
+                                def buildPropsFile = rootProject.file("${buildPropsFileName}")
+                                // 如果编译标志位配置文件不存在，就设置断言
+                                assert (buildPropsFile.exists())
+                                buildProps.load(new FileInputStream(buildPropsFile))
+                                assert (buildProps['buildCount'] != null)
+                                //构建计数增加
+                                int buildCount = Integer.parseInt(buildProps['buildCount']) + 1;
+                                // 保存数据
+                                FileOutputStream fos = new FileOutputStream(buildPropsFile)
+                                buildProps.setProperty("buildCount", Integer.toString(buildCount));
+                                buildProps.store(fos, "These properties created by winboll_app_build.gradle.");
+                                fos.close();
+	                        }
                         }
                         
-                        // 拷贝到 WinBoll 标签管理文件夹
+                        // 如果正在发布，就拷贝到 WinBoll 标签管理文件夹
                         //
                         if(variant.flavorName == "stage"&&variant.buildType.name == "release"){
                             // 给源码做标签
