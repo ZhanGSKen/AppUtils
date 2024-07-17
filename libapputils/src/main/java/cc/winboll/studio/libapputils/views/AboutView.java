@@ -173,19 +173,23 @@ public class AboutView extends LinearLayout {
                                         return;
                                     }
 
-                                    // 读取响应体作为字符串，注意这里可能需要解码
-                                    String text = response.body().string();
-                                    org.jsoup.nodes.Document doc = org.jsoup.Jsoup.parse(text);
-                                    //LogUtils.i(TAG, doc.text());
+                                    try {
+                                        // 读取响应体作为字符串，注意这里可能需要解码
+                                        String text = response.body().string();
+                                        org.jsoup.nodes.Document doc = org.jsoup.Jsoup.parse(text);
+                                        //LogUtils.i(TAG, doc.text());
 
-                                    // 使用id选择器找到具有特定id的元素
-                                    org.jsoup.nodes.Element elementWithId = doc.select("#LastRelease").first(); // 获取第一个匹配的元素
+                                        // 使用id选择器找到具有特定id的元素
+                                        org.jsoup.nodes.Element elementWithId = doc.select("#LastRelease").first(); // 获取第一个匹配的元素
 
-                                    // 提取并打印元素的文本内容
-                                    mszNewestAppPackageName = elementWithId.text();
-                                    //ToastUtils.delayedShow(textContent + "\n" + mszCurrentAppPackageVersionName, 5000);
+                                        // 提取并打印元素的文本内容
+                                        mszNewestAppPackageName = elementWithId.text();
+                                        //ToastUtils.delayedShow(textContent + "\n" + mszCurrentAppPackageVersionName, 5000);
 
-                                    mHandler.sendMessage(mHandler.obtainMessage(MSG_APPUPDATE_CHECKED));
+                                        mHandler.sendMessage(mHandler.obtainMessage(MSG_APPUPDATE_CHECKED));
+                                    } catch (Exception e) {
+                                        LogUtils.d(TAG, e, Thread.currentThread().getStackTrace());
+                                    }
                                 }
                             });
                     }
