@@ -37,6 +37,10 @@ public abstract class BaseBean<T extends BaseBean> {
     public void writeThisToJsonWriter(JsonWriter jsonWriter) throws IOException {
         jsonWriter.name(BEAN_NAME).value(getName());
     }
+    
+    public boolean initObjectsFromJsonReader(JsonReader jsonReader, String name) throws IOException{
+        return false;
+    }
 
     abstract public T readBeanFromJsonReader(JsonReader jsonReader) throws IOException;
 

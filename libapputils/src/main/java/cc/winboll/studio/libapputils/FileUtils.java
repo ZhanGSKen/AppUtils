@@ -53,6 +53,9 @@ public class FileUtils {
     //
     public static void writeStringToFile(String szFilePath, String szContent) throws IOException {
         File file = new File(szFilePath);
+        if(!file.getParentFile().exists()) {
+            file.getParentFile().mkdirs();
+        }
         FileOutputStream outputStream = new FileOutputStream(file);
         OutputStreamWriter writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
         writer.write(szContent);

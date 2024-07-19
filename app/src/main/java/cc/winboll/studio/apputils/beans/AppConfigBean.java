@@ -40,8 +40,7 @@ public class AppConfigBean extends BaseBean {
     @Override
     public void writeThisToJsonWriter(JsonWriter jsonWriter) throws IOException {
         super.writeThisToJsonWriter(jsonWriter);
-        AppConfigBean bean = this;
-        jsonWriter.name("isEnableService").value(bean.isEnableService());
+        jsonWriter.name("isEnableService").value(isEnableService());
     }
 
     @Override
