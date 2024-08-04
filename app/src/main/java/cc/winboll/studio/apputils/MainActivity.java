@@ -13,6 +13,9 @@ import cc.winboll.studio.apputils.activities.LogActivity;
 import cc.winboll.studio.apputils.activities.TestRSAKeyUtilsActivity;
 import cc.winboll.studio.libapputils.LogUtils;
 import cc.winboll.studio.libapputils.views.LogView;
+import java.io.File;
+import cc.winboll.studio.libapputils.FileUtils;
+import java.io.IOException;
 
 public class MainActivity extends Activity {
 
@@ -55,6 +58,20 @@ public class MainActivity extends Activity {
 
     public void onCleanLog(View view) {
         LogUtils.cleanLog();
+    }
+    
+    public void onTestFileUtils(View view) {
+        File fMain = getExternalFilesDir(TAG);
+        File fSrcFile = new File(fMain, "src.txt");
+        File fDstFile = new File(fMain, "dst.txt");
+        try {
+            FileUtils.writeStringToFile(fSrcFile.getPath(), "Test String -> " + Long.toString(System.currentTimeMillis()));
+            String szSrcTemp = FileUtils.readStringFromFile(fSrcFile.getPath());
+            LogUtils.d(TAG, "Src is : " + szSrcTemp);
+            FileUtils.copyFile(fSrcFile, fDstFile);
+            String szDstTemp = FileUtils.readStringFromFile(fDstFile.getPath());
+            LogUtils.d(TAG, "Dst is : " + szDstTemp);
+        } catch (IOException e) {}
     }
 
     public void onTestAPPCrashHandler(View view) {
