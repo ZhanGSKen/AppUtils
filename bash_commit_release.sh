@@ -15,4 +15,4 @@ echo "" > app_update_description.txt
 ## 提交新的标志设置，并推送到Git仓库。
 git add .
 git commit -m "${2} Release"
-git push origin && git push origin --tags
+git push origin && git push origin --tags && git push archives && git push archives --tags
