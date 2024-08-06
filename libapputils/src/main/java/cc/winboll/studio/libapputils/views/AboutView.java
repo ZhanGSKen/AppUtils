@@ -43,7 +43,7 @@ public class AboutView extends LinearLayout {
     volatile String mszNewestAppPackageName = "";
     String mszAppDescription = "";
     String mszHomePage = "";
-    String mszGitWeb = "";
+    String mszGitea = "";
     int mnAppIcon = 0;
 
     public AboutView(Context context, AttributeSet attrs) {
@@ -68,7 +68,7 @@ public class AboutView extends LinearLayout {
         }
         mszCurrentAppPackageName = mszAppProjectName + "_" + mszAppVersionName + ".apk";
         mszHomePage = "https://winboll.cc/studio/details.php?app=" + mszAppProjectName;
-        mszGitWeb = "https://winboll.cc/gitweb/" + mszAppProjectName + ".git";
+        mszGitea = "https://git.winboll.cc/Studio/" + mszAppProjectName + ".git";
 
         addView(createAboutPage());
         // 初始化标题栏
@@ -140,7 +140,7 @@ public class AboutView extends LinearLayout {
     View.OnClickListener mGitWebOnClickListener = new View.OnClickListener(){
         @Override
         public void onClick(View view) {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mszGitWeb));
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mszGitea));
             mContext.startActivity(browserIntent);
         }
     };
