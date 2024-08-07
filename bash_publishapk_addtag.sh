@@ -32,16 +32,16 @@ function askAddWorkflowsTag {
 }
 
 function addWinBollTag {
-    # 如果文件中有 libDefaultVersion 这一项，
-	# 就读取脚本 bash_setgittag.sh 生成的 libDefaultVersion。
-	# 使用grep找到包含"libDefaultVersion="的那一行，然后用awk提取其后的值
-	LIB_DEFAULT_VERSION=$(grep -o "libDefaultVersion=.*" ./build_flag.properties | awk -F '=' '{print $2}')
-	echo "< bash_setgittag.sh libDefaultVersion : ${LIB_DEFAULT_VERSION} >"
+	# 就读取脚本 winboll_app_build.gradle 生成的 publishVersion。
+    # 如果文件中有 publishVersion 这一项，
+	# 使用grep找到包含"publishVersion="的那一行，然后用awk提取其后的值
+	PUBLISH_VERSION=$(grep -o "publishVersion=.*" ./build_flag.properties | awk -F '=' '{print $2}')
+	echo "< bash_setgittag.sh publishVersion : ${PUBLISH_VERSION} >"
 	## 设新的 WinBoll 标签
 	# 脚本调试时使用
 	#tag="v7.6.4-test1"
 	# 正式设置标签时使用
-	tag="v"${LIB_DEFAULT_VERSION}
+	tag="v"${PUBLISH_VERSION}
 	echo "< WinBoll Tag To: $tag >";
 	# 检查是否已经添加了 WinBoll Tag
 	if [ "$(git tag -l ${tag})" == "${tag}" ]; then
@@ -54,16 +54,16 @@ function addWinBollTag {
 }
 
 function addWorkflowsTag {
-    # 如果文件中有 libDefaultVersion 这一项，
-	# 就读取脚本 bash_setgittag.sh 生成的 libDefaultVersion。
-	# 使用grep找到包含"libDefaultVersion="的那一行，然后用awk提取其后的值
-	LIB_DEFAULT_VERSION=$(grep -o "libDefaultVersion=.*" ./build_flag.properties | awk -F '=' '{print $2}')
-	echo "< bash_setgittag.sh libDefaultVersion : ${LIB_DEFAULT_VERSION} >"
+	# 就读取脚本 winboll_app_build.gradle 生成的 publishVersion。
+    # 如果文件中有 publishVersion 这一项，
+	# 使用grep找到包含"publishVersion="的那一行，然后用awk提取其后的值
+	PUBLISH_VERSION=$(grep -o "publishVersion=.*" ./build_flag.properties | awk -F '=' '{print $2}')
+	echo "< bash_setgittag.sh publishVersion : ${PUBLISH_VERSION} >"
 	## 设新的 workflows 标签
 	# 脚本调试时使用
 	#tag="v7.6.4-test1-github"
 	# 正式设置标签时使用
-	tag="v"${LIB_DEFAULT_VERSION}-github
+	tag="v"${PUBLISH_VERSION}-github
 	echo "< Workflows Tag To: $tag >";
 	# 检查是否已经添加了工作流 Tag
 	if [ "$(git tag -l ${tag})" == "${tag}" ]; then
@@ -122,8 +122,14 @@ if [[ $? -eq 0 ]]; then
 		fi
 	fi
 	
+	## 清理更新描述文件内容
+	echo "" > app_update_description.txt
+	
 	# 设置新版本开发参数配置
 	# 提交配置
+	git add .
+	git commit -m 
+	
 
 	echo "Push sources to git repositories ..."
     # 推送源码到所有仓库

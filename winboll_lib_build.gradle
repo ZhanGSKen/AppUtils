@@ -7,9 +7,9 @@ def getDefaultVersion(){
     def buildPropsFile = rootProject.file("${buildPropsFileName}")
     assert(buildPropsFile.exists())
     buildProps.load(new FileInputStream(buildPropsFile))
-    assert (buildProps['libDefaultVersion'] != null)
+    assert (buildProps['publishVersion'] != null)
     // 返回编译版本号
-    return buildProps['libDefaultVersion']
+    return buildProps['publishVersion']
 }
 
 def siteUrl = 'https://winboll.cc/${rootProject.name}' // 项目主页
