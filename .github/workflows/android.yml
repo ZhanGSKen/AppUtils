@@ -74,7 +74,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.APP_SECRET_TOKEN_1 }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # 上传网址，无需改动
-        asset_path: app/build/outputs/apk/release/app-release.apk # 上传路径
+        #asset_path: app/build/outputs/apk/release/app-release.apk # 上传路径(Release)
+        asset_path: app/build/outputs/apk/stage/release/app-stage-release.apk # 上传路径(WinBoll Stage Release)
         asset_name: PowerBell-${{steps.get-version.outputs.result}}.apk # 资源名
         asset_content_type: application/vnd.android.package-archiv # 资源类型
         
