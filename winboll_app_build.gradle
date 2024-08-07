@@ -45,14 +45,28 @@ android {
             dimension "WinBollApp"
         }
     }
-    //
+
     // 应用包输出配置
-    // 1. 配置 Stage Release 版应用包输出
-    // 2. 配置 Beta Debug 版应用包输出
     //
     android.applicationVariants.all { variant ->
-        if((variant.flavorName == "beta"&&variant.buildType.name == "debug")
-        || (variant.flavorName == "stage"&&variant.buildType.name == "release")) {
+        //
+        // GitHub 应用包输出配置
+        // 1. 配置 Beta Release 版应用包输出
+        // 注意 ：GitHub 打包使用 android.yml 的 "bash ./gradlew assembleBetaRelease" 命令
+        //
+        if(variant.flavorName == "beta" && variant.buildType.name == "release") {
+            /* 后期管理预留代码 */
+            /* 暂时没有需要的 GitHub 应用包输出配置 */
+            /* GitHub 部分代码忽略 */
+        }
+        
+        //
+        // WinBoll 应用包输出配置
+        // 1. 配置 Stage Release 版应用包输出
+        // 2. 配置 Beta Debug 版应用包输出
+	    //
+        if((variant.flavorName == "beta" && variant.buildType.name == "debug")
+        || (variant.flavorName == "stage" && variant.buildType.name == "release")) {
             def outputPath="${project.projectDir.absolutePath}/build/outputs/apk/${variant.buildType.name}"
             def outputFileName="${rootProject.name}_${versionName}.apk"
             
@@ -66,7 +80,7 @@ android {
             } else {
                 /// WINBOLL 主机的 APK 发布和源码管理操作 ///
                 variant.getAssembleProvider().get().doFirst {
-                    
+                    /* 后期管理预留代码 */
                 } //doFirst {
                 
                 // 编译输出后处理文件部分
