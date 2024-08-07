@@ -39,4 +39,6 @@ else
   
   git tag -a ${tag} -m "Github workflows tag."
   echo -e "${0}: Github workflows tag is saved: (${tag})"
+  echo "Update git repositories :"
+  git push origin && git push origin --tags && git push archives && git push archives --tags && git push github && git push github --tags
 fi
