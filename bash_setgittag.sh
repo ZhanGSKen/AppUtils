@@ -22,10 +22,10 @@ then
 else
   echo "Git status is clean."
   if [ "$(git tag -l ${tag})" == "${tag}" ]; then
-      echo "Tag ${tag} exist."
+      echo "Tag (${tag}) exist."
       exit 2
   fi
   
   git tag -a ${tag} -F app_update_description.txt
-  echo -e "${0}: Git tag is saved: (${tag} : ${message})"
+  echo -e "${0}: Git tag is saved: (${tag})"
 fi
