@@ -61,9 +61,9 @@ function addWorkflowsTag {
 	echo "< bash_setgittag.sh publishVersion : ${PUBLISH_VERSION} >"
 	## 设新的 workflows 标签
 	# 脚本调试时使用
-	#tag="v7.6.4-test1-github"
+	#tag="v7.6.4-test1-github-beta"
 	# 正式设置标签时使用
-	tag="v"${PUBLISH_VERSION}-github
+	tag="v"${PUBLISH_VERSION}-github-beta
 	echo "< Workflows Tag To: $tag >";
 	# 检查是否已经添加了工作流 Tag
 	if [ "$(git tag -l ${tag})" == "${tag}" ]; then
