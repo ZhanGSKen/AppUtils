@@ -56,192 +56,193 @@ android {
             def outputPath="${project.projectDir.absolutePath}/build/outputs/apk/${variant.buildType.name}"
             def outputFileName="${rootProject.name}_${versionName}.apk"
             
-            // 创建 WinBoll Studio 接口文件夹
+            // 创建 WinBoll Studio 发布接口文件夹
             File fWinBollStudioDir = file("/sdcard/WinBollStudio/APKs");
             if(!fWinBollStudioDir.exists()) {
-                fWinBollStudioDir.mkdirs();
-            }
-            
-            variant.getAssembleProvider().get().doFirst {
-                if(variant.flavorName == "stage"&&variant.buildType.name == "release"){
-                    // 给源码做标签
-                    // 读取编译标志位配置文件
-                    def result = exec {
-                        //commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "6.0.4"
-                        //commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "9.9.9"
-                        commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "${versionName}"
-                        //standardOutput = true
-                        // 根据需要，可以添加错误输出
-                        //standardError = true
-                    }
-                    // make_git_tag.sh Git标签设置成功会返回0，
-                    // 此处断言可以阻止标签失败的发布行为
-                    // 获取bash命令的输出
-                    //def output = result.text
-                    // 检查bash命令的返回值（假设非零表示失败）
-                    assert(result.getExitValue() == 0)
-                }
-            } //doFirst {
-            
-            // 编译输出后处理文件
-            variant.getAssembleProvider().get().doLast {
-                // 开始处理输出文件
-                //
-                
-                    variant.outputs.forEach{ file->
-                        // 如果正在调试，就拷贝到 WinBoll 备份管理文件夹
-                        // 
-                        if(variant.flavorName == "beta"&&variant.buildType.name == "debug"){
-                            File outBuildBckDir = new File(fWinBollStudioDir, "/${rootProject.name}/${variant.buildType.name}")
-                            // 创建目标路径目录
-                            if(!outBuildBckDir.exists()) {
-                                outBuildBckDir.mkdirs();
-                                println "Output Folder Created.(WinBollStudio) : " + outBuildBckDir.getAbsolutePath()
-                            }
-                            if(outBuildBckDir.exists()) {
-                                copy{
-                                    from file.outputFile
-                                    into outBuildBckDir
-                                    rename {
-                                        String fileName -> "${outputFileName}"
-                                    }
-                                    println "Output APK (WinBollStudio): " + outBuildBckDir.getAbsolutePath() + "/${outputFileName}"
-                                }
-                                // 读取编译标志位配置文件
-                                def buildProps = new Properties()
-                                def buildPropsFile = rootProject.file("${buildPropsFileName}")
-                                // 如果编译标志位配置文件不存在，就设置断言
-                                assert (buildPropsFile.exists())
-                                buildProps.load(new FileInputStream(buildPropsFile))
-                                assert (buildProps['buildCount'] != null)
-                                //构建计数增加
-                                int buildCount = Integer.parseInt(buildProps['buildCount']) + 1;
-                                // 保存数据
-                                FileOutputStream fos = new FileOutputStream(buildPropsFile)
-                                buildProps.setProperty("buildCount", Integer.toString(buildCount));
-                                buildProps.store(fos, "These properties created by winboll_app_build.gradle.");
-                                fos.close();
-	                        }
+                //fWinBollStudioDir.mkdirs();
+                // 如果没有发布接口文件就不用进行APK发布和源码管理操作
+                // 当前编译环境不是 WinBoll 主机, 以下将忽略APK发布和源码管理操作。
+                println 'The current compilation environment is not in WinBoll host, and the following APK publishing and source management operations will be ignore.'
+            } else {
+                /// WINBOLL 主机的 APK 发布和源码管理操作 ///
+                variant.getAssembleProvider().get().doFirst {
+                    if(variant.flavorName == "stage"&&variant.buildType.name == "release"){
+                        // 给源码做标签
+                        // 读取编译标志位配置文件
+                        def result = exec {
+                            //commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "6.0.4"
+                            //commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "9.9.9"
+                            commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "${versionName}"
+                            //standardOutput = true
+                            // 根据需要，可以添加错误输出
+                            //standardError = true
                         }
-                        
-                        // 如果正在发布，就拷贝到 WinBoll 标签管理文件夹
-                        //
-                        if(variant.flavorName == "stage"&&variant.buildType.name == "release"){
-                            // 给源码做标签
-                            //
-                            // 读取编译标志位配置文件
-                            def result = exec {
-                                //commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "6.0.4"
-                                //commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "9.9.9"
-                                commandLine 'bash', '--', "${bashSetGitTagPath}", "${RootProjectDir}", "${versionName}"
-                                //standardOutput = true
-                                // 根据需要，可以添加错误输出
-                                //standardError = true
-                            }
-                            // Git标签设置成功会返回0，
-                            // 此处断言可以阻止标签失败的发布行为
-                            // 检查bash命令的返回值（假设非零表示失败）
-                            assert(result.getExitValue() == 0)
-                        
-                            // 发布 APK 文件
-                            //
-                            // 截取版本号的版本字段为短版本名
-                            String szVersionName = "${versionName}"
-                            String[] szlistTemp = szVersionName.split("-")
-                            String szShortVersionName = szlistTemp[0]
-                            String szCommonTagAPKName = "${rootProject.name}_" + szShortVersionName + ".apk"
-                            println "CommonTagAPKName is : " + szCommonTagAPKName
-                            
-                            File outTagDir = new File(fWinBollStudioDir, "/${rootProject.name}/tag/")
-                            // 创建目标路径目录
-                            if(!outTagDir.exists()) {
-                                outTagDir.mkdirs();
-                                println "Output Folder Created.(Tags) : " + outTagDir.getAbsolutePath()
-                            }
-                            
-                            if(outTagDir.exists()) {
-                                File targetAPK = new File(outTagDir, "${szCommonTagAPKName}")
-                                if(targetAPK.exists()) {
-                                    // 标签版本APK文件已经存在，构建拷贝任务停止
-                                    assert (!targetAPK.exists())
-                                    // 可选择删除并继续输出APK文件
-                                    //delete targetAPK
+                        // make_git_tag.sh Git标签设置成功会返回0，
+                        // 此处断言可以阻止标签失败的发布行为
+                        // 获取bash命令的输出
+                        //def output = result.text
+                        // 检查bash命令的返回值（假设非零表示失败）
+                        assert(result.getExitValue() == 0)
+                    }
+                } //doFirst {
+                
+                // 编译输出后处理文件部分
+                //
+                variant.getAssembleProvider().get().doLast {
+                        variant.outputs.forEach{ file->
+                            // 如果正在调试，就拷贝到 WinBoll 备份管理文件夹
+                            // 
+                            if(variant.flavorName == "beta"&&variant.buildType.name == "debug"){
+                                File outBuildBckDir = new File(fWinBollStudioDir, "/${rootProject.name}/${variant.buildType.name}")
+                                // 创建目标路径目录
+                                if(!outBuildBckDir.exists()) {
+                                    outBuildBckDir.mkdirs();
+                                    println "Output Folder Created.(WinBollStudio) : " + outBuildBckDir.getAbsolutePath()
                                 }
-                                // 复制一个备份
-                                copy{
-                                    from file.outputFile
-                                    into outTagDir
-                                    rename {
-                                        String fileName -> "${outputFileName}"
+                                if(outBuildBckDir.exists()) {
+                                    copy{
+                                        from file.outputFile
+                                        into outBuildBckDir
+                                        rename {
+                                            String fileName -> "${outputFileName}"
+                                        }
+                                        println "Output APK (WinBollStudio): " + outBuildBckDir.getAbsolutePath() + "/${outputFileName}"
                                     }
-                                    println "Output APK (Tags): "+ outTagDir.getAbsolutePath() + "/${outputFileName}"
+                                    // 读取编译标志位配置文件
+                                    def buildProps = new Properties()
+                                    def buildPropsFile = rootProject.file("${buildPropsFileName}")
+                                    // 如果编译标志位配置文件不存在，就设置断言
+                                    assert (buildPropsFile.exists())
+                                    buildProps.load(new FileInputStream(buildPropsFile))
+                                    assert (buildProps['buildCount'] != null)
+                                    //构建计数增加
+                                    int buildCount = Integer.parseInt(buildProps['buildCount']) + 1;
+                                    // 保存数据
+                                    FileOutputStream fos = new FileOutputStream(buildPropsFile)
+                                    buildProps.setProperty("buildCount", Integer.toString(buildCount));
+                                    buildProps.store(fos, "These properties created by winboll_app_build.gradle.");
+                                    fos.close();
                                 }
-                                // 复制一个并重命名为短版本名
-                                copy{
-                                    from file.outputFile
-                                    into outTagDir
-                                    rename {
-                                        String fileName -> "${szCommonTagAPKName}"
-                                    }
-                                    println "Output APK (Tags): "+ outTagDir.getAbsolutePath() + "/${szCommonTagAPKName}"
-                                }
-                                // 读取编译标志位配置文件
-                                def buildProps = new Properties()
-                                def buildPropsFile = rootProject.file("${buildPropsFileName}")
-                                // 如果编译标志位配置文件不存在，就设置断言
-                                assert (buildPropsFile.exists())
-                                buildProps.load(new FileInputStream(buildPropsFile))
-                                assert (buildProps['stageCount'] != null && buildProps['buildCount'] != null)
-                                int stageCount = Integer.parseInt(buildProps['stageCount']) + 1;
-                                FileOutputStream fos = new FileOutputStream(buildPropsFile)
-                                // 设置类库的默认版本名
-                                buildProps.setProperty("libDefaultVersion", "${versionName}");
-                                // 发布计数增加
-                                buildProps.setProperty("stageCount", Integer.toString(stageCount));
-                                //构建计数重置
-                                buildProps.setProperty("buildCount", "0");
-                                // 保存数据
-                                buildProps.store(fos, "These properties created by winboll_app_build.gradle.");
-                                fos.close();
-                                
+                            }
+                            
+                            // 如果正在发布，就拷贝到 WinBoll 标签管理文件夹
+                            //
+                            if(variant.flavorName == "stage"&&variant.buildType.name == "release"){
                                 // 给源码做标签
+                                //
                                 // 读取编译标志位配置文件
-                                def resultCommitRelease = exec {
+                                def result = exec {
                                     //commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "6.0.4"
                                     //commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "9.9.9"
-                                    commandLine 'bash', '--', "${bashCommitReleasePath}", "${RootProjectDir}", "${versionName}"
+                                    commandLine 'bash', '--', "${bashSetGitTagPath}", "${RootProjectDir}", "${versionName}"
                                     //standardOutput = true
                                     // 根据需要，可以添加错误输出
                                     //standardError = true
                                 }
-                                // make_git_tag.sh Git标签设置成功会返回0，
+                                // Git标签设置成功会返回0，
                                 // 此处断言可以阻止标签失败的发布行为
-                                // 获取bash命令的输出
-                                //def output = result.text
                                 // 检查bash命令的返回值（假设非零表示失败）
-			                    assert(resultCommitRelease.getExitValue() == 0)
-                            }
-                        } //  if(variant.buildType.name == "release"){
-                        
-                        // 如果公共目录存在就拷贝到公共目录并重命名为app.apk
-                        //
-                        File outCommonDir = new File("/sdcard/AppProjects")
-                        String commandAPKName = "app.apk"
-                        if(outCommonDir.exists()) {
-                            copy{
-                                from file.outputFile
-                                into outCommonDir
-                                rename {
-                                    String fileName -> "${commandAPKName}"
+                                assert(result.getExitValue() == 0)
+                            
+                                // 发布 APK 文件
+                                //
+                                // 截取版本号的版本字段为短版本名
+                                String szVersionName = "${versionName}"
+                                String[] szlistTemp = szVersionName.split("-")
+                                String szShortVersionName = szlistTemp[0]
+                                String szCommonTagAPKName = "${rootProject.name}_" + szShortVersionName + ".apk"
+                                println "CommonTagAPKName is : " + szCommonTagAPKName
+                                
+                                File outTagDir = new File(fWinBollStudioDir, "/${rootProject.name}/tag/")
+                                // 创建目标路径目录
+                                if(!outTagDir.exists()) {
+                                    outTagDir.mkdirs();
+                                    println "Output Folder Created.(Tags) : " + outTagDir.getAbsolutePath()
                                 }
-                                println "Output APK (Common): " + outCommonDir.getAbsolutePath() + "/${commandAPKName}"
+                                
+                                if(outTagDir.exists()) {
+                                    File targetAPK = new File(outTagDir, "${szCommonTagAPKName}")
+                                    if(targetAPK.exists()) {
+                                        // 标签版本APK文件已经存在，构建拷贝任务停止
+                                        assert (!targetAPK.exists())
+                                        // 可选择删除并继续输出APK文件
+                                        //delete targetAPK
+                                    }
+                                    // 复制一个备份
+                                    copy{
+                                        from file.outputFile
+                                        into outTagDir
+                                        rename {
+                                            String fileName -> "${outputFileName}"
+                                        }
+                                        println "Output APK (Tags): "+ outTagDir.getAbsolutePath() + "/${outputFileName}"
+                                    }
+                                    // 复制一个并重命名为短版本名
+                                    copy{
+                                        from file.outputFile
+                                        into outTagDir
+                                        rename {
+                                            String fileName -> "${szCommonTagAPKName}"
+                                        }
+                                        println "Output APK (Tags): "+ outTagDir.getAbsolutePath() + "/${szCommonTagAPKName}"
+                                    }
+                                    // 读取编译标志位配置文件
+                                    def buildProps = new Properties()
+                                    def buildPropsFile = rootProject.file("${buildPropsFileName}")
+                                    // 如果编译标志位配置文件不存在，就设置断言
+                                    assert (buildPropsFile.exists())
+                                    buildProps.load(new FileInputStream(buildPropsFile))
+                                    assert (buildProps['stageCount'] != null && buildProps['buildCount'] != null)
+                                    int stageCount = Integer.parseInt(buildProps['stageCount']) + 1;
+                                    FileOutputStream fos = new FileOutputStream(buildPropsFile)
+                                    // 设置类库的默认版本名
+                                    buildProps.setProperty("libDefaultVersion", "${versionName}");
+                                    // 发布计数增加
+                                    buildProps.setProperty("stageCount", Integer.toString(stageCount));
+                                    //构建计数重置
+                                    buildProps.setProperty("buildCount", "0");
+                                    // 保存数据
+                                    buildProps.store(fos, "These properties created by winboll_app_build.gradle.");
+                                    fos.close();
+                                    
+                                    // 给源码做标签
+                                    // 读取编译标志位配置文件
+                                    def resultCommitRelease = exec {
+                                        //commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "6.0.4"
+                                        //commandLine 'bash', '--', "${bashCheckGitPath}", "${RootProjectDir}", "9.9.9"
+                                        commandLine 'bash', '--', "${bashCommitReleasePath}", "${RootProjectDir}", "${versionName}"
+                                        //standardOutput = true
+                                        // 根据需要，可以添加错误输出
+                                        //standardError = true
+                                    }
+                                    // make_git_tag.sh Git标签设置成功会返回0，
+                                    // 此处断言可以阻止标签失败的发布行为
+                                    // 获取bash命令的输出
+                                    //def output = result.text
+                                    // 检查bash命令的返回值（假设非零表示失败）
+                                    assert(resultCommitRelease.getExitValue() == 0)
+                                }
+                            } //  if(variant.buildType.name == "release"){
+                            
+                            // 如果公共目录存在就拷贝到公共目录并重命名为app.apk
+                            //
+                            File outCommonDir = new File("/sdcard/AppProjects")
+                            String commandAPKName = "app.apk"
+                            if(outCommonDir.exists()) {
+                                copy{
+                                    from file.outputFile
+                                    into outCommonDir
+                                    rename {
+                                        String fileName -> "${commandAPKName}"
+                                    }
+                                    println "Output APK (Common): " + outCommonDir.getAbsolutePath() + "/${commandAPKName}"
+                                }
                             }
-                        }
+                            
                         
-                    
-                }
-            }// End of (variant.getAssembleProvider().get().doLast {)
-            ////////编译输出结束 /////
+                    }
+	            }// End of (variant.getAssembleProvider().get().doLast {)
+            }/// WINBOLL 主机的 APK 发布和源码管理操作结束 ///
         }
         
     } // End of (android.applicationVariants.all { variant ->)
