@@ -55,8 +55,6 @@ function addWorkflowsTag {
 
 ## 开始执行脚本
 echo -e "Current dir : \n"`pwd`
-# 设置 Git 仓库存储秘钥
-bash ~/addbashkey.sh
 
 # 检查源码状态
 result=$(checkGitSources)
