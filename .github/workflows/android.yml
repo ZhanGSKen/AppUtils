@@ -16,9 +16,9 @@ jobs:
     
     # 设置 JDK 环境
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v3
     - name: set up JDK 11
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v3
       with:
         java-version: '11'
         distribution: 'temurin'
@@ -29,7 +29,7 @@ jobs:
       
     # 获取应用打包秘钥库
     - name: Checkout Android Keystore
-      uses: actions/checkout@v4
+      uses: actions/checkout@v3
       with:
         repository: zhangsken/keystore # 存储应用打包用的 keystore 的仓库（格式：用户名/仓库名）
         token: ${{ secrets.APP_SECRET_TOKEN_1 }} # 连接仓库的 token , 需要单独配置
