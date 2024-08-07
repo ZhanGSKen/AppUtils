@@ -128,12 +128,10 @@ if [[ $? -eq 0 ]]; then
 	# 设置新版本开发参数配置
 	# 提交配置
 	git add .
-	git commit -m 
-	
-
+	git commit -m "Start New Stage Version."
 	echo "Push sources to git repositories ..."
     # 推送源码到所有仓库
-    #git push origin && git push origin --tags && git push archives && git push archives --tags && git push github && git push github --tags
+    git push origin && git push origin --tags && git push archives && git push archives --tags && git push github && git push github --tags
 else
 	echo -e "${0}: checkGitSources\n${result}\nShell cancel."
 	exit 1 # checkGitSources 异常
