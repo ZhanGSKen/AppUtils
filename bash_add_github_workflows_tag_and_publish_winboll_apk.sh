@@ -24,55 +24,76 @@ function askAddWorkflowsTag {
 	read answer
 	if [[ $answer =~ ^[Yy]$ ]]; then
 	    #echo "You chose yes."
-	    # 如果文件中有 libDefaultVersion 这一项，
-		# 就读取脚本 bash_setgittag.sh 生成的 libDefaultVersion。
-		# 使用grep找到包含"libDefaultVersion="的那一行，然后用awk提取其后的值
-		LIB_DEFAULT_VERSION=$(grep -o "libDefaultVersion=.*" ./build_flag.properties | awk -F '=' '{print $2}')
-		echo "The bash_setgittag.sh libDefaultVersion is: (${LIB_DEFAULT_VERSION})"
-		echo "WinBoll Stage Tag: (v${LIB_DEFAULT_VERSION})";
-		## 设新的 workflows 标签
-		# 脚本调试时使用
-		#tag="v7.6.4-test1-github"
-		# 正式设置标签时使用
-		tag="v"${LIB_DEFAULT_VERSION}-github
-		echo "Adding Github Workflows Tag : ($tag)";
-		# 检查是否已经添加了工作流 Tag
-		if [ "$(git tag -l ${tag})" == "${tag}" ]; then
-	        echo -e "Github Workflows Tag (${tag}) is exist."
-	        return 1 # 工作流标签重复
-	    fi
-	    # 添加工作流标签
-    	git tag -a ${tag} -m "Github workflows tag."
-	    return 0
+	    return 1
 	else
 	    #echo "You chose no."
 	    return 0
 	fi
 }
 
+function addWorkflowsTag {
+    # 如果文件中有 libDefaultVersion 这一项，
+	# 就读取脚本 bash_setgittag.sh 生成的 libDefaultVersion。
+	# 使用grep找到包含"libDefaultVersion="的那一行，然后用awk提取其后的值
+	LIB_DEFAULT_VERSION=$(grep -o "libDefaultVersion=.*" ./build_flag.properties | awk -F '=' '{print $2}')
+	echo "< bash_setgittag.sh libDefaultVersion : ${LIB_DEFAULT_VERSION} >"
+	## 设新的 workflows 标签
+	# 脚本调试时使用
+	#tag="v7.6.4-test1-github"
+	# 正式设置标签时使用
+	tag="v"${LIB_DEFAULT_VERSION}-github
+	echo "< Workflows Tag To: $tag >";
+	# 检查是否已经添加了工作流 Tag
+	if [ "$(git tag -l ${tag})" == "${tag}" ]; then
+        echo -e "< Github Workflows Tag ${tag} exist! >"
+        return 1 # 工作流标签重复
+    fi
+    # 添加工作流标签
+	git tag -a ${tag} -m "Github workflows tag."
+    return 0
+}
+
 ## 开始执行脚本
 echo -e "Current dir : \n"`pwd`
+# 设置 Git 仓库存储秘钥
+bash ~/addbashkey.sh
+
+# 检查源码状态
 result=$(checkGitSources)
 if [[ $? -eq 0 ]]; then
     echo $result
     # 如果Git已经提交了所有代码就执行标签和应用发布操作
+
+    # 预先询问是否添加工作流标签
     echo "Add Github Workflows Tag? (yes/no)"
 	result=$(askAddWorkflowsTag)
-	if [[ $? -eq 0 ]]; then
-	    echo $result
-        # 发布应用
-        bash ~/addbashkey.sh
-		echo "Publish WinBoll APK :"
-		# 脚本调试时使用
-		#bash gradlew assembleBetaDebug
-		# 正式发布
-	    #bash gradlew assembleStageRelease
-	    exit 0
-	else
-		echo -e "${0}:askAddWorkflowsTag\n${result}\nShell cancel."
-		exit 1 # askAddWorkflowsTag 异常
+	nAskAddWorkflowsTag=$?
+	echo $result
+
+    # 发布应用
+	echo "Publishing WinBoll APK ..."
+	# 脚本调试时使用
+	#bash gradlew assembleBetaDebug
+	# 正式发布
+    bash gradlew assembleStageRelease
+    echo "Publishing WinBoll APK OK."
+    # 添加工作流标签
+	if [[ $nAskAddWorkflowsTag -eq 1 ]]; then
+	    # 如果用户选择添加工作流标签
+    	result=$(addWorkflowsTag)
+		if [[ $? -eq 0 ]]; then
+		    echo $result
+		    # 如果用户选择添加工作流标签添加成功
+		    echo "Push sources to git repositories ..."
+		    # 推送源码到所有仓库
+		    git push origin && git push origin --tags && git push archives && git push archives --tags && git push github && git push github --tags
+			exit 0
+		else
+			echo -e "${0}: addWorkflowsTag\n${result}\nAdd workflows tag cancel."
+			exit 1 # addWorkflowsTag 异常
+		fi
 	fi
 else
-	echo -e "${0}:checkGitSources\n${result}\nShell cancel."
+	echo -e "${0}: checkGitSources\n${result}\nShell cancel."
 	exit 1 # checkGitSources 异常
 fi
