@@ -29,9 +29,9 @@ allprojects {
         // 变量在子模块的build.gradle中直接以： $NAME 的形式调用
         // 定义版本管理文件
         RootProjectDir = "${rootProject.projectDir}".replace("\\", "/")
-        bashCheckGitFilePath = ".winboll/bash_checkgit.sh"
+        bashStageReleasePublishCheckGitFilePath = ".winboll/bash_checkgit.sh"
         bashCommitBuildFlagFilePath = ".winboll/bash_commit_buildflag.sh"
-        buildPropsFilePath = ".winboll/build_flag.properties"
+        buildPropsWinBollFilePath = ".winboll/build_flag.properties"
         winbollMavneConfigFilePath = ".winboll/winboll.properties"
         keyPropsFilePath = "keystore/appkey.keystore"
         // 定义 lint 输出文件
@@ -40,7 +40,7 @@ allprojects {
         
         // 检查配置文件
         buildPropsWinBollDesc="Created by .winboll/winboll_app_build.gradle and app/build.gradle.\nstageVersion = <baseVersion>.<stageCount>\nbetaVersion = <stageVersion>-beta<buildCount>"
-        buildPropsWinBollFile = file("${RootProjectDir}/${buildPropsFilePath}")
+        buildPropsWinBollFile = file("${RootProjectDir}/${buildPropsWinBollFilePath}")
         assert(buildPropsWinBollFile.exists())
         buildPropsWinBoll = new Properties()
         // 读取编译标志位配置文件
