@@ -167,11 +167,11 @@ android {
                                     FileOutputStream fos = new FileOutputStream(buildPropsWinBollFile)
                                     // 设置类库的默认版本名
                                     buildPropsWinBoll.setProperty("publishVersion", "${versionName}");
-                                    // 设置类库的默认Beta版本名
-                                    buildPropsWinBoll.setProperty("baseBetaVersion", buildPropsWinBoll['baseVersion'] + "." + buildPropsWinBoll['stageCount']);
                                     // Stage 发布计数增加
                                     int stageCount = Integer.parseInt(buildPropsWinBoll['stageCount']) + 1;
                                     buildPropsWinBoll.setProperty("stageCount", Integer.toString(stageCount));
+                                    // 设置类库的默认Beta版本名
+                                    buildPropsWinBoll.setProperty("baseBetaVersion", buildPropsWinBoll['baseVersion'] + "." + Integer.toString(stageCount));
                                     // 构建计数重置
                                     buildPropsWinBoll.setProperty("buildCount", "0");
                                     // 保存数据
