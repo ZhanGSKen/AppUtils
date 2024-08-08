@@ -54,16 +54,16 @@ function addWinBollTag {
 }
 
 function addWorkflowsTag {
-	# 就读取脚本 .winboll/winboll_app_build.gradle 生成的 publishVersion。
-    # 如果文件中有 publishVersion 这一项，
-	# 使用grep找到包含"publishVersion="的那一行，然后用awk提取其后的值
-	PUBLISH_VERSION=$(grep -o "publishVersion=.*" .winboll/build_flag.properties | awk -F '=' '{print $2}')
-	echo "< .winboll/build_flag.properties publishVersion : ${PUBLISH_VERSION} >"
+	# 就读取脚本 .winboll/winboll_app_build.gradle 生成的 betaVersion。
+    # 如果文件中有 betaVersion 这一项，
+	# 使用grep找到包含"betaVersion="的那一行，然后用awk提取其后的值
+	BETA_VERSION=$(grep -o "betaVersion=.*" .winboll/build_flag.properties | awk -F '=' '{print $2}')
+	echo "< .winboll/build_flag.properties publishVersion : ${BETA_VERSION} >"
 	## 设新的 workflows 标签
 	# 脚本调试时使用
-	#tag="v7.6.4-test1-github-beta"
+	#tag="v7.6.4-beta"
 	# 正式设置标签时使用
-	tag="v"${PUBLISH_VERSION}-github-beta
+	tag="v"${BETA_VERSION}-beta
 	echo "< Workflows Tag To: $tag >";
 	# 检查是否已经添加了工作流 Tag
 	if [ "$(git tag -l ${tag})" == "${tag}" ]; then
