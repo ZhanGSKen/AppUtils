@@ -32,11 +32,11 @@ android {
     productFlavors {
         beta {
             // 检查编译标志位配置
-            assert (buildPropsWinBoll['buildCount'] != null)
+            assert (winbollBuildProps['buildCount'] != null)
             dimension "WinBollApp"
             applicationIdSuffix ".beta"
             LocalDateTime localDateTimeNow = LocalDateTime.now(ZoneId.of("Asia/Shanghai"));
-            versionNameSuffix "-beta" + buildPropsWinBoll['buildCount'] + "_" + localDateTimeNow.format('mmss')
+            versionNameSuffix "-beta" + winbollBuildProps['buildCount'] + "_" + localDateTimeNow.format('mmss')
         }
         stage {
             dimension "WinBollApp"
@@ -103,13 +103,13 @@ android {
                                         println "Output APK (WinBollStudio): " + outBuildBckDir.getAbsolutePath() + "/${outputFileName}"
                                     }
                                     // 检查编译标志位配置
-                                    assert (buildPropsWinBoll['buildCount'] != null)
+                                    assert (winbollBuildProps['buildCount'] != null)
                                     //构建计数增加
-                                    int buildCount = Integer.parseInt(buildPropsWinBoll['buildCount']) + 1;
+                                    int buildCount = Integer.parseInt(winbollBuildProps['buildCount']) + 1;
                                     // 保存数据
-                                    FileOutputStream fos = new FileOutputStream(buildPropsWinBollFile)
-                                    buildPropsWinBoll.setProperty("buildCount", Integer.toString(buildCount));
-                                    buildPropsWinBoll.store(fos, "${buildPropsWinBollDesc}");
+                                    FileOutputStream fos = new FileOutputStream(winbollBuildPropsFile)
+                                    winbollBuildProps.setProperty("buildCount", Integer.toString(buildCount));
+                                    winbollBuildProps.store(fos, "${winbollBuildPropsDesc}");
                                     fos.close();
                                 }
                             }
@@ -160,23 +160,23 @@ android {
                                         println "Output APK (Tags): "+ outTagDir.getAbsolutePath() + "/${szCommonTagAPKName}"
                                     }
                                     // 检查编译标志位配置
-                                    assert (buildPropsWinBoll['stageCount'] != null)
-                                    assert (buildPropsWinBoll['publishVersion'] != null)
-                                    assert (buildPropsWinBoll['buildCount'] != null)
-                                    assert (buildPropsWinBoll['baseVersion'] != null)
-                                    assert (buildPropsWinBoll['baseBetaVersion'] != null)
-                                    FileOutputStream fos = new FileOutputStream(buildPropsWinBollFile)
+                                    assert (winbollBuildProps['stageCount'] != null)
+                                    assert (winbollBuildProps['publishVersion'] != null)
+                                    assert (winbollBuildProps['buildCount'] != null)
+                                    assert (winbollBuildProps['baseVersion'] != null)
+                                    assert (winbollBuildProps['baseBetaVersion'] != null)
+                                    FileOutputStream fos = new FileOutputStream(winbollBuildPropsFile)
                                     // 设置类库的默认版本名
-                                    buildPropsWinBoll.setProperty("publishVersion", "${versionName}");
+                                    winbollBuildProps.setProperty("publishVersion", "${versionName}");
                                     // Stage 发布计数增加
-                                    int stageCount = Integer.parseInt(buildPropsWinBoll['stageCount']) + 1;
-                                    buildPropsWinBoll.setProperty("stageCount", Integer.toString(stageCount));
+                                    int stageCount = Integer.parseInt(winbollBuildProps['stageCount']) + 1;
+                                    winbollBuildProps.setProperty("stageCount", Integer.toString(stageCount));
                                     // 设置类库的默认Beta版本名
-                                    buildPropsWinBoll.setProperty("baseBetaVersion", buildPropsWinBoll['baseVersion'] + "." + Integer.toString(stageCount));
+                                    winbollBuildProps.setProperty("baseBetaVersion", winbollBuildProps['baseVersion'] + "." + Integer.toString(stageCount));
                                     // 构建计数重置
-                                    buildPropsWinBoll.setProperty("buildCount", "0");
+                                    winbollBuildProps.setProperty("buildCount", "0");
                                     // 保存数据
-                                    buildPropsWinBoll.store(fos, "${buildPropsWinBollDesc}");
+                                    winbollBuildProps.store(fos, "${winbollBuildPropsDesc}");
                                     fos.close();
                                     
                                     // 提交新的编译标志配置

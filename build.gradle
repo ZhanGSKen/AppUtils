@@ -29,27 +29,27 @@ allprojects {
         // 变量在子模块的build.gradle中直接以： $NAME 的形式调用
         // 定义版本管理文件
         RootProjectDir = "${rootProject.projectDir}".replace("\\", "/")
-        bashCheckGitCommitStatus = ".winboll/bashCheckGitCommitStatus.sh"
-        bashCommitBuildFlagFilePath = ".winboll/bash_commit_buildflag.sh"
-        buildPropsWinBollFilePath = ".winboll/build_flag.properties"
-        winbollMavneConfigFilePath = ".winboll/winboll.properties"
+        bashCheckGitCommitStatusFilePath = ".winboll/bashCheckGitCommitStatus.sh"
+        bashCommitBuildFlagFilePath = ".winboll/bashCommitBuildFlag.sh"
+        winbollBuildPropsFilePath = ".winboll/winbollBuildProps.properties"
+        winbollFilePath = ".winboll/winboll.properties"
         keyPropsFilePath = "keystore/appkey.keystore"
         // 定义 lint 输出文件
         lintXmlReportFilePath = "build/reports/lint-results.xml"
         lintHTMLReportFilePath = "build/reports/lint-results.html"
         
         // 检查配置文件
-        buildPropsWinBollDesc="Created by .winboll/winboll_app_build.gradle and app/build.gradle.\nstageVersion = <baseVersion>.<stageCount>\nbetaVersion = <stageVersion>-beta<buildCount>"
-        buildPropsWinBollFile = file("${RootProjectDir}/${buildPropsWinBollFilePath}")
-        assert(buildPropsWinBollFile.exists())
-        buildPropsWinBoll = new Properties()
+        winbollBuildPropsDesc="Created by .winboll/winboll_app_build.gradle and app/build.gradle.\nstageVersion = <baseVersion>.<stageCount>\nbetaVersion = <stageVersion>-beta<buildCount>"
+        winbollBuildPropsFile = file("${RootProjectDir}/${winbollBuildPropsFilePath}")
+        assert(winbollBuildPropsFile.exists())
+        winbollBuildProps = new Properties()
         // 读取编译标志位配置文件
-        buildPropsWinBoll.load(new FileInputStream(buildPropsWinBollFile))
+        winbollBuildProps.load(new FileInputStream(winbollBuildPropsFile))
         // 读取编译标志位配置文件
-        assert (buildPropsWinBoll['stageCount'] != null)
-        assert (buildPropsWinBoll['baseVersion'] != null)
-        assert (buildPropsWinBoll['publishVersion'] != null)
-        assert (buildPropsWinBoll['buildCount'] != null)
+        assert (winbollBuildProps['stageCount'] != null)
+        assert (winbollBuildProps['baseVersion'] != null)
+        assert (winbollBuildProps['publishVersion'] != null)
+        assert (winbollBuildProps['buildCount'] != null)
 	
     }
     

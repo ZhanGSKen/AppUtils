@@ -4,16 +4,16 @@ apply from: '../.winboll/winboll_lint_build.gradle'
 
 def genVersionName(def versionName){
     // 检查编译标志位配置
-    assert (buildPropsWinBoll['stageCount'] != null)
-    assert (buildPropsWinBoll['baseVersion'] != null)
-    FileOutputStream fos = new FileOutputStream(buildPropsWinBollFile)
+    assert (winbollBuildProps['stageCount'] != null)
+    assert (winbollBuildProps['baseVersion'] != null)
+    FileOutputStream fos = new FileOutputStream(winbollBuildPropsFile)
     // 保存基础版本号
-    buildPropsWinBoll.setProperty("baseVersion", "${versionName}");
+    winbollBuildProps.setProperty("baseVersion", "${versionName}");
     // 保存数据
-    buildPropsWinBoll.store(fos, "${buildPropsWinBollDesc}");
+    winbollBuildProps.store(fos, "${winbollBuildPropsDesc}");
     fos.close();
     // 返回编译版本号
-    return "${versionName}." + buildPropsWinBoll['stageCount']
+    return "${versionName}." + winbollBuildProps['stageCount']
 }
 
 android {
@@ -26,7 +26,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         // versionName 更新后需要手动设置 
-        // .winboll/build_flag.properties 文件的 stageCount=0
+        // .winboll/winbollBuildProps.properties 文件的 stageCount=0
         // Gradle编译环境下合起来的 versionName 就是 "${versionName}.0"
         versionName "8.3" 
         if(true) {

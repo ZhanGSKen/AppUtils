@@ -35,8 +35,8 @@ function addWinBollTag {
 	# 就读取脚本 .winboll/winboll_app_build.gradle 生成的 publishVersion。
     # 如果文件中有 publishVersion 这一项，
 	# 使用grep找到包含"publishVersion="的那一行，然后用awk提取其后的值
-	PUBLISH_VERSION=$(grep -o "publishVersion=.*" .winboll/build_flag.properties | awk -F '=' '{print $2}')
-	echo "< .winboll/build_flag.properties publishVersion : ${PUBLISH_VERSION} >"
+	PUBLISH_VERSION=$(grep -o "publishVersion=.*" .winboll/winbollBuildProps.properties | awk -F '=' '{print $2}')
+	echo "< .winboll/winbollBuildProps.properties publishVersion : ${PUBLISH_VERSION} >"
 	## 设新的 WinBoll 标签
 	# 脚本调试时使用
 	#tag="v7.6.4-test1"
@@ -57,8 +57,8 @@ function addWorkflowsTag {
 	# 就读取脚本 .winboll/winboll_app_build.gradle 生成的 baseBetaVersion。
     # 如果文件中有 baseBetaVersion 这一项，
 	# 使用grep找到包含"baseBetaVersion="的那一行，然后用awk提取其后的值
-	BASE_BETA_VERSION=$(grep -o "baseBetaVersion=.*" .winboll/build_flag.properties | awk -F '=' '{print $2}')
-	echo "< .winboll/build_flag.properties baseBetaVersion : ${BASE_BETA_VERSION} >"
+	BASE_BETA_VERSION=$(grep -o "baseBetaVersion=.*" .winboll/winbollBuildProps.properties | awk -F '=' '{print $2}')
+	echo "< .winboll/winbollBuildProps.properties baseBetaVersion : ${BASE_BETA_VERSION} >"
 	## 设新的 workflows 标签
 	# 脚本调试时使用
 	#tag="v7.6.4-beta"
@@ -78,11 +78,11 @@ function addWorkflowsTag {
 ## 开始执行脚本
 echo -e "Current dir : \n"`pwd`
 # 检查当前目录是否是项目根目录
-if [[ -e .winboll/build_flag.properties ]]; then
-    echo "The .winboll/build_flag.properties file exists."
+if [[ -e .winboll/winbollBuildProps.properties ]]; then
+    echo "The .winboll/winbollBuildProps.properties file exists."
     echo -e "Work dir correctly."
 else
-    echo "The .winboll/build_flag.properties file does not exist."
+    echo "The .winboll/winbollBuildProps.properties file does not exist."
     echo "尝试进入根目录"
     # 进入项目根目录
     cd ..
@@ -90,11 +90,11 @@ fi
 ## 本脚本需要在项目根目录下执行
 echo -e "Current dir : \n"`pwd`
 # 检查当前目录是否是项目根目录
-if [[ -e .winboll/build_flag.properties ]]; then
-    echo "The .winboll/build_flag.properties file exists."
+if [[ -e .winboll/winbollBuildProps.properties ]]; then
+    echo "The .winboll/winbollBuildProps.properties file exists."
     echo -e "Work dir correctly."
 else
-    echo "The .winboll/build_flag.properties file does not exist."
+    echo "The .winboll/winbollBuildProps.properties file does not exist."
     echo -e "Work dir error."
     exit 1
 fi

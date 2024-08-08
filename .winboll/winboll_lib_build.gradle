@@ -3,9 +3,9 @@
 
 def getDefaultVersion(){
     // 检查编译标志位配置
-    assert (buildPropsWinBoll['publishVersion'] != null)
+    assert (winbollBuildProps['publishVersion'] != null)
     // 返回编译版本号
-    return buildPropsWinBoll['publishVersion']
+    return winbollBuildProps['publishVersion']
 }
 
 def siteUrl = 'https://winboll.cc/${rootProject.name}' // 项目主页
@@ -23,8 +23,8 @@ Properties properties = new Properties()
 afterEvaluate {
     publishing {
         repositories {
-            if(file("${winbollMavneConfigFilePath}").exists()) {
-                properties.load(file("${winbollMavneConfigFilePath}").newDataInputStream())
+            if(file("${winbollFilePath}").exists()) {
+                properties.load(file("${winbollFilePath}").newDataInputStream())
                 def NexusUserName = properties.getProperty("Nexus.name")
                 def NexusPassword = properties.getProperty("Nexus.password")
                 // WinBoll Release 仓库
