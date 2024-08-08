@@ -3,14 +3,18 @@ apply from: '../.winboll/winboll_app_build.gradle'
 apply from: '../.winboll/winboll_lint_build.gradle'
 
 def genVersionName(def versionName){
-    // 读取编译标志位配置文件
-    def buildProps = new Properties()
-    def buildPropsFile = rootProject.file("${buildPropsFilePath}")
-    assert(buildPropsFile.exists())
-    buildProps.load(new FileInputStream(buildPropsFile))
-    assert (buildProps['stageCount'] != null)
+    // 检查编译标志位配置
+    assert (buildPropsWinBoll['stageCount'] != null)
+    assert (buildPropsWinBoll['baseBetaVersion'] != null)
+    // 保存 Beta 版是
+    FileOutputStream fos = new FileOutputStream(buildPropsWinBollFile)
+    // 设置类库的默认Beta版本名
+    buildPropsWinBoll.setProperty("baseBetaVersion", "${versionName}." + buildPropsWinBoll['stageCount']);
+    // 保存数据
+    buildPropsWinBoll.store(fos, "${buildPropsWinBollDesc}");
+    fos.close();
     // 返回编译版本号
-    return "${versionName}." + buildProps['stageCount']
+    return "${versionName}." + buildPropsWinBoll['stageCount']
 }
 
 android {

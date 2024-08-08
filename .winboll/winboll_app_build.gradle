@@ -108,7 +108,7 @@ android {
                                     // 保存数据
                                     FileOutputStream fos = new FileOutputStream(buildPropsWinBollFile)
                                     buildPropsWinBoll.setProperty("buildCount", Integer.toString(buildCount));
-                                    buildPropsWinBoll.store(fos, "Created by winboll_app_build.gradle.\nstageVersion = <baseVersion>.<stageCount>\nbetaVersion = <stageVersion>-beta<buildCount>");
+                                    buildPropsWinBoll.store(fos, "${buildPropsWinBollDesc}");
                                     fos.close();
                                 }
                             }
@@ -160,6 +160,7 @@ android {
                                     }
                                     // 检查编译标志位配置
                                     assert (buildPropsWinBoll['stageCount'] != null)
+                                    assert (buildPropsWinBoll['publishVersion'] != null)
                                     assert (buildPropsWinBoll['buildCount'] != null)
                                     int stageCount = Integer.parseInt(buildPropsWinBoll['stageCount']) + 1;
                                     FileOutputStream fos = new FileOutputStream(buildPropsWinBollFile)
@@ -170,7 +171,7 @@ android {
                                     //构建计数重置
                                     buildPropsWinBoll.setProperty("buildCount", "0");
                                     // 保存数据
-                                    buildPropsWinBoll.store(fos, "Created by winboll_app_build.gradle.\nstageVersion = <baseVersion>.<stageCount>\nbetaVersion = <stageVersion>-beta<buildCount>");
+                                    buildPropsWinBoll.store(fos, "${buildPropsWinBollDesc}");
                                     fos.close();
                                     
                                     // 提交新的编译标志配置

@@ -39,6 +39,7 @@ allprojects {
         lintHTMLReportFilePath = "build/reports/lint-results.html"
         
         // 检查配置文件
+        buildPropsWinBollDesc="Created by .winboll/winboll_app_build.gradle and app/build.gradle.\nstageVersion = <baseVersion>.<stageCount>\nbetaVersion = <stageVersion>-beta<buildCount>"
         buildPropsWinBollFile = file("${RootProjectDir}/${buildPropsFilePath}")
         assert(buildPropsWinBollFile.exists())
         buildPropsWinBoll = new Properties()
