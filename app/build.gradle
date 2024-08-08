@@ -28,7 +28,7 @@ android {
         // versionName 更新后需要手动设置 
         // build_flag.properties 文件的 stageCount=0
         // Gradle编译环境下合起来的 versionName 就是 "${versionName}.0"
-        versionName "8.1" 
+        versionName "8.2" 
         if(true) {
             versionName = genVersionName("${versionName}")
         }
