@@ -60,6 +60,25 @@ public class LogView extends RelativeLayout {
         // 显示日志
         showAndScrollLogView();
     }
+    
+    public void scrollLogUp() {
+        mScrollView.post(new Runnable() {
+                @Override
+                public void run() {
+                    mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                    // 日志显示结束
+                    mLogViewHandler.setIsHandling(false);
+                    // 检查是否添加了新日志
+                    if (mLogViewHandler.isAddNewLog()) {
+                        // 有新日志添加，先更改新日志标志
+                        mLogViewHandler.setIsAddNewLog(false);
+                        // 再次发送显示日志的显示
+                        Message message = mLogViewHandler.obtainMessage(LogViewHandler.MSG_LOGVIEW_UPDATE);
+                        mLogViewHandler.sendMessage(message);
+                    }
+                }
+            });
+    }
 
     void initView(Context context) {
         mContext = context;
@@ -120,22 +139,7 @@ public class LogView extends RelativeLayout {
 
     void showAndScrollLogView() {
         mTextView.setText(LogUtils.loadLog());
-        mScrollView.post(new Runnable() {
-                @Override
-                public void run() {
-                    mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
-                    // 日志显示结束
-                    mLogViewHandler.setIsHandling(false);
-                    // 检查是否添加了新日志
-                    if (mLogViewHandler.isAddNewLog()) {
-                        // 有新日志添加，先更改新日志标志
-                        mLogViewHandler.setIsAddNewLog(false);
-                        // 再次发送显示日志的显示
-                        Message message = mLogViewHandler.obtainMessage(LogViewHandler.MSG_LOGVIEW_UPDATE);
-                        mLogViewHandler.sendMessage(message);
-                    }
-                }
-            });
+        scrollLogUp();
     }
 
     class LogViewHandler extends Handler {

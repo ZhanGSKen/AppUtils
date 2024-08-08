@@ -47,19 +47,25 @@
 			android:textAllCaps="false"
 			android:onClick="onCleanLog"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TestFileUtils"
-            android:textAllCaps="false"
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="TestFileUtils"
+			android:textAllCaps="false"
 			android:onClick="onTestFileUtils"/>
+
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Scroll Log Up"
+            android:onClick="onTestScrollLogUp"/>
 
 	</LinearLayout>
 
 	<EditText
 		android:layout_width="wrap_content"
 		android:ems="10"
-        android:hint="测试LogView不聚焦日志的Selectable选项"
+		android:hint="测试LogView不聚焦日志的Selectable选项"
 		android:layout_height="wrap_content"/>
 
 	<cc.winboll.studio.libapputils.views.LogView

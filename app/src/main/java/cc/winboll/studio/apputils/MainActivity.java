@@ -60,6 +60,10 @@ public class MainActivity extends Activity {
         LogUtils.cleanLog();
     }
     
+    public void onTestScrollLogUp(View view) {
+        mLogView.scrollLogUp();
+    }
+    
     public void onTestFileUtils(View view) {
         File fMain = getExternalFilesDir(TAG);
         File fSrcFile = new File(fMain, "src.txt");
