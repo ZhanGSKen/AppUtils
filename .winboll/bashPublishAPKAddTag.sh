@@ -49,7 +49,7 @@ function addWinBollTag {
         return 1 # WinBoll标签重复
     fi
     # 添加WinBoll标签
-	git tag -a ${tag} -F .winboll/app_update_description.txt
+	git tag -a ${tag} -F .winboll/winboll_appupdate_description.txt
     return 0
 }
 
@@ -71,7 +71,7 @@ function addWorkflowsTag {
         return 1 # 工作流标签重复
     fi
     # 添加工作流标签
-	git tag -a ${tag} -F .winboll/app_update_description.txt
+	git tag -a ${tag} -F .winboll/winboll_appupdate_description.txt
     return 0
 }
 
@@ -144,7 +144,7 @@ if [[ $? -eq 0 ]]; then
 	fi
 	
 	## 清理更新描述文件内容
-	echo "" > .winboll/app_update_description.txt
+	echo "" > .winboll/winboll_appupdate_description.txt
 	
 	# 设置新版本开发参数配置
 	# 提交配置
