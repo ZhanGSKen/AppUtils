@@ -30,7 +30,7 @@ allprojects {
         // 定义版本管理文件
         RootProjectDir = "${rootProject.projectDir}".replace("\\", "/")
         bashCheckGitCommitStatusFilePath = ".winboll/bashCheckGitCommitStatus.sh"
-        bashCommitBuildFlagFilePath = ".winboll/bashCommitBuildFlag.sh"
+        bashCommitAppReleaseBuildFlagInfoFilePath = ".winboll/bashCommitAppReleaseBuildFlagInfo.sh"
         winbollBuildPropsFilePath = ".winboll/winbollBuildProps.properties"
         winbollFilePath = ".winboll/winboll.properties"
         keyPropsFilePath = "keystore/appkey.keystore"
@@ -67,3 +67,5 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+

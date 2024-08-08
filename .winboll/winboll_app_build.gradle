@@ -106,9 +106,11 @@ android {
                                     assert (winbollBuildProps['buildCount'] != null)
                                     //构建计数增加
                                     int buildCount = Integer.parseInt(winbollBuildProps['buildCount']) + 1;
-                                    // 保存数据
-                                    FileOutputStream fos = new FileOutputStream(winbollBuildPropsFile)
+                                    // 设置编译计数
                                     winbollBuildProps.setProperty("buildCount", Integer.toString(buildCount));
+                                    
+                                    //保存编译标志配置
+                                    FileOutputStream fos = new FileOutputStream(winbollBuildPropsFile)
                                     winbollBuildProps.store(fos, "${winbollBuildPropsDesc}");
                                     fos.close();
                                 }
@@ -165,7 +167,7 @@ android {
                                     assert (winbollBuildProps['buildCount'] != null)
                                     assert (winbollBuildProps['baseVersion'] != null)
                                     assert (winbollBuildProps['baseBetaVersion'] != null)
-                                    FileOutputStream fos = new FileOutputStream(winbollBuildPropsFile)
+                                    
                                     // 设置类库的默认版本名
                                     winbollBuildProps.setProperty("publishVersion", "${versionName}");
                                     // Stage 发布计数增加
@@ -175,13 +177,15 @@ android {
                                     winbollBuildProps.setProperty("baseBetaVersion", winbollBuildProps['baseVersion'] + "." + Integer.toString(stageCount));
                                     // 构建计数重置
                                     winbollBuildProps.setProperty("buildCount", "0");
-                                    // 保存数据
+                                    
+                                    //保存编译标志配置
+                                    FileOutputStream fos = new FileOutputStream(winbollBuildPropsFile)
                                     winbollBuildProps.store(fos, "${winbollBuildPropsDesc}");
                                     fos.close();
                                     
                                     // 提交新的编译标志配置
                                     def resultCommitBuildFlag = exec {
-                                        commandLine 'bash', '--', "${RootProjectDir}/${bashCommitBuildFlagFilePath}", "${RootProjectDir}", "${versionName}"
+                                        commandLine 'bash', '--', "${RootProjectDir}/${bashCommitAppReleaseBuildFlagInfoFilePath}", "${RootProjectDir}", "${versionName}"
                                     }
                                     // 检查bash命令的返回值（假设非零表示失败）
                                     assert(resultCommitBuildFlag.getExitValue() == 0)

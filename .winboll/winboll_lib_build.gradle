@@ -152,7 +152,6 @@ afterEvaluate {
                     }
                 }
                 
-                
             } // 创建名为 release 的任务结束
             
             // WinBoll Maven Snapshot 仓库传输任务
@@ -207,5 +206,6 @@ afterEvaluate {
                 }
             } // 创建名为 snapshot 的任务结束
         }
+        
     }
 }
