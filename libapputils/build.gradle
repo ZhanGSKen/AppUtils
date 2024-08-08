@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
-apply from: '../winboll_lib_build.gradle'
-apply from: '../winboll_lint_build.gradle'
+apply from: '../.winboll/winboll_lib_build.gradle'
+apply from: '../.winboll/winboll_lint_build.gradle'
 
 android {
     compileSdkVersion 32

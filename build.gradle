@@ -28,14 +28,28 @@ allprojects {
         // 定义全局变量，常用于版本管理
         // 变量在子模块的build.gradle中直接以： $NAME 的形式调用
         // 定义版本管理文件
-        RootProjectDir = "${project.rootProject.projectDir}".replace("\\", "/")
-        bashCheckGitPath = "${RootProjectDir}/bash_checkgit.sh"
-        bashCommitBuildFlagPath = "${RootProjectDir}/bash_commit_buildflag.sh"
-        buildPropsFileName = "build_flag.properties"
+        RootProjectDir = "${rootProject.projectDir}".replace("\\", "/")
+        bashCheckGitFilePath = ".winboll/bash_checkgit.sh"
+        bashCommitBuildFlagFilePath = ".winboll/bash_commit_buildflag.sh"
+        buildPropsFilePath = ".winboll/build_flag.properties"
+        winbollMavneConfigFilePath = ".winboll/winboll.properties"
+        keyPropsFilePath = "keystore/appkey.keystore"
         // 定义 lint 输出文件
-        lintXmlReportPath = "build/reports/lint-results.xml"
-        lintHTMLReportPath = "build/reports/lint-results.html"
+        lintXmlReportFilePath = "build/reports/lint-results.xml"
+        lintHTMLReportFilePath = "build/reports/lint-results.html"
         
+        // 检查配置文件
+        buildPropsWinBollFile = file("${RootProjectDir}/${buildPropsFilePath}")
+        assert(buildPropsWinBollFile.exists())
+        buildPropsWinBoll = new Properties()
+        // 读取编译标志位配置文件
+        buildPropsWinBoll.load(new FileInputStream(buildPropsWinBollFile))
+        // 读取编译标志位配置文件
+        assert (buildPropsWinBoll['stageCount'] != null)
+        assert (buildPropsWinBoll['baseVersion'] != null)
+        assert (buildPropsWinBoll['publishVersion'] != null)
+        assert (buildPropsWinBoll['buildCount'] != null)
+	
     }
     
     afterEvaluate {

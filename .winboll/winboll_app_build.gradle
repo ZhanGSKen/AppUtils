@@ -4,7 +4,7 @@ android {
     // 读取秘钥配置文件
     //
     def keyProps = new Properties()
-    def keyPropsFile = rootProject.file('keystore/appkey.keystore')
+    def keyPropsFile = rootProject.file("${keyPropsFilePath}")
     assert(keyPropsFile.exists())
     keyProps.load(new FileInputStream(keyPropsFile))
     
@@ -30,16 +30,12 @@ android {
     flavorDimensions "WinBollApp"
     productFlavors {
         beta {
-            // 读取编译标志位配置文件
-            def buildProps = new Properties()
-            def buildPropsFile = rootProject.file("${buildPropsFileName}")
-            assert(buildPropsFile.exists())
-            buildProps.load(new FileInputStream(buildPropsFile))
-            assert (buildProps['buildCount'] != null)
+            // 检查编译标志位配置
+            assert (buildPropsWinBoll['buildCount'] != null)
             dimension "WinBollApp"
             applicationIdSuffix ".beta"
             LocalDateTime localDateTimeNow = LocalDateTime.now(ZoneId.of("Asia/Shanghai"));
-            versionNameSuffix "-beta" + buildProps['buildCount'] + "_" + localDateTimeNow.format('mmss')
+            versionNameSuffix "-beta" + buildPropsWinBoll['buildCount'] + "_" + localDateTimeNow.format('mmss')
         }
         stage {
             dimension "WinBollApp"
@@ -105,19 +101,14 @@ android {
                                         }
                                         println "Output APK (WinBollStudio): " + outBuildBckDir.getAbsolutePath() + "/${outputFileName}"
                                     }
-                                    // 读取编译标志位配置文件
-                                    def buildProps = new Properties()
-                                    def buildPropsFile = rootProject.file("${buildPropsFileName}")
-                                    // 如果编译标志位配置文件不存在，就设置断言
-                                    assert (buildPropsFile.exists())
-                                    buildProps.load(new FileInputStream(buildPropsFile))
-                                    assert (buildProps['buildCount'] != null)
+                                    // 检查编译标志位配置
+                                    assert (buildPropsWinBoll['buildCount'] != null)
                                     //构建计数增加
-                                    int buildCount = Integer.parseInt(buildProps['buildCount']) + 1;
+                                    int buildCount = Integer.parseInt(buildPropsWinBoll['buildCount']) + 1;
                                     // 保存数据
-                                    FileOutputStream fos = new FileOutputStream(buildPropsFile)
-                                    buildProps.setProperty("buildCount", Integer.toString(buildCount));
-                                    buildProps.store(fos, "Created by winboll_app_build.gradle.\nstageVersion = <baseVersion>.<stageCount>\nbetaVersion = <stageVersion>-beta<buildCount>");
+                                    FileOutputStream fos = new FileOutputStream(buildPropsWinBollFile)
+                                    buildPropsWinBoll.setProperty("buildCount", Integer.toString(buildCount));
+                                    buildPropsWinBoll.store(fos, "Created by winboll_app_build.gradle.\nstageVersion = <baseVersion>.<stageCount>\nbetaVersion = <stageVersion>-beta<buildCount>");
                                     fos.close();
                                 }
                             }
@@ -167,28 +158,24 @@ android {
                                         }
                                         println "Output APK (Tags): "+ outTagDir.getAbsolutePath() + "/${szCommonTagAPKName}"
                                     }
-                                    // 读取编译标志位配置文件
-                                    def buildProps = new Properties()
-                                    def buildPropsFile = rootProject.file("${buildPropsFileName}")
-                                    // 如果编译标志位配置文件不存在，就设置断言
-                                    assert (buildPropsFile.exists())
-                                    buildProps.load(new FileInputStream(buildPropsFile))
-                                    assert (buildProps['stageCount'] != null && buildProps['buildCount'] != null)
-                                    int stageCount = Integer.parseInt(buildProps['stageCount']) + 1;
-                                    FileOutputStream fos = new FileOutputStream(buildPropsFile)
+                                    // 检查编译标志位配置
+                                    assert (buildPropsWinBoll['stageCount'] != null)
+                                    assert (buildPropsWinBoll['buildCount'] != null)
+                                    int stageCount = Integer.parseInt(buildPropsWinBoll['stageCount']) + 1;
+                                    FileOutputStream fos = new FileOutputStream(buildPropsWinBollFile)
                                     // 设置类库的默认版本名
-                                    buildProps.setProperty("publishVersion", "${versionName}");
+                                    buildPropsWinBoll.setProperty("publishVersion", "${versionName}");
                                     // 发布计数增加
-                                    buildProps.setProperty("stageCount", Integer.toString(stageCount));
+                                    buildPropsWinBoll.setProperty("stageCount", Integer.toString(stageCount));
                                     //构建计数重置
-                                    buildProps.setProperty("buildCount", "0");
+                                    buildPropsWinBoll.setProperty("buildCount", "0");
                                     // 保存数据
-                                    buildProps.store(fos, "Created by winboll_app_build.gradle.\nstageVersion = <baseVersion>.<stageCount>\nbetaVersion = <stageVersion>-beta<buildCount>");
+                                    buildPropsWinBoll.store(fos, "Created by winboll_app_build.gradle.\nstageVersion = <baseVersion>.<stageCount>\nbetaVersion = <stageVersion>-beta<buildCount>");
                                     fos.close();
                                     
                                     // 提交新的编译标志配置
                                     def resultCommitBuildFlag = exec {
-                                        commandLine 'bash', '--', "${bashCommitBuildFlagPath}", "${RootProjectDir}", "${versionName}"
+                                        commandLine 'bash', '--', "${bashCommitBuildFlagFilePath}", "${RootProjectDir}", "${versionName}"
                                     }
                                     // 检查bash命令的返回值（假设非零表示失败）
                                     assert(resultCommitBuildFlag.getExitValue() == 0)

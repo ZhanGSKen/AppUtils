@@ -9,6 +9,8 @@ fi
 
 # 进入项目根目录
 cd ${1}
+echo -e "Work dir : \n"`pwd`
+
 git add .
 git commit -m "WinBoll Stage Release ${2}"
 git push origin && git push origin --tags && git push archives && git push archives --tags

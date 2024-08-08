@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
-apply from: '../winboll_app_build.gradle'
-apply from: '../winboll_lint_build.gradle'
+apply from: '../.winboll/winboll_app_build.gradle'
+apply from: '../.winboll/winboll_lint_build.gradle'
 
 def genVersionName(def versionName){
     // 读取编译标志位配置文件
     def buildProps = new Properties()
-    def buildPropsFile = rootProject.file("${buildPropsFileName}")
+    def buildPropsFile = rootProject.file("${buildPropsFilePath}")
     assert(buildPropsFile.exists())
     buildProps.load(new FileInputStream(buildPropsFile))
     assert (buildProps['stageCount'] != null)

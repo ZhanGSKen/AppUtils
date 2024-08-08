@@ -6,7 +6,10 @@ if [ -z "$1" ] || [ -z "$2" ]; then
     exit 2
 fi
 
+# 进入项目根目录
 cd ${1}
+echo -e "Work dir : \n"`pwd`
+
 git config --global --add safe.directory "${1}"
 echo "Current dir : "`pwd`
 versionName=${2}

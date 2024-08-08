@@ -32,11 +32,11 @@ function askAddWorkflowsTag {
 }
 
 function addWinBollTag {
-	# 就读取脚本 winboll_app_build.gradle 生成的 publishVersion。
+	# 就读取脚本 .winboll/winboll_app_build.gradle 生成的 publishVersion。
     # 如果文件中有 publishVersion 这一项，
 	# 使用grep找到包含"publishVersion="的那一行，然后用awk提取其后的值
-	PUBLISH_VERSION=$(grep -o "publishVersion=.*" ./build_flag.properties | awk -F '=' '{print $2}')
-	echo "< bash_setgittag.sh publishVersion : ${PUBLISH_VERSION} >"
+	PUBLISH_VERSION=$(grep -o "publishVersion=.*" .winboll/build_flag.properties | awk -F '=' '{print $2}')
+	echo "< .winboll/build_flag.properties publishVersion : ${PUBLISH_VERSION} >"
 	## 设新的 WinBoll 标签
 	# 脚本调试时使用
 	#tag="v7.6.4-test1"
@@ -49,16 +49,16 @@ function addWinBollTag {
         return 1 # WinBoll标签重复
     fi
     # 添加WinBoll标签
-	git tag -a ${tag} -F app_update_description.txt
+	git tag -a ${tag} -F .winboll/app_update_description.txt
     return 0
 }
 
 function addWorkflowsTag {
-	# 就读取脚本 winboll_app_build.gradle 生成的 publishVersion。
+	# 就读取脚本 .winboll/winboll_app_build.gradle 生成的 publishVersion。
     # 如果文件中有 publishVersion 这一项，
 	# 使用grep找到包含"publishVersion="的那一行，然后用awk提取其后的值
-	PUBLISH_VERSION=$(grep -o "publishVersion=.*" ./build_flag.properties | awk -F '=' '{print $2}')
-	echo "< bash_setgittag.sh publishVersion : ${PUBLISH_VERSION} >"
+	PUBLISH_VERSION=$(grep -o "publishVersion=.*" .winboll/build_flag.properties | awk -F '=' '{print $2}')
+	echo "< .winboll/build_flag.properties publishVersion : ${PUBLISH_VERSION} >"
 	## 设新的 workflows 标签
 	# 脚本调试时使用
 	#tag="v7.6.4-test1-github-beta"
@@ -71,12 +71,25 @@ function addWorkflowsTag {
         return 1 # 工作流标签重复
     fi
     # 添加工作流标签
-	git tag -a ${tag} -F app_update_description.txt
+	git tag -a ${tag} -F .winboll/app_update_description.txt
     return 0
 }
 
 ## 开始执行脚本
-echo -e "Current dir : \n"`pwd`
+## 本脚本需要在项目根目录下执行
+echo -e "Shell dir : \n"`pwd`
+# 进入项目根目录
+cd ..
+echo -e "Work dir : \n"`pwd`
+# 检查当前目录是否是项目根目录
+if [[ -e .winboll/build_flag.properties ]]; then
+    echo "The .winboll/build_flag.properties file exists."
+    echo -e "Work dir correctly."
+else
+    echo "The .winboll/build_flag.properties file does not exist."
+    echo -e "Work dir error."
+    exit 1
+fi
 
 # 检查源码状态
 result=$(checkGitSources)
@@ -123,7 +136,7 @@ if [[ $? -eq 0 ]]; then
 	fi
 	
 	## 清理更新描述文件内容
-	echo "" > app_update_description.txt
+	echo "" > .winboll/app_update_description.txt
 	
 	# 设置新版本开发参数配置
 	# 提交配置
