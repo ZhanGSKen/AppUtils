@@ -29,7 +29,7 @@ allprojects {
         // 变量在子模块的build.gradle中直接以： $NAME 的形式调用
         // 定义版本管理文件
         RootProjectDir = "${rootProject.projectDir}".replace("\\", "/")
-        bashStageReleasePublishCheckGitFilePath = ".winboll/bash_checkgit.sh"
+        bashCheckGitCommitStatus = ".winboll/bashCheckGitCommitStatus.sh"
         bashCommitBuildFlagFilePath = ".winboll/bash_commit_buildflag.sh"
         buildPropsWinBollFilePath = ".winboll/build_flag.properties"
         winbollMavneConfigFilePath = ".winboll/winboll.properties"
