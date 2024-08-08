@@ -76,11 +76,19 @@ function addWorkflowsTag {
 }
 
 ## 开始执行脚本
+echo -e "Current dir : \n"`pwd`
+# 检查当前目录是否是项目根目录
+if [[ -e .winboll/build_flag.properties ]]; then
+    echo "The .winboll/build_flag.properties file exists."
+    echo -e "Work dir correctly."
+else
+    echo "The .winboll/build_flag.properties file does not exist."
+    echo "尝试进入根目录"
+    # 进入项目根目录
+    cd ..
+fi
 ## 本脚本需要在项目根目录下执行
-echo -e "Shell dir : \n"`pwd`
-# 进入项目根目录
-cd ..
-echo -e "Work dir : \n"`pwd`
+echo -e "Current dir : \n"`pwd`
 # 检查当前目录是否是项目根目录
 if [[ -e .winboll/build_flag.properties ]]; then
     echo "The .winboll/build_flag.properties file exists."
