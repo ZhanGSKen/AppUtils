@@ -175,7 +175,7 @@ android {
                                     
                                     // 提交新的编译标志配置
                                     def resultCommitBuildFlag = exec {
-                                        commandLine 'bash', '--', "${bashCommitBuildFlagFilePath}", "${RootProjectDir}", "${versionName}"
+                                        commandLine 'bash', '--', "${RootProjectDir}/${bashCommitBuildFlagFilePath}", "${RootProjectDir}", "${versionName}"
                                     }
                                     // 检查bash命令的返回值（假设非零表示失败）
                                     assert(resultCommitBuildFlag.getExitValue() == 0)
