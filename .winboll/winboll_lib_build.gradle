@@ -23,8 +23,8 @@ Properties properties = new Properties()
 afterEvaluate {
     publishing {
         repositories {
-            if(file("${winbollFilePath}").exists()) {
-                properties.load(file("${winbollFilePath}").newDataInputStream())
+            if(file("${RootProjectDir}/${winbollFilePath}").exists()) {
+                properties.load(file("${RootProjectDir}/${winbollFilePath}").newDataInputStream())
                 def NexusUserName = properties.getProperty("Nexus.name")
                 def NexusPassword = properties.getProperty("Nexus.password")
                 // WinBoll Release 仓库
