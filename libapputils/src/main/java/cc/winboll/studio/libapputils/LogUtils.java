@@ -16,6 +16,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.nio.file.Path;
+import java.nio.file.Files;
+import java.util.Collections;
+import java.nio.file.StandardOpenOption;
 
 public class LogUtils {
 
@@ -158,7 +162,14 @@ public class LogUtils {
     //
     public static void cleanLog() {
         if (_mfLogFile.exists()) {
-            _mfLogFile.delete();
+            try {
+                FileUtils.writeStringToFile(_mfLogFile.getPath(), "");
+                LogUtils.d(TAG, "cleanLog");
+            } catch (IOException e) {
+                LogUtils.d(TAG, e, Thread.currentThread().getStackTrace());
+            }
         }
     }
+    
+    
 }
